@@ -1,5 +1,7 @@
 import numpy as np
 from matplotlib import pyplot as plt
+from matplotlib import cm
+from matplotlib.colors import ListedColormap, LinearSegmentedColormap
 import xml.etree.ElementTree as ET
 
 
@@ -19,7 +21,7 @@ xlon = gridDataArray[:, 0]
 ylat = gridDataArray[:, 1]
 pgaScale = gridDataArray[:, 3]
 
-plt.pcolormesh()
+viridis = cm.get_cmap('viridis', 256)
 
-# plt.scatter(xlon, ylat, s=pgaScale*.5)
+plt.scatter(xlon, ylat, c = pgaScale)
 plt.show()
