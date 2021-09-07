@@ -1,5 +1,5 @@
-import matplotlib.colors
 import numpy as np
+import matplotlib.colors
 from matplotlib import pyplot as plt
 import matplotlib as mpl
 import xml.etree.ElementTree as ET
@@ -33,8 +33,11 @@ shakemap_colors = [(1, 1, 1),  # white
                    ]
 my_cmap = LinearSegmentedColormap.from_list('shakemap_colors', shakemap_colors)
 
+plt.plot(elon, elat, 'k*')
 plt.scatter(xlon, ylat, s=.3, c=pgaScale, cmap=my_cmap, norm=matplotlib.colors.LogNorm())
+plt.xlabel('Longitude (deg)')
+plt.ylabel('Latitude (deg)')
 cbar = plt.colorbar(label='PGA (%g)', extend='max', ticks=[0, 0.0464, 0.297, 2.76, 6.2, 11.5, 21.5, 40.1, 74.7, 139])
 cbar.set_ticklabels(['0', '0.0464', '0.297', '2.76', '6.2', '11.5', '21.5', '40.1', '74.7', '139'])
 # plt.clim(0.001, 139)
-plt.show()
+plt.savefig('scattermap.png')
