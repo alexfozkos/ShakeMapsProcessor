@@ -82,8 +82,8 @@ plt.clf()
 
 # combining the above 2 plots into 1 image and zooming into the intersection a little bit
 fig, ax1 = plt.subplots()
-ax1.set_xlabel('PGA (%g)')
-ax1.set_ylabel('Distance (km)', color='b')
+ax1.set_xlabel('Distance (km)')
+ax1.set_ylabel('PGA (%g)', color='b')
 ax1.scatter(distance, pga, s=0.2)
 ax1.tick_params(axis='y', labelcolor='b')
 ax1.set_xlim(0, 100)  # Zooms into the first section of the graph
@@ -96,6 +96,7 @@ ax2.plot(distance, arrivalS, 'y', label='S Arrivals')
 ax2.plot(distance, arrivalSurf, 'r', label='Surface Arrivals')
 ax2.plot(distance, arrivalSurf-arrivalP, 'm', label='P-Surface Lag')
 ax2.tick_params(axis='y', labelcolor='k')
+ax2.set_ylim(0, 40)
 ax2.legend()
 
 fig.tight_layout()
