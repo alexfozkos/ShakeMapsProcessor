@@ -1,5 +1,5 @@
 # This should read an XML file from ShakeMaps, grab the lat/lon measurements and intensity data for the data points,
-# and make it 'workable', for testing, using this earthquake https://earthquake.alaska.edu/event/0219dg4uxz/shakemap/download
+# and make it 'workable', for testing, using this earthquake https://earthquake.alaska.edu/event/0216xu2rod/shakemap
 import xml.etree.ElementTree as ET
 import math
 import numpy as np
