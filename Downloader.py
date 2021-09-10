@@ -3,7 +3,7 @@
 
 import requests
 
-url = 'https://earthquake.alaska.edu/sites/all/web/shakemap/ak0219dg4uxz/grid.xml'
+url = 'https://earthquake.alaska.edu/sites/all/web/shakemap/ak0216xu2rod/grid.xml'
 
 response = requests.get(url)
 with open('grid.xml','wb') as file:
