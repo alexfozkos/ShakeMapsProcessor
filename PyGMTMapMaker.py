@@ -59,7 +59,7 @@ pygmt.makecpt(
 fig.plot(  # Plot seismic stations as triangles
     x=station_coords[:, 0],
     y=station_coords[:, 1],
-    style='t+0.1c',
+    style='t+0.3c',
     color='white',
     pen='black',
 )
@@ -82,7 +82,7 @@ fig.plot(  # plot pga data
 fig.plot(  # plot epicenter
     x=elon,
     y=elat,
-    style='a.2c',
+    style='a.4c',
     color='purple',
     pen='black'
 )
