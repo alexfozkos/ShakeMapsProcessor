@@ -16,3 +16,46 @@ def getDistance(lat1, lon1, lat2, lon2):
     d = r * c  # distance in km
     return d
 
+
+class Earthquake:
+    count = 0
+
+    # default init takes a string, assumes that the string is the name of a shakemap xml grid file,
+    # defaults to 'grid.xml'
+    def __init__(self, xml='grid.xml'):
+        # parse an xml file using a name of a grid.xml
+        self.tree = ET.parse(xml)
+        self.root = self.tree.getroot()
+
+        # event info
+        self.event_id = float(self.root[0].attrib['event_id'])
+        self.event_lat = float(self.root[0].attrib['lat'])
+        self.event_lon = float(self.root[0].attrib['lon'])
+        self.event_magnitude = float(self.root[0].attrib['magnitude'])
+        self.event_depth = float(self.root[0].attrib['depth'])
+        self.event_timestamp = str(self.root[0].attrib['event_timestamp'])
+        self.event_network = str(self.root[0].attrib['event_network'])
+        self.event_description = str(self.root[0].attrib['event_description'])
+        self.event_intensity_observations = int(self.root[0].attrib['event_intensity_observations'])
+
+        # grid specs
+        self.nlat = int(self.root[1].attrib['nlat'])
+        self.nlon = int(self.root[1].attrib['nlon'])
+        self.lon_min = float(self.root[1].atttrib['lon_min'])
+        self.lon_max = float(self.root[1].atttrib['lon_max'])
+        self.lat_min = float(self.root[1].atttrib['lat_min'])
+        self.lat_max = float(self.root[1].atttrib['lat_max'])
+
+        # grid data array
+        gridarray = np.array(self.root[-1].text.replace('\n', ' ').split(' ')[1:-1], dtype=float)
+        gridarray = np.reshape(gridarray, (int(self.nlat * self.nlon), 9))
+        self.lons = gridarray[:, 0]
+        self.lats = gridarray[:, 1]
+        self.mmi = gridarray[:, 2]
+        self.pga = gridarray[:, 3]
+        self.pgv = gridarray[:, 4]
+        self.psa03 = gridarray[:, 5]
+        self.psa10 = gridarray[:, 6]
+        self.psa30 = gridarray[:, 7]
+        self.svel = gridarray[:, 8]
+        Earthquake.count += 1
