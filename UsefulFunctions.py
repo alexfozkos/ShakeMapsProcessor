@@ -56,20 +56,20 @@ class Earthquake:
         # grid data array
         gridarray = np.array(self.root[-1].text.replace('\n', ' ').split(' ')[1:-1], dtype=float)
         gridarray = np.reshape(gridarray, (int(self.nlat * self.nlon), 9))
-        self.lons = np.array(gridarray[:, 0])
-        self.lats = np.array(gridarray[:, 1])
-        self.mmi = np.array(gridarray[:, 2])
-        self.pga = np.array(gridarray[:, 3])
-        self.pgv = np.array(gridarray[:, 4])
-        self.psa03 = np.array(gridarray[:, 5])
-        self.psa10 = np.array(gridarray[:, 6])
-        self.psa30 = np.array(gridarray[:, 7])
-        self.svel = np.array(gridarray[:, 8])
+        self.lons = np.array([gridarray[:, 0]]).T
+        self.lats = np.array([gridarray[:, 1]]).T
+        self.mmi = np.array([gridarray[:, 2]]).T
+        self.pga = np.array([gridarray[:, 3]]).T
+        self.pgv = np.array([gridarray[:, 4]]).T
+        self.psa03 = np.array([gridarray[:, 5]]).T
+        self.psa10 = np.array([gridarray[:, 6]]).T
+        self.psa30 = np.array([gridarray[:, 7]]).T
+        self.svel = np.array([gridarray[:, 8]]).T
 
         # create distances and travel times for each point
         self.distances = np.array(
-            [getDistance(self.event_lat, self.event_lon, i, k) for (i, k) in zip(self.lats, self.lons)]
-        )
+            [[getDistance(self.event_lat, self.event_lon, i, k) for (i, k) in zip(self.lats, self.lons)]]
+        ).T
         self.arrivals_s = self.distances/Earthquake.vel_s
         self.warning_times = self.arrivals_s - Earthquake.ttp
         # this next line makes negative warning times 0
