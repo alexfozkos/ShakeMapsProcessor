@@ -1,6 +1,14 @@
 import xml.etree.ElementTree as ET
 import math
 import numpy as np
+import requests
+
+
+# downloads grid.xml from shakemaps url because I can't figure out how to download it otherwise
+def download(url):
+    response = requests.get(url)
+    with open('grid.xml', 'wb') as file:
+        file.write(response.content)
 
 
 # function for calculating great circle distance between two lat lon points using haversine formula

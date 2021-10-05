@@ -2,6 +2,7 @@ import numpy as np
 import UsefulFunctions as uf
 from matplotlib import pyplot as plt
 
+urls = ['', '', '']
 eq = uf.Earthquake()
 
 # m, b = np.polyfit(eq.mmi, (eq.pga), 1)
