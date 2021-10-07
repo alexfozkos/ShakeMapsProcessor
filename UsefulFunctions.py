@@ -81,6 +81,6 @@ class Earthquake:
         self.arrivals_s = self.distances/Earthquake.vel_s
         self.warning_times = self.arrivals_s - Earthquake.ttp
         # this next line makes negative warning times 0
-        self.warning_times = np.where(self.warning_times < 0, 0, self.warning_times)
+        # self.warning_times = np.where(self.warning_times < 0, 0, self.warning_times)
 
         Earthquake.count += 1
