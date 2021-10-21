@@ -28,16 +28,19 @@ def getDistance(lat1, lon1, lat2, lon2):
 class Earthquake:
     count = 0
 
+    # travel time engine
     # wave velocities (km/s)
     vel_p = 6.7
     vel_s = vel_p * 0.6
     vel_surf = vel_s * 0.9
+    # detection engine
     # time to process earthquake (s)
     ttp = 12
 
     # default init takes a string, assumes that the string is the name of a shakemap xml grid file,
     # defaults to 'grid.xml'
     def __init__(self, xml='grid.xml'):
+        # shake engine
         # parse an xml file using a name of a grid.xml
         self.tree = ET.parse(xml)
         self.root = self.tree.getroot()
