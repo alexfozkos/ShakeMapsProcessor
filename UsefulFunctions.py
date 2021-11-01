@@ -12,8 +12,32 @@ def download(url):
         file.write(response.content)
 
 
+ActiveBBs = np.genfromtxt('Data/activeBBs.txt',
+                          delimiter=[8, 9, 12, 8, 50],
+                          # encoding='utf-8',
+                          dtype=[('sta', 'U5'), ('lat', 'f8'), ('lon', 'f8'), ('elev', 'f8'), ('staname', 'U50')],
+                          # usecols=(0, 1, 2, 3),
+                          autostrip=True,
+                          )
+
+
+def calculateDetectionTime(lon, lat, depth, vp):
+    sta_dist = np.array(
+        [getDistance(lat, lon, i, k)
+         for (i, k) in zip(Earthquake.ActiveBBs['lat'], Earthquake.ActiveBBs['lon'])]
+    )
+    sta_dist = np.array(
+        np.sqrt(np.square(sta_dist) + np.square(depth))
+    )
+    # Calculate P wave travel time to each station
+    station_arrivals_p = sta_dist / vp
+    detection_time = np.sort(station_arrivals_p)[Earthquake.DR - 1]
+    return detection_time
+
 # function for calculating great circle distance between two lat lon points using haversine formula
 # https://community.esri.com/t5/coordinate-reference-systems-blog/distance-on-a-sphere-the-haversine-formula/ba-p/902128
+
+
 def getDistance(lat1, lon1, lat2, lon2):
     r = 6371  # Radius of earth in km
     phi1 = math.radians(lat1)
@@ -139,5 +163,6 @@ class Earthquake:
 
         # Print out the finishing statement detailing the event
         print('Finished parsing grid.xml for: M{}, {}, at {} (ID:{})'.format(
-            self.event['magnitude'], self.event['event_description'], self.event['event_timestamp'], self.event['event_id'])
+            self.event['magnitude'], self.event['event_description'], self.event['event_timestamp'],
+            self.event['event_id'])
         )
