@@ -13,7 +13,7 @@ x, y = np.meshgrid(lon, lat)
 p = np.vstack((x.ravel(), y.ravel()))
 print(p.shape)
 times = np.array([[]])
-d = 100
+d = 10
 for i in range(0, p.shape[1]):
     times = np.append(times, uf.calculateDetectionTime(p[0,i], p[1,i], d, 6.7))
     print(i)
@@ -51,3 +51,4 @@ fig.plot(  # plot time data
 )
 fig.colorbar(frame='xafg20+l"Detection time (s)"')
 fig.savefig('Figures/Detection Times depth {}km.png'.format(d))
+print(np.min(p[2, :]))
