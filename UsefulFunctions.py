@@ -26,17 +26,58 @@ def calculateDetectionTime(lon, lat, depth, vp):
         [getDistance(lat, lon, i, k)
          for (i, k) in zip(Earthquake.ActiveBBs['lat'], Earthquake.ActiveBBs['lon'])]
     )
+
     sta_dist = np.array(
-        np.sqrt(np.square(sta_dist) + np.square(depth))
+        np.sqrt(np.power(sta_dist, 2) + depth**2)
     )
+    # sta_dist_col = sta_dist.reshape(sta_dist.shape[0], 1)
+
     # Calculate P wave travel time to each station
-    station_arrivals_p = sta_dist / vp
-    detection_time = np.sort(station_arrivals_p)[Earthquake.DR - 1]
+    sta_arr_p = sta_dist / vp
+    # sta_arr_p_col = sta_arr_p.reshape(sta_arr_p.shape[0], 1)
+    print(Earthquake.ActiveBBs['lon'][:3])
+    sta_list = np.vstack((Earthquake.ActiveBBs['lon'], Earthquake.ActiveBBs['lat'], sta_dist, sta_arr_p))
+    sta_list = sta_list.transpose()
+    sta_list = sta_list[sta_list[:, 3].argsort()]
+    n = 0  # Increasing number of stations
+    bearings = np.array([])
+    gaps = np.array([])
+    max_gap = 360  # Azimuthal Gap tacker
+    max_dist = 0
+    while max_gap >= 120 or max_dist <= 50:
+        # The x closest stations, increase by one each time we fail to meet criteria
+        lights_on = Earthquake.ActiveBBs[Earthquake.DR + n, :]
+        # find bearings
+        for i in range(0, Earthquake.DR + n):
+            bearings = np.append(bearings, getBearing(lon, lat, lights_on[i, 0], lights_on[i, 1]))
+        # sort the bearings in clockwise order
+        bearings = np.sort(bearings)
+        # add first bearing to end and last bearing to start to pseudo-wrap the bearings
+        bearings = np.hstack((bearings[-1], bearings, bearings[0]))
+        # find gaps between each bearing
+        for i in range(1, Earthquake.DR + n + 1):
+            gaps = np.append(gaps, )
+
+
+    detection_time = np.sort(sta_arr_p)[Earthquake.DR - 1]
+
     return detection_time
+
+
+# function for finding the bearing between two points
+# https://towardsdatascience.com/calculating-the-bearing-between-two-geospatial-coordinates-66203f57e4b4
+def getBearing(lon1, lat1, lon2, lat2):
+    a = {'lat': lat1, 'lon': lon1}  # epicenter
+    b = {'lat': lat2, 'lon': lon2}  # station
+    dL = b.lon - a.lon
+    X = np.cos(b.lat) * np.sin(dL)
+    Y = np.cos(a.lat) * np.sin(b.lat) - np.sin(a.lat) * np.cos(b.lat) * np.cos(dL)
+    bearing = np.arctan2(X, Y)
+    bearing = (np.degrees(bearing) + 360) % 360
+    return bearing
 
 # function for calculating great circle distance between two lat lon points using haversine formula
 # https://community.esri.com/t5/coordinate-reference-systems-blog/distance-on-a-sphere-the-haversine-formula/ba-p/902128
-
 
 def getDistance(lat1, lon1, lat2, lon2):
     r = 6371  # Radius of earth in km
@@ -138,19 +179,19 @@ class Earthquake:
         self.arrivals_p = self.distances_hypo / Earthquake.vel_p
         self.arrivals_s = self.distances_hypo / Earthquake.vel_s
         self.arrivals_surf = self.distances_hypo / Earthquake.vel_surf
+        self.detection_time = calculateDetectionTime(self.event['lon'], self.event['lat'], self.event['depth'], Earthquake.vel_p)
 
         # Calculate epicentral and hypocentral distances for each Active BB station
-        sta_dist = np.array(
-            [getDistance(self.event['lat'], self.event['lon'], i, k)
-             for (i, k) in zip(Earthquake.ActiveBBs['lat'], Earthquake.ActiveBBs['lon'])]
-        )
-        sta_dist = np.array(
-            np.sqrt(np.square(sta_dist) + np.square(self.event['depth']))
-        )
+        # sta_dist = np.array(
+        #     [getDistance(self.event['lat'], self.event['lon'], i, k)
+        #      for (i, k) in zip(Earthquake.ActiveBBs['lat'], Earthquake.ActiveBBs['lon'])]
+        # )
+        # sta_dist = np.array(
+        #     np.sqrt(np.square(sta_dist) + np.square(self.event['depth']))
+        # )
         # Calculate P wave travel time to each station
-        self.station_arrivals_p = sta_dist / Earthquake.vel_p
-        self.detection_time = np.sort(self.station_arrivals_p)[Earthquake.DR - 1]
-
+        # self.station_arrivals_p = sta_dist / Earthquake.vel_p
+        # self.detection_time = np.sort(self.station_arrivals_p)[Earthquake.DR - 1]
         # Calculate S wave and Surface wave Warning Time for each grid point
         self.warning_times_s = self.arrivals_s - (Earthquake.TTP + self.detection_time)
         self.warning_times_surf = self.arrivals_surf - (Earthquake.TTP + self.detection_time)
