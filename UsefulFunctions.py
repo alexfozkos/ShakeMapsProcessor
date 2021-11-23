@@ -22,44 +22,72 @@ ActiveBBs = np.genfromtxt('Data/activeBBs.txt',
 
 
 def calculateDetectionTime(lon, lat, depth, vp):
-    sta_dist = np.array(
+    # Set our station criteria
+    gap_criteria = 120
+    dist_criteria = 50
+    # get epicentral distances for each bb station from eq, we care for station criteria
+    sta_dist_e = np.array(
         [getDistance(lat, lon, i, k)
          for (i, k) in zip(Earthquake.ActiveBBs['lat'], Earthquake.ActiveBBs['lon'])]
     )
-
-    sta_dist = np.array(
-        np.sqrt(np.power(sta_dist, 2) + depth**2)
+    # get hypocentral distances, we care for arrival times
+    sta_dist_h = np.array(
+        np.sqrt(np.power(sta_dist_e, 2) + depth**2)
     )
     # sta_dist_col = sta_dist.reshape(sta_dist.shape[0], 1)
 
     # Calculate P wave travel time to each station
-    sta_arr_p = sta_dist / vp
+    sta_arr_p = sta_dist_h / vp
     # sta_arr_p_col = sta_arr_p.reshape(sta_arr_p.shape[0], 1)
-    print(Earthquake.ActiveBBs['lon'][:3])
-    sta_list = np.vstack((Earthquake.ActiveBBs['lon'], Earthquake.ActiveBBs['lat'], sta_dist, sta_arr_p))
+
+    # create array of columns of stations lons, lats, epicentral distances, and p arrival times
+    sta_list = np.vstack((Earthquake.ActiveBBs['lon'], Earthquake.ActiveBBs['lat'], sta_dist_e, sta_arr_p))
     sta_list = sta_list.transpose()
+    # sort the rows (each stations data) by the arrival times
     sta_list = sta_list[sta_list[:, 3].argsort()]
+
     n = 0  # Increasing number of stations
-    bearings = np.array([])
-    gaps = np.array([])
+    # initialize criteria variables
     max_gap = 360  # Azimuthal Gap tacker
-    max_dist = 0
-    while max_gap >= 120 or max_dist <= 50:
-        # The x closest stations, increase by one each time we fail to meet criteria
-        lights_on = Earthquake.ActiveBBs[Earthquake.DR + n, :]
-        # find bearings
-        for i in range(0, Earthquake.DR + n):
-            bearings = np.append(bearings, getBearing(lon, lat, lights_on[i, 0], lights_on[i, 1]))
-        # sort the bearings in clockwise order
-        bearings = np.sort(bearings)
-        # add first bearing to end and last bearing to start to pseudo-wrap the bearings
-        bearings = np.hstack((bearings[-1], bearings, bearings[0]))
-        # find gaps between each bearing
-        for i in range(1, Earthquake.DR + n + 1):
-            gaps = np.append(gaps, )
+    max_dist = 0  # distance tracker
+    min_dist = np.min(sta_list[0, 2])
+    detection_time = -1
+    # time to play the criteria game,
+    # if we go out of bounds on our list of stations,
+    # then we don't meet our criteria to detect the earthquake :(
+    try:
+        while max_gap >= gap_criteria or max_dist <= dist_criteria:
+            # The x closest stations, increase by one each time we fail to meet criteria
+            lights_on = sta_list[:Earthquake.DR + n, :]
+            # get our would be detection time (latest p arrival) if we pass this loop
+            detection_time = np.max(lights_on[-1, 3])
+            # get epicentral distance of furthest station we are looking at
+            max_dist = np.max(lights_on[-1, 2])
+            # find bearings to each station
+            bearings = np.array([])  # bearings
+            for i in range(0, Earthquake.DR + n):
+                bearings = np.append(bearings, getBearing(lon, lat, lights_on[i, 0], lights_on[i, 1]))
+            # sort the bearings in clockwise order
+            bearings = np.sort(bearings)
+            # find gaps between each bearing and the bearing before it
+            gaps = np.array([])  # gaps
+            for i in range(1, Earthquake.DR + n):
+                gaps = np.append(gaps, bearings[i]-bearings[i-1])
+            gaps = np.append(gaps, 360 - np.sum(gaps))  # add last missing gap between first and last
+            # get largest azimuthal gap
+            max_gap = np.max(gaps)
 
+            n += 1  # increase our station count in case we have to play again
+    except:
+        print('Failed to meet criteria for this event')
+        detection_time = -1
 
-    detection_time = np.sort(sta_arr_p)[Earthquake.DR - 1]
+    print('''   ~~Detection stats~~
+    Used a maximum azimuthal gap of {} degrees and minimum epicentral distance of {} km
+    Number of stations needed: {}
+    Detection Time: {}
+    Azimuthal Gap: {}
+    Maximum Epicentral Distance: {}'''.format(gap_criteria, dist_criteria, Earthquake.DR + n - 1, detection_time, max_gap, max_dist))
 
     return detection_time
 
@@ -69,9 +97,9 @@ def calculateDetectionTime(lon, lat, depth, vp):
 def getBearing(lon1, lat1, lon2, lat2):
     a = {'lat': lat1, 'lon': lon1}  # epicenter
     b = {'lat': lat2, 'lon': lon2}  # station
-    dL = b.lon - a.lon
-    X = np.cos(b.lat) * np.sin(dL)
-    Y = np.cos(a.lat) * np.sin(b.lat) - np.sin(a.lat) * np.cos(b.lat) * np.cos(dL)
+    dL = b['lon'] - a['lon']
+    X = np.cos(b['lat']) * np.sin(dL)
+    Y = np.cos(a['lat']) * np.sin(b['lat']) - np.sin(a['lat']) * np.cos(b['lat']) * np.cos(dL)
     bearing = np.arctan2(X, Y)
     bearing = (np.degrees(bearing) + 360) % 360
     return bearing
@@ -114,6 +142,8 @@ class Earthquake:
     # default init takes a string, assumes that the string is the name of a shakemap xml grid file,
     # defaults to 'grid.xml'
     def __init__(self, xml='Data/grid.xml'):
+        print('Start of Parsing for {}'.format(xml))
+
         # parse an xml file using a name of a grid.xml
         self.tree = ET.parse(xml)
         self.root = self.tree.getroot()

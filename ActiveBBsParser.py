@@ -5,8 +5,8 @@ from UsefulFunctions import Earthquake
 import numpy as np
 import re
 #
-# eq = Earthquake('Data/grid.xml')
-# print(eq.detection_time)
+eq = Earthquake('Data/grid.xml')
+print(eq.detection_time)
 
 # Create an array from activeBBs.txt, specify data types and names for each column, delimit based on fixed char lengths
 # ActiveBBs = np.genfromtxt('Data/activeBBs.txt',
@@ -36,8 +36,8 @@ import re
 # lights_on = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
 # lights_on = np.vstack((lights_on[-1,:], lights_on, lights_on[0,:]))
 # print(lights_on)
-bearings = np.array([10, 50, 60, 180, 299])
-bearings = np.hstack((bearings[-1], bearings, bearings[0]))
-# bearings = np.insert(bearings, 0, bearings[-1])
-# bearings = np.append(bearings, -1, bearings[1])
-print(bearings)
+# bearings = np.array([10, 50, 60, 180, 299])
+# bearings = np.hstack((bearings[-1], bearings, bearings[0]))
+# # bearings = np.insert(bearings, 0, bearings[-1])
+# # bearings = np.append(bearings, -1, bearings[1])
+# print(bearings)
