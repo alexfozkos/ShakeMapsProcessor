@@ -3,7 +3,7 @@ import math
 import numpy as np
 import requests
 import os
-
+import scipy
 
 # downloads grid.xml from shakemaps url because I can't figure out how to download it otherwise
 def download(url):
@@ -23,8 +23,9 @@ ActiveBBs = np.genfromtxt('Data/activeBBs.txt',
 
 def calculateDetectionTime(lon, lat, depth, vp):
     # Set our station criteria
-    gap_criteria = 120
-    dist_criteria = 50
+    gap_criteria = 300  # azimuthal gap
+    dist_criteria = 0  # min distance
+    station_angle_criteria = 60  # vertical angle needed for 12
     # get epicentral distances for each bb station from eq, we care for station criteria
     sta_dist_e = np.array(
         [getDistance(lat, lon, i, k)
@@ -42,6 +43,7 @@ def calculateDetectionTime(lon, lat, depth, vp):
 
     # create array of columns of stations lons, lats, epicentral distances, and p arrival times
     sta_list = np.vstack((Earthquake.ActiveBBs['lon'], Earthquake.ActiveBBs['lat'], sta_dist_e, sta_arr_p))
+    # turn into rows of data instead of columns (lon, lat, dist, p arrival)
     sta_list = sta_list.transpose()
     # sort the rows (each stations data) by the arrival times
     sta_list = sta_list[sta_list[:, 3].argsort()]
@@ -50,9 +52,10 @@ def calculateDetectionTime(lon, lat, depth, vp):
     # initialize criteria variables
     max_gap = 360  # Azimuthal Gap tacker
     max_dist = 0  # distance tracker
+
     min_dist = np.min(sta_list[0, 2])
     detection_time = -1
-    # time to play the criteria game,
+    # time to check for criteria,
     # if we go out of bounds on our list of stations,
     # then we don't meet our criteria to detect the earthquake :(
     try:
