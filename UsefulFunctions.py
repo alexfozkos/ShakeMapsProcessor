@@ -3,7 +3,6 @@ import math
 import numpy as np
 import requests
 import os
-import scipy
 
 # downloads grid.xml from shakemaps url because I can't figure out how to download it otherwise
 def download(url):

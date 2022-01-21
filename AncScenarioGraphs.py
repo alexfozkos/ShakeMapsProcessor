@@ -6,6 +6,11 @@ plt.rcParams.update({'font.size': 28})
 
 anc_05 = uf.Earthquake('Data/AncScenarioGrids/grid05.xml')
 anc_real = uf.Earthquake('Data/AncScenarioGrids/gridreal.xml')
+anc_10 = uf.Earthquake('Data/AncScenarioGrids/grid10.xml')
+anc_20 = uf.Earthquake('Data/AncScenarioGrids/grid20.xml')
+anc_30 = uf.Earthquake('Data/AncScenarioGrids/grid30.xml')
+anc_40 = uf.Earthquake('Data/AncScenarioGrids/grid40.xml')
+anc_50 = uf.Earthquake('Data/AncScenarioGrids/grid50.xml')
 
 
 # Plots for Distance V Warning Times and S arrivals V MMI
@@ -31,39 +36,76 @@ anc_real = uf.Earthquake('Data/AncScenarioGrids/gridreal.xml')
 
 n = 1
 
-fig, (ax1, ax2) = plt.subplots(2, figsize=(12, 12))
-fig.suptitle('PGA vs Epicentral Distance for Real and 05')
-z1 = ax1.scatter(anc_real.distances_epi[::n], anc_real.pga[::n], s=0.1, c='blue')
+fig, (ax1, ax2, ax3, ax4, ax5, ax6) = plt.subplots(6)
+fig.suptitle('PGA vs Distance for 5 km to 50 km')
+plt.yscale('log')
+# 5km
+ax1.scatter(anc_05.distances_epi[::n], anc_05.pga[::n], s=0.1)
 ax1.set_xlabel('Epicentral Distance (km)')
 ax1.set_ylabel('PGA (%g)')
 ax1.set_title('Real Earthquake')
-ax1.set_xlim(0, 500)
+ax1.set_xlim(0, 1000)
 ax1.set_ylim(0, 70)
-
-z2 = ax2.scatter(anc_05.distances_epi[::n], anc_05.pga[::n], s=0.1, c='orange')
+# 10km
+ax2.scatter(anc_10.distances_epi[::n], anc_10.pga[::n], s=0.1)
 ax2.set_xlabel('Epicentral Distance (km)')
 ax2.set_ylabel('PGA (%g)')
-ax2.set_title('5 km Scenario')
-ax2.set_xlim(0, 500)
+ax2.set_title('10 km Scenario')
+ax2.set_xlim(0, 1000)
 ax2.set_ylim(0, 70)
-
+# 20km
+ax3.scatter(anc_20.distances_epi[::n], anc_20.pga[::n], s=0.1)
+ax3.set_xlabel('Epicentral Distance (km)')
+ax3.set_ylabel('PGA (%g)')
+ax3.set_title('20 km Scenario')
+ax3.set_xlim(0, 1000)
+ax3.set_ylim(0, 70)
+# 30km
+ax4.scatter(anc_30.distances_epi[::n], anc_30.pga[::n], s=0.1)
+ax4.set_xlabel('Epicentral Distance (km)')
+ax4.set_ylabel('PGA (%g)')
+ax4.set_title('30 km Scenario')
+ax4.set_xlim(0, 1000)
+ax4.set_ylim(0, 70)
+# 40km
+ax5.scatter(anc_40.distances_epi[::n], anc_40.pga[::n], s=0.1)
+ax5.set_xlabel('Epicentral Distance (km)')
+ax5.set_ylabel('PGA (%g)')
+ax5.set_title('40 km Scenario')
+ax5.set_xlim(0, 1000)
+ax5.set_ylim(0, 70)
+# 50km
+ax6.scatter(anc_50.distances_epi[::n], anc_50.pga[::n], s=0.1)
+ax6.set_xlabel('Epicentral Distance (km)')
+ax6.set_ylabel('PGA (%g)')
+ax6.set_title('50 km Scenario')
+ax6.set_xlim(0, 1000)
+ax6.set_ylim(0, 70)
 
 fig.tight_layout()
-plt.savefig('Figures/AncScenario/PGA vs Dist for Real and 05.png')
+plt.savefig('Figures/AncScenario/PGA vs Dist for top 50 km.png')
 
 plt.clf()
 
-fig, ax1 = plt.subplots(figsize=(12, 12))
-fig.suptitle('PGA vs Epicentral Distance for Real and 05 combined')
+
+fig, (ax1, ax2) = plt.subplots(2, figsize=(12, 12))
+fig.suptitle('PGA vs Epicentral Distance for Real and 50 km Scenario')
 ax1.scatter(anc_real.distances_epi[::n], anc_real.pga[::n], s=0.1, c='blue')
+ax1.set_title('Real Earthquake')
 ax1.set_xlabel('Epicentral Distance (km)')
 ax1.set_ylabel('PGA (%g)')
-ax1.scatter(anc_05.distances_epi[::n], anc_05.pga[::n], s=0.1, c='orange')
 ax1.set_xlim(0, 500)
 ax1.set_ylim(0, 70)
 
+ax2.set_title('50 km Scenario')
+ax2.scatter(anc_50.distances_epi[::n], anc_50.pga[::n], s=0.1, c='orange')
+ax2.set_xlim(0, 500)
+ax2.set_ylim(0, 70)
+ax2.set_xlabel('Epicentral Distance (km)')
+ax2.set_ylabel('PGA (%g)')
+
 fig.tight_layout()
-plt.savefig('Figures/AncScenario/PGA vs Dist for Real and 05 combined.png')
+plt.savefig('Figures/AncScenario/PGA vs Dist for Real and 50 km Scenario.png')
 
 plt.clf()
 
