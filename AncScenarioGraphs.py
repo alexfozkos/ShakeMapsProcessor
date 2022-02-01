@@ -4,7 +4,8 @@ from matplotlib import pyplot as plt
 
 plt.rcParams.update({'font.size': 28})
 
-# anc_05 = uf.Earthquake('Data/AncScenarioGrids/grid05.xml')
+anc_05 = uf.Earthquake('Data/AncScenarioGrids/grid05.xml')
+anc_05_auto = uf.Earthquake('Data/AncScenarioGrids/grid05auto.xml')
 # anc_10 = uf.Earthquake('Data/AncScenarioGrids/grid10.xml')
 # anc_20 = uf.Earthquake('Data/AncScenarioGrids/grid20.xml')
 # anc_30 = uf.Earthquake('Data/AncScenarioGrids/grid30.xml')
@@ -12,6 +13,76 @@ plt.rcParams.update({'font.size': 28})
 # anc_50 = uf.Earthquake('Data/AncScenarioGrids/grid50.xml')
 anc_real = uf.Earthquake('Data/AncScenarioGrids/gridreal.xml')
 anc_467 = uf.Earthquake('Data/AncScenarioGrids/grid467.xml')
+
+
+def pgaVsDistComparison(eqlist, names, title='Default Name', xlabel='Epicentral Distance (km)',
+                        ylabel='PGA (%g)', xlim=500, scale='linear', figsize=None, n=1, ymin=0):
+    # I'm sick of typing 10+ lines for every plot! Time to make the standard code block its own function...
+    # Takes a list of earthquakes, a list of names for those earthquakes (in same order), then different pyplot
+    # parameters. Will auto configure figsize if left alone. Will handle ymin for log scales. Auto configures ymax
+
+    # Global font size
+    plt.rcParams['font.size'] = '16'
+    # create fig w/ subplots, can do more than 2 if define parameter as a list of eq's then loop through them instead
+    if figsize is None:
+        figsize = (12, (len(eqlist) + 1) * 4)
+
+    # colors is a list of colors that will scycle through each time a plot is plotted
+    colors = ['blue', 'darkorange', 'red', 'green', 'purple', 'cyan', 'magenta']
+
+    # set ymin to 0.0001 if using log scale (log cant be 0)
+    if scale == 'log':
+        ymin = 0.0001
+
+    # Auto configure ymax (rounds up to nearest 10)
+    pgamax = 0
+    for eq in eqlist:
+        if np.max(eq.pga) > pgamax:
+            pgamax = np.max(eq.pga)
+
+    #  create figure and loop through each earthquake to plot for each individually
+    fig, ax = plt.subplots(len(eqlist) + 1, figsize=figsize)
+    fig.suptitle(title, fontsize=24)
+    for i in range(0, len(eqlist)):
+        color = colors[i % len(colors)]
+        ax[i].set_yscale(scale)
+        ax[i].scatter(eqlist[i].distances_epi[::n], eqlist[i].pga[::n], s=0.1, c=color)
+        ax[i].set_title(names[i], fontsize=20)
+        ax[i].set_xlabel(xlabel)
+        ax[i].set_ylabel(ylabel)
+        ax[i].set_xlim(0, xlim)
+        ax[i].set_ylim(ymin, np.ceil(pgamax / 10) * 10)
+
+    # plot them overlayed
+    ax[-1].set_yscale(scale)
+    for i in range(0, len(eqlist)):
+        color = colors[i % len(colors)]
+        ax[-1].scatter(eqlist[i].distances_epi[::n], eqlist[i].pga[::n], s=0.1, c=color, label=names[i])
+    t = 'Plots overlayed'
+    ax[-1].set_title(t)
+    ax[-1].set_xlabel(xlabel)
+    ax[-1].set_ylabel(ylabel)
+    ax[-1].set_xlim(0, xlim)
+    ax[-1].set_ylim(ymin, np.ceil(pgamax / 10) * 10)
+
+    plt.legend(markerscale=15, scatterpoints=1, loc=1)
+    fig.tight_layout()
+
+    plt.savefig('Figures/AncScenario/' + title + '.png')
+
+
+#  Auto selection comparison
+pgaVsDistComparison([anc_05, anc_05_auto], ['Manual GMPEs', 'Auto-selected GMPEs'],
+                    title='Manual vs Automatic GMPE selection at 5 km', xlim=200, scale='linear')
+#  Real vs 5 km auto
+pgaVsDistComparison([anc_real, anc_05_auto], ['Real Earthquake', '5 km Auto'],
+                    title='Real Quake (46.7 km) vs 5 km Auto GMPE', xlim=200, scale='linear')
+#  Real vs 5 km auto vs 5 km manual
+pgaVsDistComparison([anc_real, anc_05_auto, anc_05], ['Real Earthquake', '5 km Auto', '5 km Manual'],
+                    title='Real Quake vs Auto and Manual GMPE selection at 5 km', xlim=200, scale='linear')
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Here Be Dragons ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 # print('mins')
 # print(np.min(anc_05.pga),np.min(anc_10.pga),np.min(anc_20.pga),np.min(anc_30.pga),np.min(anc_40.pga),np.min(anc_50.pga))
 # print('maxs')
@@ -38,7 +109,7 @@ anc_467 = uf.Earthquake('Data/AncScenarioGrids/grid467.xml')
 # rng = np.random.default_rng()
 # noise = 10 * rng.random(eq.warning_times.shape) - 5
 
-n = 1
+# n = 1
 #
 # fig, ax = plt.subplots(2, 3, figsize=(20,20))
 # for i in ax:
@@ -105,46 +176,46 @@ n = 1
 #
 # plt.clf()
 
-n = 25
-
-fig, (ax1, ax2) = plt.subplots(2, figsize=(12, 12))
-fig.suptitle('PGA vs Distance for Real Quake vs 46.7 km Scenario')
-ax1.set_yscale('log')
-ax1.scatter(anc_real.distances_epi[::n], anc_real.pga[::n], s=0.1, c='blue')
-ax1.set_title('Real Earthquake')
-ax1.set_xlabel('Epicentral Distance (km)')
-ax1.set_ylabel('PGA (%g)')
-ax1.set_xlim(0, 1000)
-ax1.set_ylim(0.0001, 50)
-
-ax2.set_title('46.7 km Scenario')
-ax2.set_yscale('log')
-ax2.scatter(anc_467.distances_epi[::n], anc_467.pga[::n], s=0.1, c='orange')
-ax2.set_xlim(0, 1000)
-ax2.set_ylim(0.0001, 50)
-ax2.set_xlabel('Epicentral Distance (km)')
-ax2.set_ylabel('PGA (%g)')
-
-fig.tight_layout()
-plt.savefig('Figures/AncScenario/PGA vs Dist for Real and 46.7 km Scenario.png')
-
-plt.clf()
-
-
-fig, ax1 = plt.subplots(figsize=(12, 12))
-fig.suptitle('Real Quake vs 46.7 km Scenario Overlayed')
-ax1.set_yscale('log')
-ax1.scatter(anc_real.distances_epi[::n], anc_real.pga[::n], s=0.1, c='blue', label='Real Earthquake')
-ax1.scatter(anc_467.distances_epi[::n], anc_467.pga[::n], s=0.1, c='orange', label='46.7 km Scenario')
-ax1.set_xlabel('Epicentral Distance (km)')
-ax1.set_ylabel('PGA (%g)')
+# n = 25
+#
+# fig, (ax1, ax2) = plt.subplots(2, figsize=(12, 12))
+# fig.suptitle('PGA vs Distance for Real Quake vs 46.7 km Scenario')
+# ax1.set_yscale('log')
+# ax1.scatter(anc_real.distances_epi[::n], anc_real.pga[::n], s=0.1, c='blue')
+# ax1.set_title('Real Earthquake')
+# ax1.set_xlabel('Epicentral Distance (km)')
+# ax1.set_ylabel('PGA (%g)')
 # ax1.set_xlim(0, 1000)
-ax1.set_ylim(0.0001, 50)
-plt.legend(markerscale=15, scatterpoints=1)
-fig.tight_layout()
-plt.savefig('Figures/AncScenario/Real Quake vs 46.7 km Scenario Overlayed.png')
-
-plt.clf()
+# ax1.set_ylim(0.0001, 50)
+#
+# ax2.set_title('46.7 km Scenario')
+# ax2.set_yscale('log')
+# ax2.scatter(anc_467.distances_epi[::n], anc_467.pga[::n], s=0.1, c='orange')
+# ax2.set_xlim(0, 1000)
+# ax2.set_ylim(0.0001, 50)
+# ax2.set_xlabel('Epicentral Distance (km)')
+# ax2.set_ylabel('PGA (%g)')
+#
+# fig.tight_layout()
+# plt.savefig('Figures/AncScenario/PGA vs Dist for Real and 46.7 km Scenario.png')
+#
+# plt.clf()
+#
+#
+# fig, ax1 = plt.subplots(figsize=(12, 12))
+# fig.suptitle('Real Quake vs 46.7 km Scenario Overlayed')
+# ax1.set_yscale('log')
+# ax1.scatter(anc_real.distances_epi[::n], anc_real.pga[::n], s=0.1, c='blue', label='Real Earthquake')
+# ax1.scatter(anc_467.distances_epi[::n], anc_467.pga[::n], s=0.1, c='orange', label='46.7 km Scenario')
+# ax1.set_xlabel('Epicentral Distance (km)')
+# ax1.set_ylabel('PGA (%g)')
+# # ax1.set_xlim(0, 1000)
+# ax1.set_ylim(0.0001, 50)
+# plt.legend(markerscale=15, scatterpoints=1)
+# fig.tight_layout()
+# plt.savefig('Figures/AncScenario/Real Quake vs 46.7 km Scenario Overlayed.png')
+#
+# plt.clf()
 
 # # Warning Times vs MMI triple plot
 # plt.rcParams.update({'font.size': 15})
