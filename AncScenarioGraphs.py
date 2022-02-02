@@ -4,20 +4,20 @@ from matplotlib import pyplot as plt
 
 plt.rcParams.update({'font.size': 28})
 
-anc_05 = uf.Earthquake('Data/AncScenarioGrids/grid05.xml')
-anc_05_auto = uf.Earthquake('Data/AncScenarioGrids/grid05auto.xml')
+# anc_05 = uf.Earthquake('Data/AncScenarioGrids/grid05.xml')
+# anc_05_auto = uf.Earthquake('Data/AncScenarioGrids/grid05auto.xml')
 # anc_10 = uf.Earthquake('Data/AncScenarioGrids/grid10.xml')
 # anc_20 = uf.Earthquake('Data/AncScenarioGrids/grid20.xml')
 # anc_30 = uf.Earthquake('Data/AncScenarioGrids/grid30.xml')
 # anc_40 = uf.Earthquake('Data/AncScenarioGrids/grid40.xml')
 # anc_50 = uf.Earthquake('Data/AncScenarioGrids/grid50.xml')
 anc_real = uf.Earthquake('Data/AncScenarioGrids/gridreal.xml')
-anc_467 = uf.Earthquake('Data/AncScenarioGrids/grid467.xml')
+# anc_467 = uf.Earthquake('Data/AncScenarioGrids/grid467.xml')
 
 
 def pgaVsDistComparison(eqlist, names, title='Default Name', xlabel='Epicentral Distance (km)',
                         ylabel='PGA (%g)', xlim=500, scale='linear', figsize=None, n=1, ymin=0):
-    # I'm sick of typing 10+ lines for every plot! Time to make the standard code block its own function...
+    # I'm sick of typing 10+ lines for every comparison plot! Time to make the standard code block its own function...
     # Takes a list of earthquakes, a list of names for those earthquakes (in same order), then different pyplot
     # parameters. Will auto configure figsize if left alone. Will handle ymin for log scales. Auto configures ymax
 
@@ -71,15 +71,79 @@ def pgaVsDistComparison(eqlist, names, title='Default Name', xlabel='Epicentral 
     plt.savefig('Figures/AncScenario/' + title + '.png')
 
 
-#  Auto selection comparison
-pgaVsDistComparison([anc_05, anc_05_auto], ['Manual GMPEs', 'Auto-selected GMPEs'],
-                    title='Manual vs Automatic GMPE selection at 5 km', xlim=200, scale='linear')
-#  Real vs 5 km auto
-pgaVsDistComparison([anc_real, anc_05_auto], ['Real Earthquake', '5 km Auto'],
-                    title='Real Quake (46.7 km) vs 5 km Auto GMPE', xlim=200, scale='linear')
-#  Real vs 5 km auto vs 5 km manual
-pgaVsDistComparison([anc_real, anc_05_auto, anc_05], ['Real Earthquake', '5 km Auto', '5 km Manual'],
-                    title='Real Quake vs Auto and Manual GMPE selection at 5 km', xlim=200, scale='linear')
+# #  Auto selection comparison
+# pgaVsDistComparison([anc_05, anc_05_auto], ['Manual GMPEs', 'Auto-selected GMPEs'],
+#                     title='Manual vs Automatic GMPE selection at 5 km', xlim=200, scale='linear')
+# #  Real vs 5 km auto
+# pgaVsDistComparison([anc_real, anc_05_auto], ['Real Earthquake', '5 km Auto'],
+#                     title='Real Quake (46.7 km) vs 5 km Auto GMPE', xlim=200, scale='linear')
+# #  Real vs 5 km auto vs 5 km manual
+# pgaVsDistComparison([anc_real, anc_05_auto, anc_05], ['Real Earthquake', '5 km Auto', '5 km Manual'],
+#                     title='Real Quake vs Auto and Manual GMPE selection at 5 km', xlim=200, scale='linear')
+
+plt.rcParams['font.size'] = '16'
+# Wave Arrivals
+# t = np.linspace(0, 120, 120)
+# figure, ax = plt.subplots(2, figsize=(12, 12))
+# ax[0].grid(c='gray', ls='dashed', lw=1)
+# ax[0].scatter(anc_real.distances_epi, anc_real.arrivals_p, s=1,  c='blue', label='P wave arrivals')
+# ax[0].scatter(anc_real.distances_epi, anc_real.arrivals_s, s=1, c='orange', label='S wave arrivals')
+# ax[0].scatter(anc_real.station_distances, np.zeros(anc_real.station_distances.shape), s=20, c='red', marker='^')
+# ax[0].set_ylabel('Arrival Time (s)')
+# ax[0].set_xlabel('Epicentral Distance (km)')
+# ax[0].set_title('P vs S Wave Arrival Times')
+# ax[0].axhline(anc_real.detection_time, c='k', ls='dotted')
+# ax[0].axvline(46.06, c='k', ls='dotted')
+# ax[0].set_ylim(-1, 60)
+# ax[0].set_xlim(0, 200)
+# ax[0].axhline(y=0, color='k')
+# ax[0].axvline(x=0, color='k')
+# ax[0].legend(loc='lower right', markerscale=20)
+# # Warning time
+#
+# ax[1].grid(c='gray', ls='dashed', lw=1)
+# ax[1].scatter(anc_real.station_distances, np.zeros(anc_real.station_distances.shape), s=20, c='red', marker='^')
+# ax[1].scatter(anc_real.distances_epi, anc_real.warning_times_s, s=1, c='green', label='Warning Time')
+# ax[1].axhline(y=0, color='k')
+# ax[1].axvline(x=0, color='k')
+# ax[1].set_ylim(-5, 60)
+# ax[1].set_xlim(0, 200)
+# ax[1].set_ylabel('Warning Time (s)')
+# ax[1].set_xlabel('Epicentral Distance (km)')
+# ax[1].set_title('Distance Vs Warning Time')
+# ax[1].text(25, 53, 'Time to create and send out a warning: {} s'.format(round(anc_real.time_to_warning, 1)))
+# pga_plot = ax[1].twinx()
+# pga_plot.scatter(anc_real.distances_epi, anc_real.pga, s=1, c=anc_real.pga, cmap='plasma', label='Shaking (PGA %g)')
+# pga_plot.set_ylabel('Shaking (PGA %g)')
+
+# plt.tight_layout()
+# plt.show()
+
+figure, ax = plt.subplots(2, figsize=(12, 12))
+ax[0].grid(c='gray', ls='dashed', lw=1)
+z1 = ax[0].scatter(anc_real.distances_epi, anc_real.pgv, s=2,  c=anc_real.pgv, cmap='turbo', label='Shaking (PGV)')
+ax[0].set_ylabel('PGV (m/s)')
+ax[0].set_xlabel('Epicentral Distance (km)')
+ax[0].set_title('Shaking vs Epicentral Distance')
+ax[0].set_ylim(-1, 50)
+ax[0].set_xlim(0, 200)
+ax[0].axhline(y=0, color='k')
+ax[0].axvline(x=0, color='k')
+
+ax[1].grid(c='gray', ls='dashed', lw=1)
+ax[1].scatter(anc_real.warning_times_s, anc_real.pgv, s=2,  c=anc_real.pgv, cmap='turbo', label='Shaking (PGV)')
+ax[1].set_ylabel('PGV (m/s)')
+ax[1].set_xlabel('Warning Time (s)')
+ax[1].set_title('Shaking vs Warning Time')
+ax[1].set_ylim(-1, 50)
+ax[1].set_xlim(-5, 35)
+ax[1].axhline(y=0, color='k')
+ax[1].axvline(x=0, color='k')
+ax[1].axvline(x=5, color='darkgray', lw=2, ls='dotted')
+# ax[1].legend(loc='upper right', markerscale=20)
+
+plt.tight_layout()
+plt.show()
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Here Be Dragons ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

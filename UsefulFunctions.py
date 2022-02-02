@@ -4,6 +4,7 @@ import numpy as np
 import requests
 import os
 
+
 # downloads grid.xml from shakemaps url because I can't figure out how to download it otherwise
 def download(url):
     response = requests.get(url)
@@ -32,7 +33,7 @@ def calculateDetectionTime(lon, lat, depth, vp):
     )
     # get hypocentral distances, we care for arrival times
     sta_dist_h = np.array(
-        np.sqrt(np.power(sta_dist_e, 2) + depth**2)
+        np.sqrt(np.power(sta_dist_e, 2) + depth ** 2)
     )
     # sta_dist_col = sta_dist.reshape(sta_dist.shape[0], 1)
 
@@ -74,12 +75,12 @@ def calculateDetectionTime(lon, lat, depth, vp):
             # find gaps between each bearing and the bearing before it
             gaps = np.array([])  # gaps
             for i in range(1, Earthquake.DR + n):
-                gaps = np.append(gaps, bearings[i]-bearings[i-1])
+                gaps = np.append(gaps, bearings[i] - bearings[i - 1])
             gaps = np.append(gaps, 360 - np.sum(gaps))  # add last missing gap between first and last
             # get largest azimuthal gap
             max_gap = np.max(gaps)
 
-            n += 1  # increase our station count in case we have to play again
+            n += 1  # increase our station count in case we have to check again
     except:
         print('Failed to meet criteria for this event')
         detection_time = -1
@@ -89,7 +90,8 @@ def calculateDetectionTime(lon, lat, depth, vp):
     Number of stations needed: {}
     Detection Time: {}
     Azimuthal Gap: {}
-    Maximum Epicentral Distance: {}'''.format(gap_criteria, dist_criteria, Earthquake.DR + n - 1, detection_time, max_gap, max_dist))
+    Maximum Epicentral Distance: {}'''.format(gap_criteria, dist_criteria, Earthquake.DR + n - 1, detection_time,
+                                              max_gap, max_dist))
 
     return detection_time
 
@@ -105,6 +107,7 @@ def getBearing(lon1, lat1, lon2, lat2):
     bearing = np.arctan2(X, Y)
     bearing = (np.degrees(bearing) + 360) % 360
     return bearing
+
 
 # function for calculating great circle distance between two lat lon points using haversine formula
 # https://community.esri.com/t5/coordinate-reference-systems-blog/distance-on-a-sphere-the-haversine-formula/ba-p/902128
@@ -211,8 +214,12 @@ class Earthquake:
         self.arrivals_p = self.distances_hypo / Earthquake.vel_p
         self.arrivals_s = self.distances_hypo / Earthquake.vel_s
         self.arrivals_surf = self.distances_hypo / Earthquake.vel_surf
-        self.detection_time = calculateDetectionTime(self.event['lon'], self.event['lat'], self.event['depth'], Earthquake.vel_p)
-
+        self.detection_time = calculateDetectionTime(self.event['lon'], self.event['lat'], self.event['depth'],
+                                                     Earthquake.vel_p)
+        self.station_distances = np.array(
+            [getDistance(self.event['lat'], self.event['lon'], i, k)
+             for (i, k) in zip(Earthquake.ActiveBBs['lat'], Earthquake.ActiveBBs['lon'])]
+        )
         # Calculate epicentral and hypocentral distances for each Active BB station
         # sta_dist = np.array(
         #     [getDistance(self.event['lat'], self.event['lon'], i, k)
@@ -225,8 +232,9 @@ class Earthquake:
         # self.station_arrivals_p = sta_dist / Earthquake.vel_p
         # self.detection_time = np.sort(self.station_arrivals_p)[Earthquake.DR - 1]
         # Calculate S wave and Surface wave Warning Time for each grid point
-        self.warning_times_s = self.arrivals_s - (Earthquake.TTP + self.detection_time)
-        self.warning_times_surf = self.arrivals_surf - (Earthquake.TTP + self.detection_time)
+        self.time_to_warning = Earthquake.TTP + self.detection_time
+        self.warning_times_s = self.arrivals_s - self.time_to_warning
+        self.warning_times_surf = self.arrivals_surf - self.time_to_warning
 
         # This next line makes negative warning times 0 (rename appropriately), left in for posterity's sake
         # self.warning_times = np.where(self.warning_times < 0, 0, self.warning_times)
