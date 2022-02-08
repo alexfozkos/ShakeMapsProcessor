@@ -5,14 +5,14 @@ from matplotlib import pyplot as plt
 plt.rcParams.update({'font.size': 28})
 
 # anc_05 = uf.Earthquake('Data/AncScenarioGrids/grid05.xml')
-# anc_05_auto = uf.Earthquake('Data/AncScenarioGrids/grid05auto.xml')
+anc_05_auto = uf.Earthquake('Data/AncScenarioGrids/grid05auto.xml')
 # anc_10 = uf.Earthquake('Data/AncScenarioGrids/grid10.xml')
 # anc_20 = uf.Earthquake('Data/AncScenarioGrids/grid20.xml')
 # anc_30 = uf.Earthquake('Data/AncScenarioGrids/grid30.xml')
 # anc_40 = uf.Earthquake('Data/AncScenarioGrids/grid40.xml')
 # anc_50 = uf.Earthquake('Data/AncScenarioGrids/grid50.xml')
 anc_real = uf.Earthquake('Data/AncScenarioGrids/gridreal.xml')
-# anc_467 = uf.Earthquake('Data/AncScenarioGrids/grid467.xml')
+anc_467 = uf.Earthquake('Data/AncScenarioGrids/grid467.xml')
 
 
 def pgaVsDistComparison(eqlist, names, title='Default Name', xlabel='Epicentral Distance (km)',
@@ -71,6 +71,23 @@ def pgaVsDistComparison(eqlist, names, title='Default Name', xlabel='Epicentral 
     plt.savefig('Figures/AncScenario/' + title + '.png')
 
 
+eqlist = [anc_05_auto, anc_real, anc_467]
+fig, ax = plt.subplots(len(eqlist), figsize=(8,10))
+for i in range(len(eqlist)):
+    eq = eqlist[i]
+    ax[i].scatter(eq.pga, eq.mmi, s=0.6)
+    ax[i].set_xlabel('PGA')
+    ax[i].set_xscale('log')
+    ax[i].set_ylabel('MMI')
+    ax[i].axvline(6.2)
+    ax[i].axhline(4.5, c='r', ls='dashed')
+    ax[i].set_xlim(2, 7)
+    ax[i].set_ylim(2.5,5)
+    ax[i].set_title(eq.event['event_id'])
+plt.tight_layout()
+plt.show()
+
+
 # #  Auto selection comparison
 # pgaVsDistComparison([anc_05, anc_05_auto], ['Manual GMPEs', 'Auto-selected GMPEs'],
 #                     title='Manual vs Automatic GMPE selection at 5 km', xlim=200, scale='linear')
@@ -119,31 +136,35 @@ plt.rcParams['font.size'] = '16'
 # plt.tight_layout()
 # plt.show()
 
-figure, ax = plt.subplots(2, figsize=(12, 12))
-ax[0].grid(c='gray', ls='dashed', lw=1)
-z1 = ax[0].scatter(anc_real.distances_epi, anc_real.pgv, s=2,  c=anc_real.pgv, cmap='turbo', label='Shaking (PGV)')
-ax[0].set_ylabel('PGV (m/s)')
-ax[0].set_xlabel('Epicentral Distance (km)')
-ax[0].set_title('Shaking vs Epicentral Distance')
-ax[0].set_ylim(-1, 50)
-ax[0].set_xlim(0, 200)
-ax[0].axhline(y=0, color='k')
-ax[0].axvline(x=0, color='k')
+# region Shaking vs distance and warning time comparison plots
+# figure, ax = plt.subplots(2, figsize=(12, 12))
+# ax[0].grid(c='gray', ls='dashed', lw=1)
+# z1 = ax[0].scatter(anc_real.distances_epi, anc_real.pgv, s=2,  c=anc_real.pgv, cmap='turbo', label='Shaking (PGV)')
+# ax[0].set_ylabel('PGV (m/s)')
+# ax[0].set_xlabel('Epicentral Distance (km)')
+# ax[0].set_title('Shaking vs Epicentral Distance')
+# ax[0].set_ylim(-1, 50)
+# ax[0].set_xlim(0, 200)
+# ax[0].axhline(y=0, color='k')
+# ax[0].axvline(x=0, color='k')
+#
+# ax[1].grid(c='gray', ls='dashed', lw=1)
+# ax[1].scatter(anc_real.warning_times_s, anc_real.pgv, s=2,  c=anc_real.pgv, cmap='turbo', label='Shaking (PGV)')
+# ax[1].set_ylabel('PGV (m/s)')
+# ax[1].set_xlabel('Warning Time (s)')
+# ax[1].set_title('Shaking vs Warning Time')
+# ax[1].set_ylim(-1, 50)
+# ax[1].set_xlim(-5, 35)
+# ax[1].axhline(y=0, color='k')
+# ax[1].axvline(x=0, color='k')
+# ax[1].axvline(x=5, color='darkgray', lw=2, ls='dotted')
+# # ax[1].legend(loc='upper right', markerscale=20)
+#
+# plt.tight_layout()
+# plt.show()
+# endregion
 
-ax[1].grid(c='gray', ls='dashed', lw=1)
-ax[1].scatter(anc_real.warning_times_s, anc_real.pgv, s=2,  c=anc_real.pgv, cmap='turbo', label='Shaking (PGV)')
-ax[1].set_ylabel('PGV (m/s)')
-ax[1].set_xlabel('Warning Time (s)')
-ax[1].set_title('Shaking vs Warning Time')
-ax[1].set_ylim(-1, 50)
-ax[1].set_xlim(-5, 35)
-ax[1].axhline(y=0, color='k')
-ax[1].axvline(x=0, color='k')
-ax[1].axvline(x=5, color='darkgray', lw=2, ls='dotted')
-# ax[1].legend(loc='upper right', markerscale=20)
 
-plt.tight_layout()
-plt.show()
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Here Be Dragons ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
