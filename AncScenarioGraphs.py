@@ -2,22 +2,27 @@ import numpy as np
 import UsefulFunctions as uf
 from matplotlib import pyplot as plt
 
-plt.rcParams.update({'font.size': 28})
+plt.rcParams.update({'font.size': 16})
 
-# anc_05 = uf.Earthquake('Data/AncScenarioGrids/grid05.xml')
-anc_05_auto = uf.Earthquake('Data/AncScenarioGrids/grid05auto.xml')
-# anc_10 = uf.Earthquake('Data/AncScenarioGrids/grid10.xml')
-# anc_20 = uf.Earthquake('Data/AncScenarioGrids/grid20.xml')
-# anc_30 = uf.Earthquake('Data/AncScenarioGrids/grid30.xml')
-# anc_40 = uf.Earthquake('Data/AncScenarioGrids/grid40.xml')
-# anc_50 = uf.Earthquake('Data/AncScenarioGrids/grid50.xml')
-anc_real = uf.Earthquake('Data/AncScenarioGrids/gridreal.xml')
-anc_467 = uf.Earthquake('Data/AncScenarioGrids/grid467.xml')
+anc_05 = uf.Earthquake('Data/AncScenarioGrids/grid05.xml')
+anc_10 = uf.Earthquake('Data/AncScenarioGrids/grid10.xml')
+anc_20 = uf.Earthquake('Data/AncScenarioGrids/grid20.xml')
+anc_30 = uf.Earthquake('Data/AncScenarioGrids/grid30.xml')
+anc_40 = uf.Earthquake('Data/AncScenarioGrids/grid40.xml')
+anc_50 = uf.Earthquake('Data/AncScenarioGrids/grid50.xml')
+anc_75 = uf.Earthquake('Data/AncScenarioGrids/grid75.xml')
+anc_100 = uf.Earthquake('Data/AncScenarioGrids/grid100.xml')
+anc_125 = uf.Earthquake('Data/AncScenarioGrids/grid125.xml')
+anc_150 = uf.Earthquake('Data/AncScenarioGrids/grid150.xml')
+
+# anc_real = uf.Earthquake('Data/AncScenarioGrids/gridreal.xml')
+# anc_467 = uf.Earthquake('Data/AncScenarioGrids/grid467.xml')
+# den_05 = uf.Earthquake('Data/griddenali.xml')
 
 
 def pgaVsDistComparison(eqlist, names, title='Default Name', xlabel='Epicentral Distance (km)',
-                        ylabel='PGA (%g)', xlim=500, scale='linear', figsize=None, n=1, ymin=0):
-    # I'm sick of typing 10+ lines for every comparison plot! Time to make the standard code block its own function...
+                        ylabel='PGA (%g)', xmin= 0, xmax=500, scale='linear', figsize=None, n=1, ymin=0):
+    # I'm sick of typing 10+ lines for every plot! Time to make the standard code block its own function...
     # Takes a list of earthquakes, a list of names for those earthquakes (in same order), then different pyplot
     # parameters. Will auto configure figsize if left alone. Will handle ymin for log scales. Auto configures ymax
 
@@ -46,23 +51,23 @@ def pgaVsDistComparison(eqlist, names, title='Default Name', xlabel='Epicentral 
     for i in range(0, len(eqlist)):
         color = colors[i % len(colors)]
         ax[i].set_yscale(scale)
-        ax[i].scatter(eqlist[i].distances_epi[::n], eqlist[i].pga[::n], s=0.1, c=color)
+        ax[i].scatter(eqlist[i].warning_times_s[::n], eqlist[i].pga[::n], s=0.1, c=color)
         ax[i].set_title(names[i], fontsize=20)
         ax[i].set_xlabel(xlabel)
         ax[i].set_ylabel(ylabel)
-        ax[i].set_xlim(0, xlim)
+        ax[i].set_xlim(xmin, xmax)
         ax[i].set_ylim(ymin, np.ceil(pgamax / 10) * 10)
 
     # plot them overlayed
     ax[-1].set_yscale(scale)
     for i in range(0, len(eqlist)):
         color = colors[i % len(colors)]
-        ax[-1].scatter(eqlist[i].distances_epi[::n], eqlist[i].pga[::n], s=0.1, c=color, label=names[i])
+        ax[-1].scatter(eqlist[i].warning_times_s[::n], eqlist[i].pga[::n], s=0.1, c=color, label=names[i])
     t = 'Plots overlayed'
     ax[-1].set_title(t)
     ax[-1].set_xlabel(xlabel)
     ax[-1].set_ylabel(ylabel)
-    ax[-1].set_xlim(0, xlim)
+    ax[-1].set_xlim(xmin, xmax)
     ax[-1].set_ylim(ymin, np.ceil(pgamax / 10) * 10)
 
     plt.legend(markerscale=15, scatterpoints=1, loc=1)
@@ -71,21 +76,24 @@ def pgaVsDistComparison(eqlist, names, title='Default Name', xlabel='Epicentral 
     plt.savefig('Figures/AncScenario/' + title + '.png')
 
 
-eqlist = [anc_05_auto, anc_real, anc_467]
-fig, ax = plt.subplots(len(eqlist), figsize=(8,10))
-for i in range(len(eqlist)):
-    eq = eqlist[i]
-    ax[i].scatter(eq.pga, eq.mmi, s=0.6)
-    ax[i].set_xlabel('PGA')
-    ax[i].set_xscale('log')
-    ax[i].set_ylabel('MMI')
-    ax[i].axvline(6.2)
-    ax[i].axhline(4.5, c='r', ls='dashed')
-    ax[i].set_xlim(2, 7)
-    ax[i].set_ylim(2.5,5)
-    ax[i].set_title(eq.event['event_id'])
-plt.tight_layout()
-plt.show()
+eqlist = [anc_05, anc_10, anc_20,anc_30,anc_40,anc_50,anc_75,anc_100,anc_125,anc_150]
+pgaVsDistComparison(eqlist, ['5 km', '10 km','20 km','30 km','40 km','50 km','75 km','100 km','125 km','150 km'],
+                    title='5 km to 150 km scenarios PGAvWT', xmin=-10, xmax=60, xlabel='Warning Time (s)')
+
+# fig, ax = plt.subplots(len(eqlist), figsize=(8,10))
+# for i in range(len(eqlist)):
+#     eq = eqlist[i]
+#     ax[i].scatter(eq.pga, eq.mmi, s=0.6)
+#     ax[i].set_xlabel('PGA')
+#     ax[i].set_xscale('log')
+#     ax[i].set_ylabel('MMI')
+#     ax[i].axvline(6.2)
+#     ax[i].axhline(4.5, c='r', ls='dashed')
+#     ax[i].set_xlim(2, 7)
+#     ax[i].set_ylim(2.5, 5)
+#     ax[i].set_title(eq.event['event_id'])
+# plt.tight_layout()
+# plt.show()
 
 
 # #  Auto selection comparison
