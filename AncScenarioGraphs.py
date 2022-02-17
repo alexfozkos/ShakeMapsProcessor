@@ -83,7 +83,7 @@ def pgaVsDistComparison(eqlist, names, title='Default Name', xlabel='Epicentral 
     ax[-1, -1].set_ylim(ymin, np.ceil(pgamax / 10) * 10)
 
     plt.legend(markerscale=15, scatterpoints=1, loc=1)
-    fig.tight_layout(rect=[0, 0.03, 1, 0.95])
+    fig.tight_layout(rect=[0, 0, 1, 0.98])
 
     plt.savefig('Figures/AncScenario/' + title + '.png')
 
