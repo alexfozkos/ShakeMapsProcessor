@@ -235,9 +235,9 @@ class Earthquake:
         # self.station_arrivals_p = sta_dist / Earthquake.vel_p
         # self.detection_time = np.sort(self.station_arrivals_p)[Earthquake.DR - 1]
         # Calculate S wave and Surface wave Warning Time for each grid point
-        self.time_to_warning = Earthquake.TTP + self.detection_time
-        self.warning_times_s = self.arrivals_s - self.time_to_warning
-        self.warning_times_surf = self.arrivals_surf - self.time_to_warning
+        self.alert_time = Earthquake.TTP + self.detection_time
+        self.warning_times_s = self.arrivals_s - self.alert_time
+        self.warning_times_surf = self.arrivals_surf - self.alert_time
 
         # This next line makes negative warning times 0 (rename appropriately), left in for posterity's sake
         # self.warning_times = np.where(self.warning_times < 0, 0, self.warning_times)

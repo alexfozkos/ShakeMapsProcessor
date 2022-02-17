@@ -9,17 +9,17 @@ from matplotlib import pyplot as plt
 plt.rcParams.update({'font.size': 16})
 
 anc_05 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid05.xml')
-anc_10 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid10.xml')
-anc_20 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid20.xml')
-anc_30 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid30.xml')
-anc_40 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid40.xml')
-anc_50 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid50.xml')
-anc_75 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid75.xml')
-anc_100 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid100.xml')
-anc_125 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid125.xml')
-anc_150 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid150.xml')
-anc_175 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid175.xml')
-anc_200 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid200.xml')
+# anc_10 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid10.xml')
+# anc_20 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid20.xml')
+# anc_30 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid30.xml')
+# anc_40 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid40.xml')
+# anc_50 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid50.xml')
+# anc_75 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid75.xml')
+# anc_100 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid100.xml')
+# anc_125 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid125.xml')
+# anc_150 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid150.xml')
+# anc_175 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid175.xml')
+# anc_200 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid200.xml')
 
 
 # anc_real = uf.Earthquake('Data/AncScenarioGrids/gridreal.xml')
@@ -88,10 +88,14 @@ def pgaVsDistComparison(eqlist, names, title='Default Name', xlabel='Epicentral 
     plt.savefig('Figures/AncScenario/' + title + '.png')
 
 
-eqlist = [anc_05, anc_10, anc_20, anc_30, anc_40, anc_50, anc_75, anc_100, anc_125, anc_150, anc_175, anc_200]
-pgaVsDistComparison(eqlist,
-                    ['5 km', '10 km', '20 km', '30 km', '40 km', '50 km', '75 km', '100 km', '125 km', '150 km', '175 km', '200 km'],
-                    title='5 km to 200 km scenarios PGAvDist', xmax=500)
+plt.imshow(anc_05.mmi.reshape(anc_05.grid_spec['nlat'],anc_05.grid_spec['nlon']))
+plt.contour(anc_05.warning_times_s.reshape(anc_05.grid_spec['nlat'],anc_05.grid_spec['nlon']))
+plt.show()
+
+
+# eqlist = [anc_05, anc_10, anc_20, anc_30, anc_40, anc_50, anc_75, anc_100, anc_125, anc_150, anc_175, anc_200]
+# pgaVsDistComparison(eqlist, ['5 km', '10 km', '20 km', '30 km', '40 km', '50 km', '75 km', '100 km', '125 km', '150 km',
+#                              '175 km', '200 km'], title='5 km to 200 km scenarios PGAvDist', xmax=500)
 
 # fig, ax = plt.subplots(len(eqlist), figsize=(8, 10))
 # for i in range(len(eqlist)):
