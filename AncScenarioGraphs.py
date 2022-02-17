@@ -1,19 +1,26 @@
+import math
 import numpy as np
 import UsefulFunctions as uf
+import matplotlib
+
+matplotlib.rcParams["backend"] = "TkAgg"
 from matplotlib import pyplot as plt
 
 plt.rcParams.update({'font.size': 16})
 
-anc_05 = uf.Earthquake('Data/AncScenarioGrids/grid05.xml')
-anc_10 = uf.Earthquake('Data/AncScenarioGrids/grid10.xml')
-anc_20 = uf.Earthquake('Data/AncScenarioGrids/grid20.xml')
-anc_30 = uf.Earthquake('Data/AncScenarioGrids/grid30.xml')
-anc_40 = uf.Earthquake('Data/AncScenarioGrids/grid40.xml')
-anc_50 = uf.Earthquake('Data/AncScenarioGrids/grid50.xml')
-anc_75 = uf.Earthquake('Data/AncScenarioGrids/grid75.xml')
-anc_100 = uf.Earthquake('Data/AncScenarioGrids/grid100.xml')
-anc_125 = uf.Earthquake('Data/AncScenarioGrids/grid125.xml')
-anc_150 = uf.Earthquake('Data/AncScenarioGrids/grid150.xml')
+anc_05 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid05.xml')
+anc_10 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid10.xml')
+anc_20 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid20.xml')
+anc_30 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid30.xml')
+anc_40 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid40.xml')
+anc_50 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid50.xml')
+anc_75 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid75.xml')
+anc_100 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid100.xml')
+anc_125 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid125.xml')
+anc_150 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid150.xml')
+anc_175 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid175.xml')
+anc_200 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid200.xml')
+
 
 # anc_real = uf.Earthquake('Data/AncScenarioGrids/gridreal.xml')
 # anc_467 = uf.Earthquake('Data/AncScenarioGrids/grid467.xml')
@@ -21,7 +28,7 @@ anc_150 = uf.Earthquake('Data/AncScenarioGrids/grid150.xml')
 
 
 def pgaVsDistComparison(eqlist, names, title='Default Name', xlabel='Epicentral Distance (km)',
-                        ylabel='PGA (%g)', xmin= 0, xmax=500, scale='linear', figsize=None, n=1, ymin=0):
+                        ylabel='PGA (%g)', xmin=0, xmax=500, scale='linear', figsize=None, n=1, ymin=0, ncols=2):
     # I'm sick of typing 10+ lines for every plot! Time to make the standard code block its own function...
     # Takes a list of earthquakes, a list of names for those earthquakes (in same order), then different pyplot
     # parameters. Will auto configure figsize if left alone. Will handle ymin for log scales. Auto configures ymax
@@ -30,7 +37,7 @@ def pgaVsDistComparison(eqlist, names, title='Default Name', xlabel='Epicentral 
     plt.rcParams['font.size'] = '16'
     # create fig w/ subplots, can do more than 2 if define parameter as a list of eq's then loop through them instead
     if figsize is None:
-        figsize = (12, (len(eqlist) + 1) * 4)
+        figsize = (16, (len(eqlist) + 1) * 4)
 
     # colors is a list of colors that will scycle through each time a plot is plotted
     colors = ['blue', 'darkorange', 'red', 'green', 'purple', 'cyan', 'magenta']
@@ -46,41 +53,47 @@ def pgaVsDistComparison(eqlist, names, title='Default Name', xlabel='Epicentral 
             pgamax = np.max(eq.pga)
 
     #  create figure and loop through each earthquake to plot for each individually
-    fig, ax = plt.subplots(len(eqlist) + 1, figsize=figsize)
+    nrows = math.ceil((len(eqlist) + 1) / ncols)
+    fig, ax = plt.subplots(nrows=nrows, ncols=ncols, figsize=figsize)
     fig.suptitle(title, fontsize=24)
-    for i in range(0, len(eqlist)):
-        color = colors[i % len(colors)]
-        ax[i].set_yscale(scale)
-        ax[i].scatter(eqlist[i].warning_times_s[::n], eqlist[i].pga[::n], s=0.1, c=color)
-        ax[i].set_title(names[i], fontsize=20)
-        ax[i].set_xlabel(xlabel)
-        ax[i].set_ylabel(ylabel)
-        ax[i].set_xlim(xmin, xmax)
-        ax[i].set_ylim(ymin, np.ceil(pgamax / 10) * 10)
+    k = 0
+    for i in range(nrows):
+        for j in range(ncols):
+            if not k == len(eqlist):
+                color = colors[k % len(colors)]
+                ax[i, j].set_yscale(scale)
+                ax[i, j].scatter(eqlist[i].distances_epi[::n], eqlist[k].pga[::n], s=0.1, c=color)
+                ax[i, j].set_title(names[k], fontsize=20)
+                ax[i, j].set_xlabel(xlabel)
+                ax[i, j].set_ylabel(ylabel)
+                ax[i, j].set_xlim(xmin, xmax)
+                ax[i, j].set_ylim(ymin, np.ceil(pgamax / 10) * 10)
+                k += 1
 
     # plot them overlayed
-    ax[-1].set_yscale(scale)
+    ax[-1, -1].set_yscale(scale)
     for i in range(0, len(eqlist)):
         color = colors[i % len(colors)]
-        ax[-1].scatter(eqlist[i].warning_times_s[::n], eqlist[i].pga[::n], s=0.1, c=color, label=names[i])
+        ax[-1, -1].scatter(eqlist[i].distances_epi[::n], eqlist[i].pga[::n], s=0.1, c=color, label=names[i])
     t = 'Plots overlayed'
-    ax[-1].set_title(t)
-    ax[-1].set_xlabel(xlabel)
-    ax[-1].set_ylabel(ylabel)
-    ax[-1].set_xlim(xmin, xmax)
-    ax[-1].set_ylim(ymin, np.ceil(pgamax / 10) * 10)
+    ax[-1, -1].set_title(t)
+    ax[-1, -1].set_xlabel(xlabel)
+    ax[-1, -1].set_ylabel(ylabel)
+    ax[-1, -1].set_xlim(xmin, xmax)
+    ax[-1, -1].set_ylim(ymin, np.ceil(pgamax / 10) * 10)
 
     plt.legend(markerscale=15, scatterpoints=1, loc=1)
-    fig.tight_layout()
+    fig.tight_layout(rect=[0, 0.03, 1, 0.95])
 
     plt.savefig('Figures/AncScenario/' + title + '.png')
 
 
-eqlist = [anc_05, anc_10, anc_20,anc_30,anc_40,anc_50,anc_75,anc_100,anc_125,anc_150]
-pgaVsDistComparison(eqlist, ['5 km', '10 km','20 km','30 km','40 km','50 km','75 km','100 km','125 km','150 km'],
-                    title='5 km to 150 km scenarios PGAvWT', xmin=-10, xmax=60, xlabel='Warning Time (s)')
+eqlist = [anc_05, anc_10, anc_20, anc_30, anc_40, anc_50, anc_75, anc_100, anc_125, anc_150, anc_175, anc_200]
+pgaVsDistComparison(eqlist,
+                    ['5 km', '10 km', '20 km', '30 km', '40 km', '50 km', '75 km', '100 km', '125 km', '150 km', '175 km', '200 km'],
+                    title='5 km to 200 km scenarios PGAvDist', xmax=500)
 
-# fig, ax = plt.subplots(len(eqlist), figsize=(8,10))
+# fig, ax = plt.subplots(len(eqlist), figsize=(8, 10))
 # for i in range(len(eqlist)):
 #     eq = eqlist[i]
 #     ax[i].scatter(eq.pga, eq.mmi, s=0.6)
@@ -94,7 +107,6 @@ pgaVsDistComparison(eqlist, ['5 km', '10 km','20 km','30 km','40 km','50 km','75
 #     ax[i].set_title(eq.event['event_id'])
 # plt.tight_layout()
 # plt.show()
-
 
 # #  Auto selection comparison
 # pgaVsDistComparison([anc_05, anc_05_auto], ['Manual GMPEs', 'Auto-selected GMPEs'],
@@ -171,7 +183,6 @@ plt.rcParams['font.size'] = '16'
 # plt.tight_layout()
 # plt.show()
 # endregion
-
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Here Be Dragons ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -187,6 +187,9 @@ class Earthquake:
 
             # create grid data array and variables from grid_data
             if tag == 'grid_data':
+                # make the temporary directory if it doesn't exists
+                if not os.path.exists('tmp'):
+                    os.makedirs('tmp')
                 # write grid_data.text to a file
                 text_file = open('tmp/grid_data.txt', 'w')
                 text_file.write(t.text.strip())
