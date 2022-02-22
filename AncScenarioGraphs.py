@@ -9,17 +9,18 @@ from matplotlib import pyplot as plt
 plt.rcParams.update({'font.size': 16})
 
 anc_05 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid05.xml')
-anc_10 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid10.xml')
-anc_20 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid20.xml')
-anc_30 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid30.xml')
-anc_40 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid40.xml')
+# anc_10 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid10.xml')
+# anc_20 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid20.xml')
+anc_25 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid25.xml')
+# anc_30 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid30.xml')
+# anc_40 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid40.xml')
 anc_50 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid50.xml')
 anc_75 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid75.xml')
 anc_100 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid100.xml')
 anc_125 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid125.xml')
 anc_150 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid150.xml')
-anc_175 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid175.xml')
-anc_200 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid200.xml')
+# anc_175 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid175.xml')
+# anc_200 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid200.xml')
 
 
 # anc_real = uf.Earthquake('Data/AncScenarioGrids/gridreal.xml')
@@ -28,7 +29,7 @@ anc_200 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid200.xml')
 
 
 def pgaVsDistComparison(eqlist, names, title='Default Name', xlabel='Epicentral Distance (km)',
-                        ylabel='PGA (%g)', xmin=0, xmax=500, scale='linear', figsize=None, n=1, ymin=0, ncols=2):
+                        ylabel='PGA (%g)', xmin=0, xmax=500, scale='linear', figsize=None, n=1, ymin=0, ncols=2, size=1):
     # I'm sick of typing 10+ lines for every plot! Time to make the standard code block its own function...
     # Takes a list of earthquakes, a list of names for those earthquakes (in same order), then different pyplot
     # parameters. Will auto configure figsize if left alone. Will handle ymin for log scales. Auto configures ymax
@@ -64,8 +65,8 @@ def pgaVsDistComparison(eqlist, names, title='Default Name', xlabel='Epicentral 
             if not k == len(eqlist):
                 color = colors[k % len(colors)]
                 ax[i, j].set_yscale(scale)
-                ax[i, j].scatter(eqlist[i].distances_epi[::n], eqlist[k].pga[::n], s=0.2, c=color)
-                ax[i, j].axhline(previous_max, c='k', ls='--', lw=3)
+                ax[i, j].scatter(eqlist[i].distances_epi[::n], eqlist[k].pga[::n], s=size, c=color)
+                # ax[i, j].axhline(previous_max, c='k', ls='--', lw=3)
                 ax[i, j].set_title(names[k], fontsize=20)
                 ax[i, j].set_xlabel(xlabel)
                 ax[i, j].set_ylabel(ylabel)
@@ -78,7 +79,7 @@ def pgaVsDistComparison(eqlist, names, title='Default Name', xlabel='Epicentral 
     ax[-1, -1].set_yscale(scale)
     for i in range(0, len(eqlist)):
         color = colors[i % len(colors)]
-        ax[-1, -1].scatter(eqlist[i].distances_epi[::n], eqlist[i].pga[::n], s=0.1, c=color, label=names[i])
+        ax[-1, -1].scatter(eqlist[i].distances_epi[::n], eqlist[i].pga[::n], s=size, c=color, label=names[i])
     t = 'Plots overlayed'
     ax[-1, -1].set_title(t)
     ax[-1, -1].set_xlabel(xlabel)
@@ -92,9 +93,27 @@ def pgaVsDistComparison(eqlist, names, title='Default Name', xlabel='Epicentral 
     plt.savefig('Figures/AncScenario/' + title + '.png')
 
 
-eqlist = [anc_05, anc_10, anc_20, anc_30, anc_40, anc_50, anc_75, anc_100, anc_125, anc_150, anc_175, anc_200]
-pgaVsDistComparison(eqlist, ['5 km', '10 km', '20 km', '30 km', '40 km', '50 km', '75 km', '100 km', '125 km', '150 km',
-                             '175 km', '200 km'], title='5 km to 200 km scenarios PGAvDist', xmax=500)
+# eqlist_mini = [anc_05, anc_50, anc_150]
+# eqlabels_mini = ['5 km', '50 km', '150 km']
+eqlist = [anc_05, anc_25, anc_50, anc_75, anc_100, anc_125, anc_150]
+depths = [5, 25, 50, 75, 100, 125, 150]
+# eqlist_long = [anc_05, anc_10, anc_20, anc_30, anc_40, anc_50, anc_75, anc_100, anc_125, anc_150, anc_175, anc_200]
+# eqlabels_long = ['5 km', '10 km', '20 km', '30 km', '40 km', '50 km', '75 km', '100 km', '125 km', '150 km', '175 km', '200 km']
+# pgaVsDistComparison(eqlist_mini, eqlabels_mini, title='5, 50, and 150 km scenarios PGAvDist', xmax=500)
+
+index_50 = np.where((anc_05.distances_epi > 49) & (anc_05.distances_epi < 51))
+dist_50 = anc_05.distances_epi[index_50]
+wt_50km = [anc_05.warning_times_s[index_50],anc_25.warning_times_s[index_50],anc_50.warning_times_s[index_50],
+           anc_75.warning_times_s[index_50],anc_100.warning_times_s[index_50],anc_125.warning_times_s[index_50],
+           anc_150.warning_times_s[index_50]]
+# wt_50_05 = anc_05.warning_times_s[index_50]
+wt_50_25 = anc_25.warning_times_s[index_50]
+# wt_50_50 = anc_50.warning_times_s[index_50]
+# wt_50_75 = anc_75.warning_times_s[index_50]
+# wt_50_100 = anc_100.warning_times_s[index_50]
+# wt_50_125 = anc_125.warning_times_s[index_50]
+# wt_50_150 = anc_150.warning_times_s[index_50]
+print(wt_50_25)
 
 # fig, ax = plt.subplots(len(eqlist), figsize=(8, 10))
 # for i in range(len(eqlist)):
@@ -120,6 +139,19 @@ pgaVsDistComparison(eqlist, ['5 km', '10 km', '20 km', '30 km', '40 km', '50 km'
 # #  Real vs 5 km auto vs 5 km manual
 # pgaVsDistComparison([anc_real, anc_05_auto, anc_05], ['Real Earthquake', '5 km Auto', '5 km Manual'],
 #                     title='Real Quake vs Auto and Manual GMPE selection at 5 km', xlim=200, scale='linear')
+plt.figure()
+for i in range(len(eqlist)):
+    # x will be one value (depth), but needs to be same size as warnign times
+    x = depths[i]*np.ones(wt_50km[i].shape)
+    # y is the warning times
+    y = wt_50km[i]
+    plt.scatter(x, y, c='k')
+    plt.plot(depths[i], np.mean(y), 'r*')
+plt.xlabel('Source Depth (km)')
+plt.ylabel('Warning Time at ~50 km (s)')
+plt.title('Warning Times at ~50 km Vs Source Depth')
+plt.show()
+
 
 plt.rcParams['font.size'] = '16'
 # Wave Arrivals
