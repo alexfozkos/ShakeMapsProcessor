@@ -100,20 +100,61 @@ depths = [5, 25, 50, 75, 100, 125, 150]
 # eqlist_long = [anc_05, anc_10, anc_20, anc_30, anc_40, anc_50, anc_75, anc_100, anc_125, anc_150, anc_175, anc_200]
 # eqlabels_long = ['5 km', '10 km', '20 km', '30 km', '40 km', '50 km', '75 km', '100 km', '125 km', '150 km', '175 km', '200 km']
 # pgaVsDistComparison(eqlist_mini, eqlabels_mini, title='5, 50, and 150 km scenarios PGAvDist', xmax=500)
+# get all points between a and b distance away (a ring around epicenter)
+index_250km = np.where((anc_05.distances_epi > 249) & (anc_05.distances_epi < 251))
+index_175km = np.where((anc_05.distances_epi > 174) & (anc_05.distances_epi < 176))
+index_100km = np.where((anc_05.distances_epi > 99) & (anc_05.distances_epi < 101))
+index_50km = np.where((anc_05.distances_epi > 49) & (anc_05.distances_epi < 51))
+index_10km = np.where((anc_05.distances_epi > 9) & (anc_05.distances_epi < 11))
 
-index_50 = np.where((anc_05.distances_epi > 49) & (anc_05.distances_epi < 51))
-dist_50 = anc_05.distances_epi[index_50]
-wt_50km = [anc_05.warning_times_s[index_50],anc_25.warning_times_s[index_50],anc_50.warning_times_s[index_50],
-           anc_75.warning_times_s[index_50],anc_100.warning_times_s[index_50],anc_125.warning_times_s[index_50],
-           anc_150.warning_times_s[index_50]]
+indices = [index_10km, index_50km, index_100km, index_175km, index_250km]
+rings = {}
+for i in range(len(indices)):
+    rings[i] = anc_05.distances_epi[indices[i]]
+# print(rings.keys(), rings.values())
+# get the warning times on those rings at each depth to test
+# for each ring, get the warning times at each depth and save as a big array
+warning_times = {}
+for i in range(len(indices)):
+    warning_times[i] = [anc_05.warning_times_s[indices[i]], anc_25.warning_times_s[indices[i]],
+                        anc_50.warning_times_s[indices[i]], anc_75.warning_times_s[indices[i]],
+                        anc_100.warning_times_s[indices[i]], anc_125.warning_times_s[indices[i]],
+                        anc_150.warning_times_s[indices[i]]]
+
+colors = ['red', 'lime', 'aqua', 'blue', 'magenta']
+plt.figure(figsize=(12, 8))
+plt.axhline(0, c='k', lw=2)
+
+for i in range(len(indices)):
+    c = colors[i]
+    means = []
+    for j in range(len(depths)):
+        # x will be one value (depth), but needs to be same size as warnign times
+        x = depths[j]*np.ones(warning_times[i][j].shape)
+        # y is the warning times
+        y = warning_times[i][j]
+        plt.scatter(x, y, c=c, s=50)
+        plt.scatter(depths[j], np.mean(y), c='k', s=20, marker='x')
+        means.append(np.mean(y))
+    plt.plot(depths, means, c='k', lw=1, ls='--')
+plt.xlabel('Source Depth (km)')
+plt.ylabel('Warning Time (s)')
+plt.title('Warning Times Vs Source Depth at 10, 50, 100, 250 km away')
+plt.legend(loc=4)
+plt.show()
+
+
+# wt_50km = [anc_05.warning_times_s[index_50km], anc_25.warning_times_s[index_50km], anc_50.warning_times_s[index_50km],
+#            anc_75.warning_times_s[index_50km], anc_100.warning_times_s[index_50km], anc_125.warning_times_s[index_50km],
+#            anc_150.warning_times_s[index_50km]]
 # wt_50_05 = anc_05.warning_times_s[index_50]
-wt_50_25 = anc_25.warning_times_s[index_50]
+# wt_50_25 = anc_25.warning_times_s[index_50]
 # wt_50_50 = anc_50.warning_times_s[index_50]
 # wt_50_75 = anc_75.warning_times_s[index_50]
 # wt_50_100 = anc_100.warning_times_s[index_50]
 # wt_50_125 = anc_125.warning_times_s[index_50]
 # wt_50_150 = anc_150.warning_times_s[index_50]
-print(wt_50_25)
+# print(wt_50_25)
 
 # fig, ax = plt.subplots(len(eqlist), figsize=(8, 10))
 # for i in range(len(eqlist)):
@@ -139,21 +180,21 @@ print(wt_50_25)
 # #  Real vs 5 km auto vs 5 km manual
 # pgaVsDistComparison([anc_real, anc_05_auto, anc_05], ['Real Earthquake', '5 km Auto', '5 km Manual'],
 #                     title='Real Quake vs Auto and Manual GMPE selection at 5 km', xlim=200, scale='linear')
-plt.figure()
-for i in range(len(eqlist)):
-    # x will be one value (depth), but needs to be same size as warnign times
-    x = depths[i]*np.ones(wt_50km[i].shape)
-    # y is the warning times
-    y = wt_50km[i]
-    plt.scatter(x, y, c='k')
-    plt.plot(depths[i], np.mean(y), 'r*')
-plt.xlabel('Source Depth (km)')
-plt.ylabel('Warning Time at ~50 km (s)')
-plt.title('Warning Times at ~50 km Vs Source Depth')
-plt.show()
-
-
-plt.rcParams['font.size'] = '16'
+# plt.figure()
+# for i in range(len(eqlist)):
+#     # x will be one value (depth), but needs to be same size as warnign times
+#     x = depths[i]*np.ones(wt_50km[i].shape)
+#     # y is the warning times
+#     y = wt_50km[i]
+#     plt.scatter(x, y, c='k')
+#     plt.plot(depths[i], np.mean(y), 'r*')
+# plt.xlabel('Source Depth (km)')
+# plt.ylabel('Warning Time at ~50 km (s)')
+# plt.title('Warning Times at ~50 km Vs Source Depth')
+# plt.show()
+#
+#
+# plt.rcParams['font.size'] = '16'
 # Wave Arrivals
 # t = np.linspace(0, 120, 120)
 # figure, ax = plt.subplots(2, figsize=(12, 12))
