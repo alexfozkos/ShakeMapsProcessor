@@ -25,6 +25,7 @@ def calculateDetectionTime(lon, lat, depth, vp):
     # Set our station criteria
     gap_criteria = 300  # azimuthal gap
     dist_criteria = 0  # min distance
+    angle_criteria = 60  # minimum angle between station vectors (think cone projection, 3D gap)
     station_angle_criteria = 60  # vertical angle needed for 12
     # get epicentral distances for each bb station from eq, we care for station criteria
     sta_dist_e = np.array(
@@ -52,24 +53,25 @@ def calculateDetectionTime(lon, lat, depth, vp):
     # initialize criteria variables
     max_gap = 360  # Azimuthal Gap tacker
     max_dist = 0  # distance tracker
-
     min_dist = np.min(sta_list[0, 2])
+    max_angle = 0
     detection_time = -1
     # time to check for criteria,
     # if we go out of bounds on our list of stations,
     # then we don't meet our criteria to detect the earthquake :(
     try:
-        while max_gap >= gap_criteria or max_dist <= dist_criteria:
+        while max_gap >= gap_criteria or max_angle <= angle_criteria:
             # The x closest stations, increase by one each time we fail to meet criteria
-            lights_on = sta_list[:Earthquake.DR + n, :]
+            current_stations = sta_list[:Earthquake.DR + n, :]
             # get our would be detection time (latest p arrival) if we pass this loop
-            detection_time = np.max(lights_on[-1, 3])
+            detection_time = np.max(current_stations[-1, 3])
             # get epicentral distance of furthest station we are looking at
-            max_dist = np.max(lights_on[-1, 2])
+            max_dist = np.max(current_stations[-1, 2])
             # find bearings to each station
             bearings = np.array([])  # bearings
             for i in range(0, Earthquake.DR + n):
-                bearings = np.append(bearings, getBearing(lon, lat, lights_on[i, 0], lights_on[i, 1]))
+                bearings = np.append(bearings, getBearing(lon, lat, current_stations[i, 0], current_stations[i, 1]))
+            print(bearings)
             # sort the bearings in clockwise order
             bearings = np.sort(bearings)
             # find gaps between each bearing and the bearing before it
@@ -80,33 +82,88 @@ def calculateDetectionTime(lon, lat, depth, vp):
             # get largest azimuthal gap
             max_gap = np.max(gaps)
 
+            # vector angle criteria
+            # create xyz vectors for each point, relative to epicenter
+            station_vectors = {}
+            for i in range(Earthquake.DR + n):
+                theta = getTheta(lon, lat, current_stations[i, 0], current_stations[i, 1])
+                print(np.degrees(theta))
+                x, y = getXY(current_stations[i, 2], theta)
+                z = depth
+                vector = [x, y, z]
+                station_vectors[i] = vector
+            vector_angles = np.zeros((Earthquake.DR + n, Earthquake.DR + n))
+            for i in range(Earthquake.DR + n):
+                for j in range(Earthquake.DR + n):
+                    if i == j:
+                        vector_angles[i, j] = 0
+                    else:
+                        vector_angles[i, j] = getAngle(station_vectors[i], station_vectors[j])
+            # print(station_vectors)
+            # print(vector_angles)
+            max_angle = np.max(vector_angles)
+
             n += 1  # increase our station count in case we have to check again
     except:
         print('Failed to meet criteria for this event')
         detection_time = -1
-
+    # print(vector_angles)
     print('''   ~~Detection stats~~
-    Used a maximum azimuthal gap of {} degrees and minimum epicentral distance of {} km
+    Used a maximum azimuthal gap of {} degrees and minimum station vector angle of {} km
     Number of stations needed: {}
     Detection Time: {}
     Azimuthal Gap: {}
-    Maximum Epicentral Distance: {}'''.format(gap_criteria, dist_criteria, Earthquake.DR + n - 1, detection_time,
-                                              max_gap, max_dist))
+    Max Vector Angle: {}
+    Maximum Epicentral Distance: {}'''.format(gap_criteria, angle_criteria, Earthquake.DR + n - 1, detection_time,
+                                              max_gap, max_angle, max_dist))
 
     return detection_time
 
 
-# function for finding the bearing between two points
+# function for finding the bearing between two lat lon points
 # https://towardsdatascience.com/calculating-the-bearing-between-two-geospatial-coordinates-66203f57e4b4
 def getBearing(lon1, lat1, lon2, lat2):
-    a = {'lat': lat1, 'lon': lon1}  # epicenter
-    b = {'lat': lat2, 'lon': lon2}  # station
+    a = {'lat': np.radians(lat1), 'lon': np.radians(lon1)}  # epicenter
+    b = {'lat': np.radians(lat2), 'lon': np.radians(lon2)}  # station
     dL = b['lon'] - a['lon']
     X = np.cos(b['lat']) * np.sin(dL)
     Y = np.cos(a['lat']) * np.sin(b['lat']) - np.sin(a['lat']) * np.cos(b['lat']) * np.cos(dL)
     bearing = np.arctan2(X, Y)
     bearing = (np.degrees(bearing) + 360) % 360
     return bearing
+
+
+# function for finding the angle from the positive x axis (due east) between two lat lon points
+def getTheta(lon1, lat1, lon2, lat2):
+    a = {'lat': np.radians(lat1), 'lon': np.radians(lon1)}  # epicenter
+    b = {'lat': np.radians(lat2), 'lon': np.radians(lon2)}  # station
+    dL = b['lon'] - a['lon']
+    X = np.cos(b['lat']) * np.sin(dL)
+    Y = np.cos(a['lat']) * np.sin(b['lat']) - np.sin(a['lat']) * np.cos(b['lat']) * np.cos(dL)
+    theta = np.arctan2(Y, X)
+    # theta = theta - np.pi/2  # shift to positive x axis
+    # return angle in RADIANS, not degrees, so we can keep using for trig calculations
+    return theta
+
+
+# take a length and angle and find X Y components, top down view of epicenter as 0,0 and epicentral distance to point
+# theta should be in radians
+def getXY(d, theta):
+    x = d * np.cos(theta)
+    y = d * np.sin(theta)
+    return x, y
+
+
+# get angle between two vectors
+def getAngle(a, b):
+    # adotb = np.vdot(a, b)
+    adotb = sum(a[i]*b[i] for i in range(len(a)) )
+    amag = np.sqrt(np.vdot(a, a))
+    bmag = np.sqrt(np.vdot(b, b))
+    # print(adotb, amag, bmag)
+    angle = np.arccos(adotb / (amag * bmag))
+    # final product for angle calculation, so we return it in degrees to check against criteria
+    return np.degrees(angle)
 
 
 # function for calculating great circle distance between two lat lon points using haversine formula

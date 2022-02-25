@@ -101,6 +101,8 @@ depths = [5, 25, 50, 75, 100, 125, 150]
 # eqlabels_long = ['5 km', '10 km', '20 km', '30 km', '40 km', '50 km', '75 km', '100 km', '125 km', '150 km', '175 km', '200 km']
 # pgaVsDistComparison(eqlist_mini, eqlabels_mini, title='5, 50, and 150 km scenarios PGAvDist', xmax=500)
 # get all points between a and b distance away (a ring around epicenter)
+
+# region Warning time Vs Source depth
 index_250km = np.where((anc_05.distances_epi > 249) & (anc_05.distances_epi < 251))
 index_175km = np.where((anc_05.distances_epi > 174) & (anc_05.distances_epi < 176))
 index_100km = np.where((anc_05.distances_epi > 99) & (anc_05.distances_epi < 101))
@@ -139,8 +141,8 @@ for i in range(len(indices)):
     plt.plot(depths, means, c='k', lw=1, ls='--')
 plt.xlabel('Source Depth (km)')
 plt.ylabel('Warning Time (s)')
-plt.title('Warning Times Vs Source Depth at 10, 50, 100, 250 km away')
-plt.legend(loc=4)
+plt.title('Warning Times Vs Source Depth at 10, 50, 100, 175, 250 km away')
+plt.savefig('Figures/AncScenario/Warning Times Vs Source Depth.png')
 plt.show()
 
 
