@@ -71,7 +71,7 @@ def calculateDetectionTime(lon, lat, depth, vp):
             bearings = np.array([])  # bearings
             for i in range(0, Earthquake.DR + n):
                 bearings = np.append(bearings, getBearing(lon, lat, current_stations[i, 0], current_stations[i, 1]))
-            print(bearings)
+            # print(bearings)
             # sort the bearings in clockwise order
             bearings = np.sort(bearings)
             # find gaps between each bearing and the bearing before it
@@ -87,7 +87,7 @@ def calculateDetectionTime(lon, lat, depth, vp):
             station_vectors = {}
             for i in range(Earthquake.DR + n):
                 theta = getTheta(lon, lat, current_stations[i, 0], current_stations[i, 1])
-                print(np.degrees(theta))
+                # print(np.degrees(theta))
                 x, y = getXY(current_stations[i, 2], theta)
                 z = depth
                 vector = [x, y, z]

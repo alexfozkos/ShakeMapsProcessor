@@ -11,13 +11,13 @@ plt.rcParams.update({'font.size': 16})
 anc_05 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid05.xml')
 # anc_10 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid10.xml')
 # anc_20 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid20.xml')
-anc_25 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid25.xml')
+# anc_25 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid25.xml')
 # anc_30 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid30.xml')
 # anc_40 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid40.xml')
 anc_50 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid50.xml')
-anc_75 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid75.xml')
-anc_100 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid100.xml')
-anc_125 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid125.xml')
+# anc_75 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid75.xml')
+# anc_100 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid100.xml')
+# anc_125 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid125.xml')
 anc_150 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid150.xml')
 # anc_175 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid175.xml')
 # anc_200 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid200.xml')
@@ -29,7 +29,8 @@ anc_150 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid150.xml')
 
 
 def pgaVsDistComparison(eqlist, names, title='Default Name', xlabel='Epicentral Distance (km)',
-                        ylabel='PGA (%g)', xmin=0, xmax=500, scale='linear', figsize=None, n=1, ymin=0, ncols=2, size=1):
+                        ylabel='PGA (%g)', xmin=0, xmax=500, scale='linear', figsize=None, n=1, ymin=0, ncols=2, size=1,
+                        colors=None):
     # I'm sick of typing 10+ lines for every plot! Time to make the standard code block its own function...
     # Takes a list of earthquakes, a list of names for those earthquakes (in same order), then different pyplot
     # parameters. Will auto configure figsize if left alone. Will handle ymin for log scales. Auto configures ymax
@@ -41,11 +42,13 @@ def pgaVsDistComparison(eqlist, names, title='Default Name', xlabel='Epicentral 
         figsize = (16, (len(eqlist) + 1) * 4)
 
     # colors is a list of colors that will scycle through each time a plot is plotted
-    colors = ['blue', 'darkorange', 'red', 'green', 'purple', 'cyan', 'magenta']
+    if colors is None:
+        colors = ['blue', 'darkorange', 'red', 'green', 'purple', 'cyan', 'magenta']
 
     # set ymin to 0.0001 if using log scale (log cant be 0)
     if scale == 'log':
-        ymin = 0.0001
+        ymin = 0.1
+        ymax = 100
 
     # Auto configure ymax (rounds up to nearest 10)
     pgamax = 0
@@ -71,7 +74,8 @@ def pgaVsDistComparison(eqlist, names, title='Default Name', xlabel='Epicentral 
                 ax[i, j].set_xlabel(xlabel)
                 ax[i, j].set_ylabel(ylabel)
                 ax[i, j].set_xlim(xmin, xmax)
-                ax[i, j].set_ylim(ymin, np.ceil(pgamax / 10) * 10)
+                # ax[i, j].set_ylim(ymin, np.ceil(pgamax / 10) * 10)
+                ax[i, j].set_ylim(ymin, ymax)
                 previous_max = eqlist[k].pga.max()
                 k += 1
 
@@ -79,72 +83,96 @@ def pgaVsDistComparison(eqlist, names, title='Default Name', xlabel='Epicentral 
     ax[-1, -1].set_yscale(scale)
     for i in range(0, len(eqlist)):
         color = colors[i % len(colors)]
-        ax[-1, -1].scatter(eqlist[i].distances_epi[::n], eqlist[i].pga[::n], s=size, c=color, label=names[i])
+        ax[-1, -1].scatter(eqlist[i].distances_epi[::n], eqlist[i].pga[::n], s=size, c=color, label=names[i], alpha=0.3)
     t = 'Plots overlayed'
     ax[-1, -1].set_title(t)
     ax[-1, -1].set_xlabel(xlabel)
     ax[-1, -1].set_ylabel(ylabel)
     ax[-1, -1].set_xlim(xmin, xmax)
-    ax[-1, -1].set_ylim(ymin, np.ceil(pgamax / 10) * 10)
-
+    # ax[-1, -1].set_ylim(ymin, np.ceil(pgamax / 10) * 10)
+    ax[-1, -1].set_ylim(ymin, ymax)
     plt.legend(markerscale=15, scatterpoints=1, loc=1)
     fig.tight_layout(rect=[0, 0, 1, 0.98])
 
     plt.savefig('Figures/AncScenario/' + title + '.png')
 
 
-# eqlist_mini = [anc_05, anc_50, anc_150]
-# eqlabels_mini = ['5 km', '50 km', '150 km']
-eqlist = [anc_05, anc_25, anc_50, anc_75, anc_100, anc_125, anc_150]
-depths = [5, 25, 50, 75, 100, 125, 150]
+eqlist_mini = [anc_05, anc_50, anc_150]
+eqlabels_mini = ['5 km', '50 km', '150 km']
+# eqlist = [anc_05, anc_25, anc_50, anc_75, anc_100, anc_125, anc_150]
+# depths = [5, 25, 50, 75, 100, 125, 150]
 # eqlist_long = [anc_05, anc_10, anc_20, anc_30, anc_40, anc_50, anc_75, anc_100, anc_125, anc_150, anc_175, anc_200]
 # eqlabels_long = ['5 km', '10 km', '20 km', '30 km', '40 km', '50 km', '75 km', '100 km', '125 km', '150 km', '175 km', '200 km']
-# pgaVsDistComparison(eqlist_mini, eqlabels_mini, title='5, 50, and 150 km scenarios PGAvDist', xmax=500)
-# get all points between a and b distance away (a ring around epicenter)
+pgaVsDistComparison(eqlist_mini, eqlabels_mini, title='5, 50, and 150 km scenarios PGAvDist', xmax=500, scale='log',
+                    colors=['r','g','b'])
+
+
+# region Warning Time vs PGA at different depths
+# colors = ['r','g','b']
+# fig, ax = plt.subplots(3,figsize=(8,12))
+# fig.suptitle('Warning Time vs PGA at 5, 50, and 150 km depth')
+# for i in range(len(eqlist_mini)):
+#     for j in np.linspace(-10, 110, num=13):
+#         ax[i].axhline(j, c='silver', lw=0.5)
+#     ax[i].scatter(eqlist_mini[i].pga, eqlist_mini[i].warning_times_s, s=1, c=colors[i])
+#     ax[i].set_xscale('log')
+#     ax[i].invert_xaxis()
+#     ax[i].set_xlim(100, 0.1)
+#     ax[i].set_ylim(-15, 120)
+#     ax[i].set_title('Source Depth: {}'.format(eqlabels_mini[i]))
+#     ax[i].set_xlabel('PGA (%g)')
+#     ax[i].set_ylabel('Warning Time (s)')
+#     ax[i].axhline(0, c='k', lw=1)
+# plt.tight_layout(rect=(0, 0, 1, 0.97))
+# plt.savefig('Figures/AncScenario/Warning Time vs PGA at 3 depths.png')
+# plt.show()
+# endregion
+
 
 # region Warning time Vs Source depth
-index_250km = np.where((anc_05.distances_epi > 249) & (anc_05.distances_epi < 251))
-index_175km = np.where((anc_05.distances_epi > 174) & (anc_05.distances_epi < 176))
-index_100km = np.where((anc_05.distances_epi > 99) & (anc_05.distances_epi < 101))
-index_50km = np.where((anc_05.distances_epi > 49) & (anc_05.distances_epi < 51))
-index_10km = np.where((anc_05.distances_epi > 9) & (anc_05.distances_epi < 11))
-
-indices = [index_10km, index_50km, index_100km, index_175km, index_250km]
-rings = {}
-for i in range(len(indices)):
-    rings[i] = anc_05.distances_epi[indices[i]]
-# print(rings.keys(), rings.values())
-# get the warning times on those rings at each depth to test
-# for each ring, get the warning times at each depth and save as a big array
-warning_times = {}
-for i in range(len(indices)):
-    warning_times[i] = [anc_05.warning_times_s[indices[i]], anc_25.warning_times_s[indices[i]],
-                        anc_50.warning_times_s[indices[i]], anc_75.warning_times_s[indices[i]],
-                        anc_100.warning_times_s[indices[i]], anc_125.warning_times_s[indices[i]],
-                        anc_150.warning_times_s[indices[i]]]
-
-colors = ['red', 'lime', 'aqua', 'blue', 'magenta']
-plt.figure(figsize=(12, 8))
-plt.axhline(0, c='k', lw=2)
-
-for i in range(len(indices)):
-    c = colors[i]
-    means = []
-    for j in range(len(depths)):
-        # x will be one value (depth), but needs to be same size as warnign times
-        x = depths[j]*np.ones(warning_times[i][j].shape)
-        # y is the warning times
-        y = warning_times[i][j]
-        plt.scatter(x, y, c=c, s=50)
-        plt.scatter(depths[j], np.mean(y), c='k', s=20, marker='x')
-        means.append(np.mean(y))
-    plt.plot(depths, means, c='k', lw=1, ls='--')
-plt.xlabel('Source Depth (km)')
-plt.ylabel('Warning Time (s)')
-plt.title('Warning Times Vs Source Depth at 10, 50, 100, 175, 250 km away')
-plt.savefig('Figures/AncScenario/Warning Times Vs Source Depth.png')
-plt.show()
-
+# # get all points between a and b distance away (a ring around epicenter)
+# index_250km = np.where((anc_05.distances_epi > 249) & (anc_05.distances_epi < 251))
+# index_175km = np.where((anc_05.distances_epi > 174) & (anc_05.distances_epi < 176))
+# index_100km = np.where((anc_05.distances_epi > 99) & (anc_05.distances_epi < 101))
+# index_50km = np.where((anc_05.distances_epi > 49) & (anc_05.distances_epi < 51))
+# index_10km = np.where((anc_05.distances_epi > 9) & (anc_05.distances_epi < 11))
+#
+# indices = [index_10km, index_50km, index_100km, index_175km, index_250km]
+# rings = {}
+# for i in range(len(indices)):
+#     rings[i] = anc_05.distances_epi[indices[i]]
+# # print(rings.keys(), rings.values())
+# # get the warning times on those rings at each depth to test
+# # for each ring, get the warning times at each depth and save as a big array
+# warning_times = {}
+# for i in range(len(indices)):
+#     warning_times[i] = [anc_05.warning_times_s[indices[i]], anc_25.warning_times_s[indices[i]],
+#                         anc_50.warning_times_s[indices[i]], anc_75.warning_times_s[indices[i]],
+#                         anc_100.warning_times_s[indices[i]], anc_125.warning_times_s[indices[i]],
+#                         anc_150.warning_times_s[indices[i]]]
+#
+# colors = ['red', 'lime', 'aqua', 'blue', 'magenta']
+# plt.figure(figsize=(12, 8))
+# plt.axhline(0, c='k', lw=2)
+#
+# for i in range(len(indices)):
+#     c = colors[i]
+#     means = []
+#     for j in range(len(depths)):
+#         # x will be one value (depth), but needs to be same size as warnign times
+#         x = depths[j]*np.ones(warning_times[i][j].shape)
+#         # y is the warning times
+#         y = warning_times[i][j]
+#         plt.scatter(x, y, c=c, s=50)
+#         plt.scatter(depths[j], np.mean(y), c='k', s=20, marker='x')
+#         means.append(np.mean(y))
+#     plt.plot(depths, means, c='k', lw=1, ls='--')
+# plt.xlabel('Source Depth (km)')
+# plt.ylabel('Warning Time (s)')
+# plt.title('Warning Times Vs Source Depth at 10, 50, 100, 175, 250 km away')
+# plt.savefig('Figures/AncScenario/Warning Times Vs Source Depth.png')
+# plt.show()
+# endregion
 
 # wt_50km = [anc_05.warning_times_s[index_50km], anc_25.warning_times_s[index_50km], anc_50.warning_times_s[index_50km],
 #            anc_75.warning_times_s[index_50km], anc_100.warning_times_s[index_50km], anc_125.warning_times_s[index_50km],
