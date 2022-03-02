@@ -20,6 +20,47 @@ ActiveBBs = np.genfromtxt('Data/activeBBs.txt',
                           autostrip=True,
                           )
 
+# creates a set of points to draw a polygon around a set of x y data, done by slicing the
+# x points into chunks and finding the min and max y values in that slice.
+def createPolygon(colx, coly, n=250, invert=True, xscale='log', step=0.1):
+    data = np.hstack((colx, coly))  # stack together
+    data = data[data[:, 0].argsort()]  # sort by x
+    if invert:  # invert data if true, useful for PGA
+        data = data[::-1]
+    x_sorted = data[:, 0]
+    y_sorted = data[:, 1]
+    if xscale == 'lin':
+        x_space = np.arange(start=x_sorted.min(), stop=(x_sorted.max() + step), step=step)
+    elif xscale == 'log':
+        x_space = np.logspace(-4, 2, num=n)
+    # if invert:
+    x_space = x_space[::-1]
+    # print(x_space[-1::-10])
+    maxmins = np.zeros((2, 1))
+    x_mids = np.array([])
+    for i in range(x_space.shape[0] - 1):
+        slice_index = np.where((x_sorted < x_space[i]) & (x_sorted >= x_space[i + 1]), [True], [False])
+        y_slice = y_sorted[slice_index]
+        if np.size(y_slice) == 0:
+            continue
+        topbot = np.array([[np.max(y_slice)], [np.min(y_slice)]])
+        maxmins = np.hstack((maxmins, topbot))
+        if xscale == 'lin':
+            midway = (x_space[i] + x_space[i + 1]) / 2
+        elif xscale == 'log':
+            midway = np.exp((np.log(x_space[i]) + np.log(x_space[i + 1])) / 2)
+        x_mids = np.append(x_mids, midway)
+    maxmins = maxmins[:, 1:]  # pop off that inital 0 column
+    y_maxes = maxmins[0, :]
+    y_mins = maxmins[1, :]
+    # reverse mins so we can draw from left to right, up thorugh the maxes and back  down left through the mins
+    y_mins = y_mins[::-1]
+    y_points = np.append(y_maxes, y_mins)
+    x_mids = np.append(x_mids, x_mids[::-1])  # add the same mid points but backwards for the mins
+    x_mids = np.append(x_mids, x_mids[0])  # pad these two at the end to create a closed polygon
+    y_points = np.append(y_points, y_points[0])
+    return x_mids, y_points
+
 
 def calculateDetectionTime(lon, lat, depth, vp):
     # Set our station criteria

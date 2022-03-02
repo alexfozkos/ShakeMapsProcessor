@@ -103,18 +103,65 @@ eqlabels_mini = ['5 km', '50 km', '150 km']
 # depths = [5, 25, 50, 75, 100, 125, 150]
 # eqlist_long = [anc_05, anc_10, anc_20, anc_30, anc_40, anc_50, anc_75, anc_100, anc_125, anc_150, anc_175, anc_200]
 # eqlabels_long = ['5 km', '10 km', '20 km', '30 km', '40 km', '50 km', '75 km', '100 km', '125 km', '150 km', '175 km', '200 km']
-pgaVsDistComparison(eqlist_mini, eqlabels_mini, title='5, 50, and 150 km scenarios PGAvDist', xmax=500, scale='log',
-                    colors=['r','g','b'])
+# pgaVsDistComparison(eqlist_mini, eqlabels_mini, title='5, 50, and 150 km scenarios PGAvDist', xmax=500, scale='log',
+#                     colors=['r','g','b'])
 
+
+colors = ['r', 'g', 'b']
+fig, ax = plt.subplots(figsize=(12, 12))
+fig.suptitle('PGA vs Distance for 3 Different Source Depths')
+for i in range(len(eqlist_mini)):
+    eq = eqlist_mini[i]
+    ax.scatter(eq.distances_epi, eq.pga, c=colors[i], s=2, label=eqlabels_mini[i])
+ax.axhline(0, c='k', lw=1)
+# ax.set_xscale('log')
+# ax.invert_xaxis()
+ax.set_xlim(0, 500)
+ax.set_yscale('log')
+ax.set_ylim(0.1, 100)
+ax.set_ylabel('PGA (%g)')
+ax.set_xlabel('Distance (km)')
+plt.legend(loc='upper right')
+plt.tight_layout(rect=(0, 0, 1, 0.97))
+plt.show()
+
+# region PGA vs Epicentral Distance with polygons!!
+colors = ['r', 'g', 'b']
+fig, ax = plt.subplots(figsize=(12, 12))
+fig.suptitle('PGA vs Distance for 3 Different Source Depths')
+# for j in np.linspace(-10, 110, num=13):
+#     ax.axhline(j, c='silver', lw=0.5)
+for i in range(len(eqlist_mini)):
+    eq = eqlist_mini[i]
+    y, x = uf.createPolygon(eq.pga, eq.distances_epi, invert=False)
+    # ax[i].scatter(eq.pga, eq.warning_times_s, s=1, c=colors[i])
+    # ax[i].plot(x, y, c=colors[i], alpha=0.6)
+    ax.fill(x, y, c=colors[i], alpha=0.5, label=eqlabels_mini[i])
+ax.axhline(0, c='k', lw=1)
+# ax.set_xscale('log')
+# ax.invert_xaxis()
+ax.set_xlim(0, 500)
+ax.set_yscale('log')
+ax.set_ylim(0.1, 100)
+ax.set_ylabel('PGA (%g)')
+ax.set_xlabel('Distance (km)')
+plt.legend(loc='upper right')
+plt.tight_layout(rect=(0, 0, 1, 0.97))
+plt.show()
+# endregion
 
 # region Warning Time vs PGA at different depths
-# colors = ['r','g','b']
+# colors = ['r', 'g', 'b']
 # fig, ax = plt.subplots(3,figsize=(8,12))
 # fig.suptitle('Warning Time vs PGA at 5, 50, and 150 km depth')
 # for i in range(len(eqlist_mini)):
+#     eq = eqlist_mini[i]
 #     for j in np.linspace(-10, 110, num=13):
 #         ax[i].axhline(j, c='silver', lw=0.5)
-#     ax[i].scatter(eqlist_mini[i].pga, eqlist_mini[i].warning_times_s, s=1, c=colors[i])
+#     x, y = uf.createPolygon(eq.pga, eq.warning_times_s)
+#     # ax[i].scatter(eq.pga, eq.warning_times_s, s=1, c=colors[i])
+#     # ax[i].plot(x, y, c=colors[i], alpha=0.6)
+#     ax[i].fill(x, y, c=colors[i], alpha=0.5)
 #     ax[i].set_xscale('log')
 #     ax[i].invert_xaxis()
 #     ax[i].set_xlim(100, 0.1)
@@ -124,7 +171,32 @@ pgaVsDistComparison(eqlist_mini, eqlabels_mini, title='5, 50, and 150 km scenari
 #     ax[i].set_ylabel('Warning Time (s)')
 #     ax[i].axhline(0, c='k', lw=1)
 # plt.tight_layout(rect=(0, 0, 1, 0.97))
-# plt.savefig('Figures/AncScenario/Warning Time vs PGA at 3 depths.png')
+# plt.savefig('Figures/AncScenario/Warning Time vs PGA at 3 depths (polygons).png')
+# plt.show()
+# endregion
+
+# region Warning Time vs PGA at different depths but with transparent polygons!!!
+# colors = ['r', 'g', 'b']
+# fig, ax = plt.subplots(figsize=(12, 12))
+# fig.suptitle('Warning Time vs PGA for 5, 50, and 150 km Source Depths')
+# for j in np.linspace(-10, 110, num=13):
+#     ax.axhline(j, c='silver', lw=0.5)
+# for i in range(len(eqlist_mini)):
+#     eq = eqlist_mini[i]
+#     x, y = uf.createPolygon(eq.pga, eq.warning_times_s)
+#     # ax[i].scatter(eq.pga, eq.warning_times_s, s=1, c=colors[i])
+#     # ax[i].plot(x, y, c=colors[i], alpha=0.6)
+#     ax.fill(x, y, c=colors[i], alpha=0.5, label=eqlabels_mini[i])
+# ax.axhline(0, c='k', lw=1)
+# ax.set_xscale('log')
+# ax.invert_xaxis()
+# ax.set_xlim(100, 0.1)
+# ax.set_ylim(-15, 120)
+# ax.set_xlabel('PGA (%g)')
+# ax.set_ylabel('Warning Time (s)')
+# plt.legend(loc='upper left')
+# plt.tight_layout(rect=(0, 0, 1, 0.97))
+# plt.savefig('Figures/AncScenario/Warning Time vs PGA at 3 depths (polygons).png')
 # plt.show()
 # endregion
 
