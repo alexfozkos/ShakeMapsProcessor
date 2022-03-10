@@ -13,7 +13,7 @@ x, y = np.meshgrid(lon, lat)
 p = np.vstack((x.ravel(), y.ravel()))
 print(p.shape)
 times = np.array([[]])
-d = 10  # depth
+d = 150  # depth
 shp = p.shape[1]
 i = 0
 # only advance i if you meet criteria, otherwise delete the point and try again
@@ -29,11 +29,11 @@ for iterator in range(0, shp):
     print(i)
 
 p = np.vstack((p, times))
-print(p.shape)
-print(p[:, 0:5])
+# print(p.shape)
+# print(p[:, 0:5])
 
 gridBoundaries = [170, -128, 49, 73]
-title = r"Detection Times for Depth {}km (Bondár04)".format(d)
+title = r"Detection Times for Depth {}km (60 gap, 30 angle)".format(d)
 coast_border = "a/0.5p,brown"
 shorelines = "0.3p,black"
 fig = pygmt.Figure()
@@ -62,5 +62,5 @@ fig.plot(  # plot time data
     style='c0.1c'
 )
 fig.colorbar(frame='xafg20+l"Detection time (s)"')
-fig.savefig('Figures/{}.png'.format(title))
-print(np.min(p[2, :]))
+fig.savefig('Figures/Detection Maps/{}.png'.format(title))
+# print(np.min(p[2, :]))

@@ -66,7 +66,7 @@ def calculateDetectionTime(lon, lat, depth, vp):
     # Set our station criteria
     gap_criteria = 300  # azimuthal gap
     dist_criteria = 0  # min distance
-    angle_criteria = 60  # minimum angle between station vectors (think cone projection, 3D gap)
+    angle_criteria = 30  # minimum angle between station vectors (think cone projection, 3D gap)
     station_angle_criteria = 60  # vertical angle needed for 12
     # get epicentral distances for each bb station from eq, we care for station criteria
     sta_dist_e = np.array(
