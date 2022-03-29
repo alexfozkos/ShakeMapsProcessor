@@ -4,7 +4,9 @@ import pandas as pd
 import numpy as np
 from numpy import sin, cos, pi
 from matplotlib import pyplot as plt
-import cartopy.crs as ccrs
+import pygmt
+import UsefulFunctions as uf
+
 
 # Magnitude
 # Mw = 8.3
@@ -27,7 +29,7 @@ def km2lon(d, lat):
     return d/(111.320*cos(np.deg2rad(lat)))
 
 
-def createplane(lon0, lat0, Mw, D, strike, dip):
+def createPlane(lon0, lat0, Mw, D, strike, dip):
     #
     #                    1
     #
@@ -49,7 +51,15 @@ def createplane(lon0, lat0, Mw, D, strike, dip):
     W = 10**(0.39 + 0.74 * np.log10(L))  # km, width of fault
     Wproj = W * cos(theta)  # find the projected width of the fault
     deld = 0.5 * W * sin(theta)  # find the change in depth from the center to the top/bottom of the fault
-
+    print('''Fault Plane Parameters
+    Strike: {}
+    Dip: {}
+    Length: {}
+    Width: {}
+    Projected Width: {}
+    Lower depth: {}
+    Upper depth: {}
+    '''.format(strike, dip, L, W, Wproj, D+deld, D-deld))
     # calculate points of the plane, midpoints first
     x2 = 0.5 * L * cos(angle - pi)
     lon2 = lon0 + km2lon(x2, lat0)
@@ -135,7 +145,11 @@ data = pd.concat([dep, dip['dip'], str['strike']], axis=1)
 
 # Clean up data
 data = data.dropna()  # drop nan's
+# Saves data as a text file
+# np.savetxt('Data/alu_slab_data.csv', data.values, fmt='%.4f', delimiter=',')
+# Converts positve lon data above 180 into negative western notation
 # data = fixlons(data)
+
 # contours_20_1 = fixlons(contours_20_1)
 # contours_20_2 = fixlons(contours_20_2)
 # contours_20_3 = fixlons(contours_20_3)
@@ -150,11 +164,48 @@ data = data.dropna()  # drop nan's
 # plt.plot(contours_20_3['lon'], contours_20_3['lat'], c='r',)
 # plt.show()
 
-points = createplane(-160, 53, 8.3, 20, 45, 8)
-colors = ['k','r','orange','yellow','green','blue','cyan','purple','pink']
-plt.figure()
-i = 0
-for p in points:
-    plt.plot(p[0], p[1], c=colors[i], marker='*', markersize=10)
-    i += 1
-plt.show()
+# points = createplane(-160, 53, 8.3, 20, 45, 8)
+# colors = ['k','r','orange','yellow','green','blue','cyan','purple','pink']
+# plt.figure()
+# i = 0
+# for p in points:
+#     plt.plot(p[0], p[1], c=colors[i], marker='*', markersize=10)
+#     i += 1
+# plt.show()
+
+# title = r"Slab 2 mapping"
+# coast_border = "a/0.5p,brown"
+# shorelines = "0.3p,black"
+# fig = pygmt.Figure()
+# # fig.basemap(region=[160, 240, 40, 75], projection='M15c', frame=True)
+# fig.basemap(region='180/49/240/62+r', projection='M15c', frame=["af", f'WSne+t"{title}"'])
+# fig.coast(shorelines=shorelines, borders=coast_border, water='skyblue', land='lightgray')  # draw coast over datawater='skyblue'
+#
+# # fig.plot(  # Plot seismic stations as triangles
+# #     x=uf.ActiveBBs['lon'],
+# #     y=uf.ActiveBBs['lat'],
+# #     style='t+0.3c',
+# #     color='white',
+# #     pen='black',
+# # )
+# fig.grdimage(
+#     grid='Data/alu_slab/alu_slab2_dip_02.23.18.grd'
+# )
+# fig.savefig('Figures/misc/PyGMTMap.png')
+
+hypocenters = pd.read_csv('Data/alu_slab/Hypocenters.txt', delimiter='\t', names=['lon', 'lat', 'depth', 'dip', 'strike'])
+print(hypocenters.info())
+planes = {}
+
+with open('Data/alu_slab/Alu_geometries.txt', 'w') as w:
+    w.write("Lon, Lat, Depth\n")
+    for index, row in hypocenters.iterrows():
+        p = createPlane(row['lon'], row['lat'], 8.3, row['depth'], row['strike'], row['dip'])
+        planes[index] = p
+        corners= [p[1], p[3], p[5], p[7]]
+        w.write("Alu Index {}\nCenter: [{:.2f}, {:.2f}, {:.4f}]\n".format(index+1, *p[0]))
+        w.write("Strike: {}\nDip: {}\n".format(row['strike'], row['dip']))
+        for corner in corners:
+            w.write("[{:.2f}, {:.2f}, {:.4f}]\n".format(*corner))
+        w.write("\n")
+
