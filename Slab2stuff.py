@@ -194,6 +194,7 @@ data = data.dropna()  # drop nan's
 # fig.savefig('Figures/misc/PyGMTMap.png')
 
 hypocenters = pd.read_csv('Data/alu_slab/Hypocenters.txt', delimiter='\t', names=['lon', 'lat', 'depth', 'dip', 'strike'])
+hypocenters = fixlons(hypocenters)
 print(hypocenters.info())
 planes = {}
 
@@ -202,10 +203,13 @@ with open('Data/alu_slab/Alu_geometries.txt', 'w') as w:
     for index, row in hypocenters.iterrows():
         p = createPlane(row['lon'], row['lat'], 8.3, row['depth'], row['strike'], row['dip'])
         planes[index] = p
-        corners= [p[1], p[3], p[5], p[7]]
+        corners = [p[5], p[3], p[1], p[7]]
         w.write("Alu Index {}\nCenter: [{:.2f}, {:.2f}, {:.4f}]\n".format(index+1, *p[0]))
         w.write("Strike: {}\nDip: {}\n".format(row['strike'], row['dip']))
         for corner in corners:
             w.write("[{:.2f}, {:.2f}, {:.4f}]\n".format(*corner))
+        for corner in corners:
+            w.write("[{:.2f}, {:.2f}, {:.4f}], ".format(*corner))
+        w.write("[{:.2f}, {:.2f}, {:.4f}]\n".format(*p[5]))
         w.write("\n")
 
