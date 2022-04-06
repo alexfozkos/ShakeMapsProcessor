@@ -1,3 +1,5 @@
+import os
+
 import matplotlib as mpl
 mpl.rcParams["backend"] = "TkAgg"
 import pandas as pd
@@ -29,7 +31,7 @@ def km2lon(d, lat):
     return d/(111.320*cos(np.deg2rad(lat)))
 
 
-def createPlane(lon0, lat0, Mw, D, strike, dip):
+def createPlane(lon0, lat0, Mw, D, strike, dip, mech):
     #
     #                    1
     #
@@ -47,10 +49,30 @@ def createPlane(lon0, lat0, Mw, D, strike, dip):
 
     theta = np.deg2rad(dip)  # convert dip to radians
     angle = np.deg2rad(360 - strike + 90)  # Convert strike to positive angle from x axis, and to radians
-    L = 10 ** (-2.90 + 0.63 * Mw)  # km, length of fault
-    W = 10**(0.39 + 0.74 * np.log10(L))  # km, width of fault
-    Wproj = W * cos(theta)  # find the projected width of the fault
-    deld = 0.5 * W * sin(theta)  # find the change in depth from the center to the top/bottom of the fault
+    if mech == 'int':  # Table 2, interfrace rupture
+        L = 10 ** (-2.90 + 0.63 * Mw)  # km, length of fault
+        WL = 10**(0.39 + 0.74 * np.log10(L))  # km, width of fault
+        W1 = 10**(-0.86 + 0.35*Mw)
+        W = 10**(-1.91 + 0.48*Mw)  # W2
+        Wproj = W * cos(theta)  # find the projected width of the fault
+        deld = 0.5 * W * sin(theta)  # find the change in depth from the center to the top/bottom of the fault
+    elif mech == 'ss':  # Table 5, strike slip rupture
+        L = 10 ** (-2.81 + 0.63 * Mw)  # km, length of fault
+        W_L = 10 ** (-0.22 + 0.74 * np.log10(L))  # km, width of fault
+        W = 10**(-1.39 + 0.35*Mw)
+        Wproj = W * cos(theta)  # find the projected width of the fault
+        deld = 0.5 * W * sin(theta)  # find the change in depth from the center to the top/bottom of the fault
+    elif mech == 'r':  # Table 2 in drive? reverse fault
+        L = 10 ** (-2.693 + 0.614 * Mw)  # km, length of fault
+        W = 10 ** (-1.669 + 0.435 * Mw)
+        Wproj = W * cos(theta)  # find the projected width of the fault
+        deld = 0.5 * W * sin(theta)  # find the change in depth from the center to the top/bottom of the fault
+    else:
+        L = 1
+        W = 1
+        Wproj = W * cos(theta)
+        deld = 0.5 * W * sin(theta)
+
     print('''Fault Plane Parameters
     Strike: {}
     Dip: {}
@@ -134,17 +156,17 @@ def fixlons(df):
     return df
 
 
-dep = pd.read_csv('Data/alu_slab/alu_slab2_dep_02.23.18.xyz', names=['lon', 'lat', 'depth'])
-dip = pd.read_csv('Data/alu_slab/alu_slab2_dip_02.23.18.xyz', names=['lon', 'lat', 'dip'])
-str = pd.read_csv('Data/alu_slab/alu_slab2_str_02.23.18.xyz', names=['lon', 'lat', 'strike'])
+# dep = pd.read_csv('Data/alu_slab/alu_slab2_dep_02.23.18.xyz', names=['lon', 'lat', 'depth'])
+# dip = pd.read_csv('Data/alu_slab/alu_slab2_dip_02.23.18.xyz', names=['lon', 'lat', 'dip'])
+# str = pd.read_csv('Data/alu_slab/alu_slab2_str_02.23.18.xyz', names=['lon', 'lat', 'strike'])
 contours_20_1 = pd.read_csv('Data/alu_slab/contour20_1', names=['lon', 'lat', 'depth'])
 contours_20_2 = pd.read_csv('Data/alu_slab/contour20_2', names=['lon', 'lat', 'depth'])
 contours_20_3 = pd.read_csv('Data/alu_slab/contour20_3', names=['lon', 'lat', 'depth'])
 
-data = pd.concat([dep, dip['dip'], str['strike']], axis=1)
+# data = pd.concat([dep, dip['dip'], str['strike']], axis=1)
 
 # Clean up data
-data = data.dropna()  # drop nan's
+# data = data.dropna()  # drop nan's
 # Saves data as a text file
 # np.savetxt('Data/alu_slab_data.csv', data.values, fmt='%.4f', delimiter=',')
 # Converts positve lon data above 180 into negative western notation
@@ -173,43 +195,252 @@ data = data.dropna()  # drop nan's
 #     i += 1
 # plt.show()
 
-# title = r"Slab 2 mapping"
-# coast_border = "a/0.5p,brown"
-# shorelines = "0.3p,black"
+alu_hypocenters = pd.read_csv('Data/Southern Alaska Coast/ALU_hypocenters.txt', delimiter='\t', names=['lon', 'lat', 'depth', 'dip', 'strike'])
+alu_hypocenters = fixlons(alu_hypocenters)
+qcf_hypocenters = pd.read_csv('Data/Southern Alaska Coast/QCF_hypocenters.txt', delimiter='\t', names=['lon', 'lat', 'depth', 'dip', 'strike'])
+cse_hypocenters = pd.read_csv('Data/Southern Alaska Coast/CSE_hypocenters.txt', delimiter='\t', names=['lon', 'lat', 'depth', 'dip', 'strike'])
+
+#region Create Shakemap Folders
+# Chugach St. Elias Thrust
+for index, row in cse_hypocenters.iterrows():
+    p = createPlane(row['lon'], row['lat'], 8.3, row['depth'], row['strike'], row['dip'], 'r')
+    name = f'CSE{index}'
+    lat = row['lat']
+    lon = row['lon']
+    d = row['depth']
+    path1 = f'Data/Southern Alaska Coast/Shakemap Folders/{name}'
+    path2 = f'{path1}/current'
+    if not os.path.exists(path1):
+        os.mkdir(path1)
+    if not os.path.exists(path2):
+        os.mkdir(path2)
+    with open(f'{path2}/event.xml', 'w') as f:  # event file
+        f.write(f'<earthquake id="COASTALSCENARIOS" netid="ak" network="Alaska Earthquake Center" lat="{lat}" '
+                f'lon="{lon}" depth="{d}" mag="8.3" time="2022-03-28T21:29:29Z" '
+                f'locstring="Chugach St. Elias Thrust" event_type="SCENARIO"/>')
+    with open(f'{path2}/rupture.json', 'w') as f:  # rupture file
+        f.write(f'{{"metadata": {{"id": "COASTALSCENARIOS", "netid": "ak", "network": "Alaska Earthquake Center", '
+                f'"lat": {lat}, "lon": {lon}, "depth": {d}, "mag": 8.3, "time": "2022-03-28T21:29:29.000000Z", '
+                f'"locstring": "Chugach St. Elias Thrust", "reference": "Fozkos 2022", "mech": "ALL", "rake": 0.0, '
+                f'"productcode": "COASTALSCENARIOS"}}, "features": [{{"geometry": {{"coordinates": '
+                f'[[[[{p[5][0]}, {p[5][1]}, {p[5][2]}], [{p[3][0]}, {p[3][1]}, {p[3][2]}], [{p[1][0]}, {p[1][1]}, {p[1][2]}], '
+                f'[{p[7][0]}, {p[7][1]}, {p[7][2]}], [{p[5][0]}, {p[5][1]}, {p[5][2]}]]]], "type": "MultiPolygon"}}, '
+                f'"properties": {{"rupture type": "rupture extent"}}, "type": "Feature"}}], '
+                f'"type": "FeatureCollection"}}')
+# Aleutian Subduction Zone
+for index, row in alu_hypocenters.iterrows():
+    p = createPlane(row['lon'], row['lat'], 8.3, row['depth'], row['strike'], row['dip'], 'int')
+    name = f'ALU{index}'
+    lat = row['lat']
+    lon = row['lon']
+    d = row['depth']
+    path1 = f'Data/Southern Alaska Coast/Shakemap Folders/{name}'
+    path2 = f'{path1}/current'
+    if not os.path.exists(path1):
+        os.mkdir(path1)
+    if not os.path.exists(path2):
+        os.mkdir(path2)
+    with open(f'{path2}/event.xml', 'w') as f:  # event file
+        f.write(f'<earthquake id="COASTALSCENARIOS" netid="ak" network="Alaska Earthquake Center" lat="{lat}" '
+                f'lon="{lon}" depth="{d}" mag="8.3" time="2022-03-28T21:29:29Z" '
+                f'locstring="Aleutian Subduction Zone" event_type="SCENARIO"/>')
+    with open(f'{path2}/rupture.json', 'w') as f:  # rupture file
+        f.write(f'{{"metadata": {{"id": "COASTALSCENARIOS", "netid": "ak", "network": "Alaska Earthquake Center", '
+                f'"lat": {lat}, "lon": {lon}, "depth": {d}, "mag": 8.3, "time": "2022-03-28T21:29:29.000000Z", '
+                f'"locstring": "Aleutian Subduction Zone", "reference": "Fozkos 2022", "mech": "ALL", "rake": 0.0, '
+                f'"productcode": "COASTALSCENARIOS"}}, "features": [{{"geometry": {{"coordinates": '
+                f'[[[[{p[5][0]}, {p[5][1]}, {p[5][2]}], [{p[3][0]}, {p[3][1]}, {p[3][2]}], [{p[1][0]}, {p[1][1]}, {p[1][2]}], '
+                f'[{p[7][0]}, {p[7][1]}, {p[7][2]}], [{p[5][0]}, {p[5][1]}, {p[5][2]}]]]], "type": "MultiPolygon"}}, '
+                f'"properties": {{"rupture type": "rupture extent"}}, "type": "Feature"}}], '
+                f'"type": "FeatureCollection"}}')
+# Queen Charlotte Fairweather Fault
+for index, row in qcf_hypocenters.iterrows():
+    p = createPlane(row['lon'], row['lat'], 8.3, row['depth'], row['strike'], row['dip'], 'ss')
+    name = f'QCF{index}'
+    lat = row['lat']
+    lon = row['lon']
+    d = row['depth']
+    path1 = f'Data/Southern Alaska Coast/Shakemap Folders/{name}'
+    path2 = f'{path1}/current'
+    if not os.path.exists(path1):
+        os.mkdir(path1)
+    if not os.path.exists(path2):
+        os.mkdir(path2)
+    with open(f'{path2}/event.xml', 'w') as f:  # event file
+        f.write(f'<earthquake id="COASTALSCENARIOS" netid="ak" network="Alaska Earthquake Center" lat="{lat}" '
+                f'lon="{lon}" depth="{d}" mag="8.3" time="2022-03-28T21:29:29Z" '
+                f'locstring="Queen Charlotte Fairweather Fault" event_type="SCENARIO"/>')
+    with open(f'{path2}/rupture.json', 'w') as f:  # rupture file
+        f.write(f'{{"metadata": {{"id": "COASTALSCENARIOS", "netid": "ak", "network": "Alaska Earthquake Center", '
+                f'"lat": {lat}, "lon": {lon}, "depth": {d}, "mag": 8.3, "time": "2022-03-28T21:29:29.000000Z", '
+                f'"locstring": "Queen Charlotte Fairweather Fault", "reference": "Fozkos 2022", "mech": "ALL", "rake": 0.0, '
+                f'"productcode": "COASTALSCENARIOS"}}, "features": [{{"geometry": {{"coordinates": '
+                f'[[[[{p[5][0]}, {p[5][1]}, {p[5][2]}], [{p[3][0]}, {p[3][1]}, {p[3][2]}], [{p[1][0]}, {p[1][1]}, {p[1][2]}], '
+                f'[{p[7][0]}, {p[7][1]}, {p[7][2]}], [{p[5][0]}, {p[5][1]}, {p[5][2]}]]]], "type": "MultiPolygon"}}, '
+                f'"properties": {{"rupture type": "rupture extent"}}, "type": "Feature"}}], '
+                f'"type": "FeatureCollection"}}')
+#endregion
+
+#region Create Geometry files
+# print(alu_hypocenters.info())
+# planes = {}
+# with open('Data/AncScenarioGrids/ALU_geometries.txt', 'w') as w:
+#     w.write("Lon, Lat, Depth\n")
+#     for index, row in alu_hypocenters.iterrows():
+#         p = createPlane(row['lon'], row['lat'], 8.3, row['depth'], row['strike'], row['dip'], 'int')
+#         planes[index] = p
+#         corners = [p[5], p[3], p[1], p[7]]
+#         w.write("Alu Index {}\nCenter: [{:.2f}, {:.2f}, {:.4f}]\n".format(index+1, *p[0]))
+#         w.write("Strike: {}\nDip: {}\n".format(row['strike'], row['dip']))
+#         for corner in corners:
+#             w.write("[{:.2f}, {:.2f}, {:.4f}]\n".format(*corner))
+#         for corner in corners:
+#             w.write("[{:.2f}, {:.2f}, {:.4f}], ".format(*corner))
+#         w.write("[{:.2f}, {:.2f}, {:.4f}]\n".format(*p[5]))
+#         w.write("\n")
+
+# planes = {}
+# with open('Data/AncScenarioGrids/QCF_geometries.txt', 'w') as w:
+#     w.write("Lon, Lat, Depth\n")
+#     for index, row in qcf_hypocenters.iterrows():
+#         p = createPlane(row['lon'], row['lat'], 8.3, row['depth'], row['strike'], row['dip'], 'ss')
+#         planes[index] = p
+#         corners = [p[5], p[3], p[1], p[7]]
+#         w.write("QCF Index {}\nCenter: [{:.2f}, {:.2f}, {:.4f}]\n".format(index+1, *p[0]))
+#         w.write("Strike: {}\nDip: {}\n".format(row['strike'], row['dip']))
+#         for corner in corners:
+#             w.write("[{:.2f}, {:.2f}, {:.4f}]\n".format(*corner))
+#         for corner in corners:
+#             w.write("[{:.2f}, {:.2f}, {:.4f}], ".format(*corner))
+#         w.write("[{:.2f}, {:.2f}, {:.4f}]\n".format(*p[5]))
+#         w.write("\n")
+
+# planes = {}
+# with open('Data/AncScenarioGrids/CSE_geometries.txt', 'w') as w:
+#     w.write("Lon, Lat, Depth\n")
+#     for index, row in cse_hypocenters.iterrows():
+#         p = createPlane(row['lon'], row['lat'], 8.3, row['depth'], row['strike'], row['dip'], 'r')
+#         planes[index] = p
+#         corners = [p[5], p[3], p[1], p[7]]
+#         w.write("CSE Index {}\nCenter: [{:.2f}, {:.2f}, {:.4f}]\n".format(index+1, *p[0]))
+#         w.write("Strike: {}\nDip: {}\n".format(row['strike'], row['dip']))
+#         for corner in corners:
+#             w.write("[{:.2f}, {:.2f}, {:.4f}]\n".format(*corner))
+#         for corner in corners:
+#             w.write("[{:.2f}, {:.2f}, {:.4f}], ".format(*corner))
+#         w.write("[{:.2f}, {:.2f}, {:.4f}]\n".format(*p[5]))
+#         w.write("\n")
+#endregion
+
+#region Create PyGMT map of scenarios
+# title = r"Alaska Southern Coast Scenarios"
+# coast_border = "a/0.25p,black"
+# shorelines = "0.15p,black"
 # fig = pygmt.Figure()
 # # fig.basemap(region=[160, 240, 40, 75], projection='M15c', frame=True)
-# fig.basemap(region='180/49/240/62+r', projection='M15c', frame=["af", f'WSne+t"{title}"'])
-# fig.coast(shorelines=shorelines, borders=coast_border, water='skyblue', land='lightgray')  # draw coast over datawater='skyblue'
+# fig.basemap(region='195/50/235/66.5+r', projection='M15c', frame=["af", f'WSne+t"{title}"'])
+# fig.coast(shorelines=shorelines, borders=coast_border, water='lightsteelblue1', land='gainsboro')  # draw coast over datawater='skyblue'
 #
-# # fig.plot(  # Plot seismic stations as triangles
-# #     x=uf.ActiveBBs['lon'],
-# #     y=uf.ActiveBBs['lat'],
-# #     style='t+0.3c',
-# #     color='white',
-# #     pen='black',
-# # )
-# fig.grdimage(
-#     grid='Data/alu_slab/alu_slab2_dip_02.23.18.grd'
+# fig.plot(  # Plot seismic stations as triangles
+#     x=uf.ActiveBBs['lon'],
+#     y=uf.ActiveBBs['lat'],
+#     style='t+0.1c',
+#     color='white',
+#     pen='0.1p,black',
 # )
+# # fig.grdimage(
+# #     grid='Data/alu_slab/alu_slab2_dip_02.23.18.grd'
+# # )
+# fig.plot(
+#     x=contours_20_1['lon'],
+#     y=contours_20_1['lat'],
+#     pen='0.75p,firebrick',
+# )
+# fig.plot(
+#     x=contours_20_2['lon'],
+#     y=contours_20_2['lat'],
+#     pen='0.75p,firebrick',
+# )
+# fig.plot(
+#     x=contours_20_3['lon'],
+#     y=contours_20_3['lat'],
+#     pen='0.75p,firebrick',
+# )
+#
+# planes = {}
+# for index, row in alu_hypocenters.iterrows():
+#     p = createPlane(row['lon'], row['lat'], 8.3, row['depth'], row['strike'], row['dip'], 'int')
+#     planes[index] = p
+#     fig.plot(
+#         x=[p[1][0], p[3][0], p[5][0], p[7][0], p[1][0]],
+#         y=[p[1][1], p[3][1], p[5][1], p[7][1], p[1][1]],
+#         color='red',
+#         transparency='75',
+#         pen='1p,gray'
+#     )
+#     fig.plot(
+#         x=p[0][0],
+#         y=p[0][1],
+#         style='a0.7c',
+#         color='white',
+#         pen='0.25p,red'
+#     )
+#     fig.plot(
+#         x=p[0][0],
+#         y=p[0][1],
+#         style=f'l0.25c+t"{index}"',
+#         color='black'
+#     )
+#
+# planes = {}
+# for index, row in cse_hypocenters.iterrows():
+#     p = createPlane(row['lon'], row['lat'], 8.3, row['depth'], row['strike'], row['dip'], 'r')
+#     planes[index] = p
+#     fig.plot(
+#         x=[p[1][0], p[3][0], p[5][0], p[7][0], p[1][0]],
+#         y=[p[1][1], p[3][1], p[5][1], p[7][1], p[1][1]],
+#         color='purple',
+#         transparency='75',
+#         pen='1p,gray'
+#     )
+#     fig.plot(
+#         x=p[0][0],
+#         y=p[0][1],
+#         style='a0.7c',
+#         color='white',
+#         pen='0.25p,purple'
+#     )
+#     fig.plot(
+#         x=p[0][0],
+#         y=p[0][1],
+#         style=f'l0.25c+t"{index}"',
+#         color='black'
+#     )
+#
+# planes = {}
+# for index, row in qcf_hypocenters.iterrows():
+#     p = createPlane(row['lon'], row['lat'], 8.3, row['depth'], row['strike'], row['dip'], 'ss')
+#     planes[index] = p
+#     fig.plot(
+#         x=[p[1][0], p[3][0], p[5][0], p[7][0], p[1][0]],
+#         y=[p[1][1], p[3][1], p[5][1], p[7][1], p[1][1]],
+#         color='green',
+#         transparency='25',
+#         pen='1p,green'
+#     )
+#     fig.plot(
+#         x=p[0][0],
+#         y=p[0][1],
+#         style='a0.7c',
+#         color='white',
+#         pen='0.25p,green'
+#     )
+#     fig.plot(
+#         x=p[0][0],
+#         y=p[0][1],
+#         style=f'l0.25c+t"{index}"',
+#         color='black'
+#     )
+#
 # fig.savefig('Figures/misc/PyGMTMap.png')
-
-hypocenters = pd.read_csv('Data/alu_slab/Hypocenters.txt', delimiter='\t', names=['lon', 'lat', 'depth', 'dip', 'strike'])
-hypocenters = fixlons(hypocenters)
-print(hypocenters.info())
-planes = {}
-
-with open('Data/alu_slab/Alu_geometries.txt', 'w') as w:
-    w.write("Lon, Lat, Depth\n")
-    for index, row in hypocenters.iterrows():
-        p = createPlane(row['lon'], row['lat'], 8.3, row['depth'], row['strike'], row['dip'])
-        planes[index] = p
-        corners = [p[5], p[3], p[1], p[7]]
-        w.write("Alu Index {}\nCenter: [{:.2f}, {:.2f}, {:.4f}]\n".format(index+1, *p[0]))
-        w.write("Strike: {}\nDip: {}\n".format(row['strike'], row['dip']))
-        for corner in corners:
-            w.write("[{:.2f}, {:.2f}, {:.4f}]\n".format(*corner))
-        for corner in corners:
-            w.write("[{:.2f}, {:.2f}, {:.4f}], ".format(*corner))
-        w.write("[{:.2f}, {:.2f}, {:.4f}]\n".format(*p[5]))
-        w.write("\n")
-
+#endregion
