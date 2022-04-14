@@ -504,5 +504,5 @@ for index, row in qcf_hypocenters.iterrows():
         color='black'
     )
 
-fig.savefig('Figures/CoastalScenarios/ScenarioMap.png')
+fig.savefig('Figures/CoastalScenarios/ScenarioMap.pdf')
 #endregion

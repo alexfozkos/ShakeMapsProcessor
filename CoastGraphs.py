@@ -28,20 +28,23 @@ fig, ax = plt.subplots(3, 5, figsize=(14, 8))
 
 n = 0
 for name, data in comm_dict.items():
-    wt, = ax[n // 5, n % 5].plot(data['wt'], marker='o', markersize=0.5, lw=0.3, c='k', ls='--', label='Warning time (s)')
+    # wt, = ax[n // 5, n % 5].plot(range(1, 26), data['wt'], marker='o', markersize=0.5, lw=1, c='k', ls='--', label='Warning time (s)')
+    ax[n // 5, n % 5].plot(range(1, 26), data['wt'], marker='v', markersize=2, lw=1, c='k', ls='--', label='Warning time (s)')
+    ax[n // 5, n % 5].scatter(range(1, 26), data['wt'], s=40, marker='o', c=data['mmi'], cmap='cool', ls='--', label='Warning time (s)')
     ax[n // 5, n % 5].set_ylabel('Warning Time (s)')
     ax[n // 5, n % 5].set_title(name)
-    ax2 = ax[n // 5, n % 5].twinx()
-    pga, = ax2.plot(data['pga'], marker='o', c='r', label='PGA (%g)', markersize=0.5, lw=0.3)
-    ax2.set_ylabel('PGA (%g)', c='r')
-    ax2.set_yscale('log')
+    # ax2 = ax[n // 5, n % 5].twinx()
+    # pga, = ax2.plot(data['pga'], marker='o', c='r', label='PGA (%g)', markersize=0.5, lw=0.3)
+    # ax2.set_ylabel('PGA (%g)', c='r')
+    # ax2.set_yscale('log')
 
     # ax[n // 5, n % 5].legend(handles=[wt, pga])
     n += 1
 
+# plt.colorbar()
 plt.suptitle('Community Scenario Data')
 plt.tight_layout(rect=[0, 0, 1, 0.98])
-plt.show()
+plt.savefig('Figures/CoastalScenarios/Community Data colored markers.png')
 
 
 # fig, ax1 = plt.subplots()
