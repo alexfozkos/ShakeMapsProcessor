@@ -46,7 +46,7 @@ def createPolygon(colx, coly, n=250, invert=True, xscale='log', step=0.1):
         topbot = np.array([[np.max(y_slice)], [np.min(y_slice)]])
         maxmins = np.hstack((maxmins, topbot))
         if xscale == 'lin':
-            midway = (x_space[i] + x_space[i + 1]) / 2
+            midway = (x_space[i] + x_space[i + 1]) / 1.985
         elif xscale == 'log':
             midway = np.exp((np.log(x_space[i]) + np.log(x_space[i + 1])) / 2)
         x_mids = np.append(x_mids, midway)

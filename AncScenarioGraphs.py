@@ -8,17 +8,17 @@ from matplotlib import pyplot as plt
 
 plt.rcParams.update({'font.size': 16})
 
-# anc_05 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid05.xml')
+anc_05 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid05.xml')
 # anc_10 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid10.xml')
 # anc_20 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid20.xml')
 # anc_25 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid25.xml')
 # anc_30 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid30.xml')
 # anc_40 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid40.xml')
-# anc_50 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid50.xml')
+anc_50 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid50.xml')
 # anc_75 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid75.xml')
 # anc_100 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid100.xml')
 # anc_125 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid125.xml')
-# anc_150 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid150.xml')
+anc_150 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid150.xml')
 # anc_175 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid175.xml')
 # anc_200 = uf.Earthquake('Data/AncScenarioGrids/Manual/grid200.xml')
 
@@ -97,8 +97,8 @@ def pgaVsDistComparison(eqlist, names, title='Default Name', xlabel='Epicentral 
     plt.savefig('Figures/AncScenario/' + title + '.png')
 
 
-# eqlist_mini = [anc_05, anc_50, anc_150]
-# eqlabels_mini = ['5 km', '50 km', '150 km']
+eqlist_mini = [anc_05, anc_50, anc_150]
+eqlabels_mini = ['5 km', '50 km', '150 km']
 # eqlist = [anc_05, anc_25, anc_50, anc_75, anc_100, anc_125, anc_150]
 # depths = [5, 25, 50, 75, 100, 125, 150]
 # eqlist_long = [anc_05, anc_10, anc_20, anc_30, anc_40, anc_50, anc_75, anc_100, anc_125, anc_150, anc_175, anc_200]
@@ -107,16 +107,18 @@ def pgaVsDistComparison(eqlist, names, title='Default Name', xlabel='Epicentral 
 #                     colors=['r','g','b'])
 
 
-colors = ['r', 'g', 'b']
-plt.figure()
-plt.scatter(anc_true.pga, anc_true.warning_times_s, c='rebeccapurple', s=1)
-plt.xlabel('PGA (%g)')
+# colors = ['r', 'g', 'b']
+plt.figure(figsize=(8, 6))
+plt.scatter(anc_true.mmi, anc_true.warning_times_s, c='rebeccapurple', s=10)
+plt.xlabel('MMI')
 plt.ylabel('Warning Time (s)')
 plt.axhline(0, c='k')
-plt.xlim(100, 0.1)
-plt.xscale('log')
-plt.ylim(top=60)
-plt.title('Warning Time vs PGA')
+plt.xlim(2.5, 8)
+# plt.xscale('log')
+plt.ylim(bottom=-15, top=120)
+plt.title('Anchorage 2018: Warning Time vs MMI')
+# plt.tight_layout(rect=(0, 0, 1, 0.99))
+plt.savefig('Figures/AncScenario/Anchorage 2018 WT vs MMI.png', dpi=400)
 plt.show()
 
 # fig, ax = plt.subplots(figsize=(12, 12))
@@ -139,7 +141,7 @@ plt.show()
 # region PGA vs Epicentral Distance with polygons!!
 # colors = ['r', 'g', 'b']
 # fig, ax = plt.subplots(figsize=(12, 12))
-# fig.suptitle('PGA vs Distance for 3 Different Source Depths')
+# fig.suptitle('Warning Time vs MMI for 3 Different Source Depths')
 # # for j in np.linspace(-10, 110, num=13):
 # #     ax.axhline(j, c='silver', lw=0.5)
 # for i in range(len(eqlist_mini)):
@@ -164,53 +166,77 @@ plt.show()
 # region Warning Time vs PGA at different depths
 # colors = ['r', 'g', 'b']
 # fig, ax = plt.subplots(3,figsize=(8,12))
-# fig.suptitle('Warning Time vs PGA at 5, 50, and 150 km depth')
+# fig.suptitle('Warning Time vs MMI at 5, 50, and 150 km depth')
 # for i in range(len(eqlist_mini)):
 #     eq = eqlist_mini[i]
 #     for j in np.linspace(-10, 110, num=13):
 #         ax[i].axhline(j, c='silver', lw=0.5)
-#     x, y = uf.createPolygon(eq.pga, eq.warning_times_s)
+#     x, y = uf.createPolygon(eq.mmi, eq.warning_times_s, xscale='lin', step=0.1)
 #     # ax[i].scatter(eq.pga, eq.warning_times_s, s=1, c=colors[i])
 #     # ax[i].plot(x, y, c=colors[i], alpha=0.6)
 #     ax[i].fill(x, y, c=colors[i], alpha=0.5)
-#     ax[i].set_xscale('log')
-#     ax[i].invert_xaxis()
-#     ax[i].set_xlim(100, 0.1)
+#     # ax[i].set_xscale('log')
+#     # ax[i].invert_xaxis()
+#     ax[i].set_xlim(0, 8)
 #     ax[i].set_ylim(-15, 120)
 #     ax[i].set_title('Source Depth: {}'.format(eqlabels_mini[i]))
-#     ax[i].set_xlabel('PGA (%g)')
+#     ax[i].set_xlabel('MMI')
 #     ax[i].set_ylabel('Warning Time (s)')
 #     ax[i].axhline(0, c='k', lw=1)
 # plt.tight_layout(rect=(0, 0, 1, 0.97))
-# plt.savefig('Figures/AncScenario/Warning Time vs PGA at 3 depths (polygons).png')
+# plt.savefig('Figures/AncScenario/Warning Time vs MMI at 3 depths (polygons).png')
 # plt.show()
 # endregion
 
 # region Warning Time vs PGA at different depths but with transparent polygons!!!
-# colors = ['r', 'g', 'b']
-# fig, ax = plt.subplots(figsize=(12, 12))
-# fig.suptitle('Warning Time vs PGA for 5, 50, and 150 km Source Depths')
-# for j in np.linspace(-10, 110, num=13):
-#     ax.axhline(j, c='silver', lw=0.5)
-# for i in range(len(eqlist_mini)):
-#     eq = eqlist_mini[i]
-#     x, y = uf.createPolygon(eq.pga, eq.warning_times_s)
-#     # ax[i].scatter(eq.pga, eq.warning_times_s, s=1, c=colors[i])
-#     # ax[i].plot(x, y, c=colors[i], alpha=0.6)
-#     ax.fill(x, y, c=colors[i], alpha=0.5, label=eqlabels_mini[i])
-# ax.axhline(0, c='k', lw=1)
+colors = ['r', 'g', 'b']
+fig, ax = plt.subplots(figsize=(8, 6))
+fig.suptitle('Depth Tests: Warning Time vs MMI')
+for j in np.linspace(-10, 110, num=13):
+    ax.axhline(j, c='silver', lw=0.5)
+for i in range(len(eqlist_mini)):
+    eq = eqlist_mini[i]
+    x, y = uf.createPolygon(eq.mmi, eq.warning_times_s, xscale='lin')
+    # ax[i].scatter(eq.pga, eq.warning_times_s, s=1, c=colors[i])
+    # ax[i].plot(x, y, c=colors[i], alpha=0.6)
+    ax.fill(x, y, c=colors[i], alpha=0.5, label=eqlabels_mini[i])
+ax.axhline(0, c='k', lw=1)
 # ax.set_xscale('log')
 # ax.invert_xaxis()
-# ax.set_xlim(100, 0.1)
-# ax.set_ylim(-15, 120)
-# ax.set_xlabel('PGA (%g)')
-# ax.set_ylabel('Warning Time (s)')
-# plt.legend(loc='upper left')
-# plt.tight_layout(rect=(0, 0, 1, 0.97))
-# plt.savefig('Figures/AncScenario/Warning Time vs PGA at 3 depths (polygons).png')
-# plt.show()
+ax.set_xlim(2.5, 8)
+ax.set_ylim(-15, 120)
+ax.set_xlabel('MMI')
+ax.set_ylabel('Warning Time (s)')
+plt.legend(loc='upper right')
+# plt.tight_layout(rect=(0, 0, 1, 0.99))
+plt.savefig('Figures/AncScenario/Warning Time vs MMI at 3 depths (polygons).png')
+plt.show()
 # endregion
 
+# region Warning Time vs MMI at different depths
+colors = ['r', 'g', 'b']
+fig, ax = plt.subplots(figsize=(8, 6))
+fig.suptitle('Depth Tests: Warning Time vs MMI')
+for j in np.linspace(-10, 110, num=13):
+    ax.axhline(j, c='silver', lw=0.5)
+for i in range(len(eqlist_mini)):
+    eq = eqlist_mini[i]
+    x, y = uf.createPolygon(eq.mmi, eq.warning_times_s, xscale='lin')
+    ax.scatter(eq.mmi, eq.warning_times_s, s=1, c=colors[i])
+    ax.plot(x, y, c=colors[i], alpha=0.6)
+    # ax.fill(x, y, c=colors[i], alpha=0.5, label=eqlabels_mini[i])
+ax.axhline(0, c='k', lw=1)
+# ax.set_xscale('log')
+# ax.invert_xaxis()
+ax.set_xlim(2.5, 8)
+ax.set_ylim(-15, 120)
+ax.set_xlabel('MMI')
+ax.set_ylabel('Warning Time (s)')
+plt.legend(loc='upper right')
+plt.tight_layout(rect=(0, 0, 1, 0.97))
+plt.savefig('Figures/AncScenario/Warning Time vs MMI at 3 depths')
+plt.show()
+# endregion
 
 # region Warning time Vs Source depth
 # # get all points between a and b distance away (a ring around epicenter)

@@ -56,10 +56,10 @@ for label, eq in eq_dict.items():
         city['pga'].append(eq.pga[city['index'], 0])
         if 'pgv' not in city:
             city['pgv'] = []
-        city['pgv'].append(eq.pga[city['index'], 0])
+        city['pgv'].append(eq.pgv[city['index'], 0])
         if 'mmi' not in city:
             city['mmi'] = []
-        city['mmi'].append(eq.pga[city['index'], 0])
+        city['mmi'].append(eq.mmi[city['index'], 0])
 
 
 with open('Data/Southern Alaska Coast/Community Data.json', 'w') as outfile:
