@@ -1,0 +1,555 @@
+ILBB     64.7714 -146.8865    0.3873 EIELSON_ALASKA_ARRAY_ELEMENT                      
+AKUT     54.1352 -165.7719    0.0192 Akutan, Alaska                                    
+CHGN     56.3014 -158.4142    0.0170 Chignik, Alaska                                   
+CRAG     55.4689 -133.1230    0.0579 Craig, Alaska                                     
+MENT     62.9380 -143.7194    0.7020 Mentasta, Alaska                                  
+MID      59.4278 -146.3388    0.0370 Middleton Island, Alaska                          
+OHAK     57.2225 -153.2875    0.0775 Old Harbor, Alaska                                
+PMR      61.5922 -149.1308    0.1000 Palmer, Alaska                                    
+SDPT     55.3493 -160.4766    0.0740 Sand Point, Alaska                                
+SIT      57.0569 -135.3244    0.0190 Sitka, Alaska                                     
+SKAG     59.4601 -135.3290    0.1340 Skagway, Alaska                                   
+SMY      52.7308  174.1031    0.0580 Shemya, Alaska                                    
+SVW2     61.1082 -155.6217    0.4988 Sparrevohn, Alaska                                
+TTA      62.9301 -156.0116    0.9900 Tatalina, Alaska                                  
+YKU2     59.5121 -139.6710    0.0101 Yakutat, Alaska                                   
+ACH      58.2100 -155.3281    0.9600 Angle Creek Headwaters, Katmai, Alaska            
+ADAG     51.9800 -176.6001    0.2810 Mount Adagdak, Regional Station, Alaska           
+AHB      54.1144 -165.8177    0.4470 Akutan Harbor, Akutan Volcano, Alaska             
+AKBB     54.0975 -165.9338    0.3100 Akutan Broiad Bright, Akutan Volcano, Alaska      
+AKGG     54.1979 -165.9936    0.3260 Akutan Green Grass, Akutan Volcano, AK            
+AKHS     54.1533 -165.8868    0.1500 Akutan Broiad Bright, Akutan Volcano, Alaska      
+AKLV     54.1618 -165.9576    0.5510 Akutan Long Valley, Akutan Volcano, Alaska        
+AKMO     54.0903 -166.0126    0.2770 Akutan Morgan, Akutan Volcano, Alaska             
+AKRB     54.1292 -166.0708    0.3340 Akutan Reef Bight, Akutan Volcano, Alaska         
+AKS      54.1095 -165.6987    0.2130 Akutan Strait, Akutan Volcano, Alaska             
+AKT      54.1349 -165.7720    0.0120 Akutan, Akutan Volcano, Alaska                    
+AKV      54.1253 -165.9647    0.8630 Akutan Volcano, Akutan Volcano, Alaska            
+AMKA     51.3787  179.3018    0.1002 Amchitka Island, Regional Station, Alaska         
+ANCK     58.1981 -155.4961    0.8690 Angle Creek, Katmai Volcanic Cluster, Alaska      
+AU22     59.3702 -153.3573    0.1050 Augustine Mound, Augustine Volcano, Alaska        
+AUCH     59.3626 -153.4447    0.9160 Augustine Cone H, Augustine Volcano, Alaska       
+AUJA     59.3395 -153.4227    0.3760 Augustine Junction, Augustine Volcano, Alaska     
+AUJK     59.3493 -153.4106    0.3770 Augustine Jurgen Kienle, Cook Inlet, Alaska       
+AUL      59.3816 -153.4379    0.3600 Lava Flow, Augustine Volcano, Alaska              
+AULG     59.3773 -153.5193    0.0050 Augustine Lagoon, Augustine Island, Alaska        
+AUNO     59.4041 -153.4513    0.0890 Augustine North, Augustine Island, Alaska         
+AUQ      59.3549 -153.4143    0.6470 Augustine Qik'rtamen, Augustine Volcano, Alaska   
+AUSB     59.3330 -153.4284    0.2300 Augustine South Buttress, Augustine Volcano, Alask
+AUSS     59.3589 -153.4309    1.2350 Augustine Summit Station, Augustine Volcano, Alask
+AUW      59.3694 -153.4730    0.2760 Augustine West, Cook Inlet, Alaska                
+AUWS     59.3585 -153.4608    0.4870 Augustine Summit Station, Augustine Volcano, Alask
+BOGO     53.9291 -168.0347    0.0050 Bogoslof, Bogoslof Volcano, Alaska                
+BRPK     54.6446 -163.7428    0.3930 Brown Peak, Shishaldin Volcano, Alaska            
+CAHL     58.0518 -155.3036    0.8070 Cahill, Katmai, Alaska                            
+CEAP     52.0012  179.5758    0.2440 Anvil Peak, Cerberus Volcano, Alaska              
+CEPE     51.9646  179.6472    0.3350 Perret Ridge, Cerberus Volcano, Alaska            
+CERA     51.9058  179.6826    0.3050 Ragged Top, Cerberus Volcano, Alaska              
+CERB     51.9302  179.6277    0.3050 Cerberus Volcano, Cerberus Volcano, Alaska        
+CESW     51.8998  179.5613    0.2380 Southwest, Cerberus Volcano, Alaska               
+CETU     51.9649  179.4922    0.3350 Tuman Head, Cerberus Volcano, Alaska              
+CLCO     52.7866 -169.7229    0.1370 Concord Point, Cleveland Volcano, Alaska          
+CLES     52.8235 -169.8951    0.1460 Cleveland East, Cleveland Volcano, Alaska         
+DEER     54.9713 -162.3244    0.3923 Deer Island, Alaska                               
+DOL      55.1488 -161.8638    0.4390 Dolgoi Island, Mount Dutton, Alaska               
+DT1      55.1062 -162.2801    0.1980 Dutton Round Hill, Mount Dutton, Alaska           
+DTN      55.1448 -162.2590    0.3960 Dutton Volcano, Alaska                            
+ETKA     51.8608 -176.4079    0.2900 Kagalaska Island, Regional Station, Alaska        
+GAEA     51.7819 -178.7488    0.3260 East, Gareloi Volcano, Alaska                     
+GAKI     51.5534 -178.8140    0.0990 Kavalga Island, Gareloi Volcano, Alaska           
+GALA     51.7606 -178.7735    0.3150 Lava Point, Gareloi Volcano, Alaska               
+GANE     51.8178 -178.7787    0.3250 Northeast, Gareloi Volcano, Alaska                
+GANO     51.8192 -178.8058    0.4510 North, Gareloi Volcano, Alaska                    
+GASW     51.7778 -178.8566    0.2480 Southwest, Gareloi Volcano, Alaska                
+GSCK     52.0108 -176.1640    0.3840 Cape Kiugilak, Great Sitkin Volcano, Alaska       
+GSIG     51.9853 -175.9270    0.4070 Igitkin Island, Great Sitkin Volcano, Alaska      
+GSMY     52.0421 -176.0583    0.4180 Middle Yoke Creek, Great Sitkin Volcano, Alaska   
+GSSP     52.0917 -176.1777    0.2950 Saddle Point, Great Sitkin Volcano, Alaska        
+GSTD     52.0548 -176.1468    0.8730 Triple Divide, Great Sitkin Volcano, Alaska       
+GSTR     52.0932 -176.0611    0.5360 Teapot Rock, Great Sitkin Volcano, Alaska         
+ILCB     59.8223 -153.0232    0.7120 Iliamna Volcano, Alaska                           
+ILNE     60.0573 -153.0635    1.6140 Iliamna Northeast, Iliamna, Alaska                
+ILS      59.9570 -153.0703    1.1250 Iliamna South, Iliamna Volcano, Alaska            
+ILSW     59.9832 -153.1425    1.3180 Iliamna Southwest, Iliamna Volcano, Alaska        
+ILW      60.0592 -153.1392    1.6460 Iliamna West, Iliamna Volcano, Alaska             
+ISLZ     54.7249 -163.7129    0.6340 Lazaref River, Shishaldin Volcano, Alaska         
+ISNN     54.8314 -163.7804    0.4660 Isanotski North, Isanotski, Alaska                
+IVE      60.0163 -153.0185    1.1730 Iliamna Volcano East, Cook Inlet, Alaska          
+KAB2     58.1312 -154.9762    0.9080 Katmai Barrier Ridge Two, Alaska                  
+KABU     58.2702 -155.2843    1.0650 KABU - Katmai Volcanic Cluster, Alaska            
+KAHG     58.4933 -154.5484    0.9230 Katmai Hook Glacier, Alaska                       
+KAKN     58.2963 -155.0632    1.0490 KAKN - Katmai Volcanic Cluster, Alaska            
+KAPH     58.5961 -154.3489    0.9070 Katmai Pasha, Alaska                              
+KARR     58.4971 -154.7054    0.6100 Katmai Rainbow River, Alaska                      
+KAVE     58.1978 -155.0234    0.7020 Katnai Ventifact, Alaska                          
+KAWH     58.3830 -154.8013    0.7770 Katmai, Alaska                                    
+KBM      58.2743 -155.2038    0.7320 Katmai Baked Mountain, Alaska                     
+KCE      58.2426 -155.1854    0.7770 Katmai Cerebus, Alaska                            
+KEL      58.4393 -155.7428    0.9750 Katmai Kelez, Alaska                              
+KICM     51.9178 -177.1973    0.1830 Cape Miga, Kanaga Volcano, Alaska                 
+KIKV     51.8777 -177.1724    0.4110 Kanaga Volcano, Kanaga Volcano, Alaska            
+KIMD     51.7605 -177.2369    0.1830 MID Benchmark, Kanaga Volcano, Alaska             
+KINC     51.9303 -177.1296    0.1980 North Cape, Kanaga Volcano, Alaska                
+KIRH     51.8998 -177.0937    0.3210 Round Head, Kanaga Volcano, Alaska                
+KIWB     51.8520 -177.1528    0.2440 Westway Bight, Kanaga Volcano, Alaska             
+KJL      58.0533 -155.5753    0.7920 Kejulik, Katmai, Alaska                           
+KOFP     52.2740 -174.0992    0.6620 Flat Point, Korovin Volcano, Alaska               
+KOKL     52.3221 -174.2022    0.7580 Mount Kliuchef, Korovin Volcano, Alaska           
+KOKV     52.3603 -174.1673    0.7760 Korovin Volcano, Korovin Volcano, Alaska          
+KONE     52.3925 -174.1213    0.2530 Northeast, Korovin Volcano, Alaska                
+KONW     52.3954 -174.2125    0.3340 Northwest, Korovin Volcano, Alaska                
+KOSE     52.3447 -174.0505    0.6250 Southeast, Korovin Volcano, Alaska                
+KOWE     52.3646 -174.2527    0.5270 West, Korovin Volcano, Alaska                     
+KVT      58.3810 -155.2971    0.4570 Katmai Valley of 10,000 Smokes, Alaska            
+LSNW     51.9693  178.5148    0.2900 Northwest, Little Sitkin Volcano, Alaska          
+LSPA     51.9557  178.5714    0.3350 Pratt Point, Little Sitkin Volcano, Alaska        
+LSSA     51.9484  178.5112    0.5490 Saddle, Little Sitkin Volcano, Alaska             
+LSSE     51.9320  178.5670    0.3350 Southeast, Little Sitkin Volcano, Alaska          
+LVA      54.1600 -166.0358    0.4570 Lava Point, Akutan Volcano, Alaska                
+MAPS     53.8082 -166.9407    0.3330 Pakushin Southeast, Makushin Volcano, Alaska      
+MCIR     53.9505 -166.8942    0.8000 Makushin Cirque, Makushin Volcano, Alaska         
+MGLS     58.1336 -155.1629    0.4720 Mageik Landslide, Katmai, Volcanic Group,  Alaska 
+MGOD     53.7938 -166.8780    0.6500 Gods Own Repeater Site, Makushin Volcano, Alaska  
+MNAT     53.8829 -166.6856    0.3900 Nateekin Bay, Makushin  Volcano, Alaska           
+MREP     53.8096 -166.7476    0.7850 Repeater, Makushin Volcano, Alaska                
+MSW      53.9148 -166.7880    0.4230 Switchbacks, Makushin Volcano, Alaska             
+MTBL     53.9680 -166.6813    0.8100 Table Top, Makushin Volcano, Alaska               
+N20K     61.2001 -152.2089    0.9910 Mount Spurr, AK, USA                              
+N25K     61.6061 -144.5982    1.0870 Chitina, Valdez-Cordova, AK, USA                  
+NCT      60.5621 -152.9293    1.1360 North Crescent, Redoubt Volcano, Alaska           
+OKCE     53.4261 -168.1663    0.5160 Cone E, Okmok Caldera, Alaska                     
+OKCF     53.3948 -168.1382    0.6850 Cone F, Okmok Caldera, Alaska                     
+OKFG     53.4108 -167.9114    0.1960 Fort Glenn, Okmok Caldera, Alaska                 
+OKNC     53.4559 -168.1255    0.4040 New Cone D, Okmok Caldera, Alaska                 
+OKNO     53.5134 -168.0980    0.4785 Reindeer Point, Okmok Caldera, Alaska             
+OKSO     53.3565 -168.1619    0.4600 South, Okmok Caldera, Alaska                      
+OKTU     53.3829 -168.0431    0.6460 Mount Tulik, Okmok Caldera, Alaska                
+P18K     59.3922 -155.2292    0.6800 Big Mountain, AK, USA                             
+P19K     59.6524 -153.2319    0.6290 Oil Pt, AK, USA                                   
+PLBL     57.6991 -156.8210    0.4610 Mt. Peulik Volcano, Alaska                        
+PLK1     57.8012 -156.6093    0.0780 Peulik Volcano 1, Alaska                          
+PLK2     57.7634 -156.3264    0.4010 Mt. Peulik Volcano 2, Alaska                      
+PLK3     57.6880 -156.2695    0.4940 Mt. Peulik Volcano 3, Alaska                      
+PLK5     57.9970 -156.8800    0.0490 Mt. Peulik Volcano 5, Alaska                      
+PN7A     55.4329 -161.9973    0.8380 Pavlof North 7A, Pavlof Volcano, Alaska           
+PS1A     55.4201 -161.7437    0.2830 Pavlof South 1A, Pavlof Volcano, Alaska           
+PS4A     55.3460 -161.8567    0.3220 Pavlof South 4A, Pavlof Volcano, Alaska           
+Q17K     58.2637 -155.8865    1.1650 Contact Creek, Katmai, AK, USA                    
+Q18K     58.6484 -155.0086    1.2500 Katmai Hardscrabble Creek, AK, USA                
+Q20K     58.6097 -152.3942    0.1800 Shuyak Island, AK, USA                            
+R17L     57.6313 -156.3599    0.5240 Mt. Peulik Volcano, AVO PLK4, AK, USA             
+RDDF     60.5912 -152.6883    1.1340 Drift River Broadband, Redoubt Volcano, Alaska    
+RDJH     60.5905 -152.8058    1.4140 Redoubt, Jurgen's Hut, Redoubt Alaska             
+RDSO     60.4536 -152.7430    1.5570 Redoubt South, Redoubt Volcano, Alaska            
+RDT      60.5726 -152.4075    0.9300 Redoubt, Alaska                                   
+RDWB     60.4875 -152.8425    1.5460 Redoubt, West Buttress, Redoubt Alaska            
+RED      60.4196 -152.7742    1.0710 Redoubt Volcano, Redoubt Volcano, Alaska          
+REF      60.4888 -152.6940    1.6410 Redoubt East Flank, Redoubt Volcano, Alaska       
+S12K     55.7030 -162.0610    0.4110 Black Hills, AK, USA                              
+S14K     56.2848 -159.5532    1.0590 Fog Glacier, AK, USA                              
+SPBG     61.2591 -152.3722    1.0870 Barrier Glacier, Mount Spurr, Alaska              
+SPBL     61.3764 -151.8947    0.9270 Spurr Beluga Lake, Mount Spur, Alaska             
+SPCG     61.2913 -152.0228    1.3290 Capps Glacier, Mount Spurr, Alaska                
+SPCL     61.1956 -152.3399    1.2740 Chakachamna Lake, Mount Spurr, Alaska             
+SPCN     61.2244 -152.1854    0.7350 Ckakachatna North Broadband, Mount Spurr, Alaska  
+SPCP     61.2655 -152.1550    1.6160 Crater Peak Broadband, Mount Spurr, Alaska        
+SPCR     61.2003 -152.2091    0.9840 Ckakachatna River, Mount Spurr, Alaska            
+SPNN     61.3662 -152.7012    1.6660 North Nagishlamina, Mount Spurr, Alaska           
+SPU      61.1811 -152.0566    0.8000 Mount Spurr, Mount Spurr, Alaska                  
+SPWE     61.2735 -152.5590    1.3170 Spurr West, Mount Spurr, Alaska                   
+SSBA     54.7718 -164.1265    0.7660 Shishaldin Broadband A, Shishldin Volcano, Alaska 
+SSLN     54.8109 -163.9979    0.6370 North, Shishaldin Volcano, Alaska                 
+SSLS     54.7111 -164.0008    0.8170 South, Shishaldin Volcano, Alaska                 
+STLK     61.4982 -151.8349    0.9450 Strandline Lake, Regional Station, Alaska         
+TAFL     51.7555 -177.8998    0.1860 Flats, Tanaga Volcano, Alaska                     
+TAFP     51.8990 -177.9853    0.4400 Falls Point, Tanaga Volcano, Alaska               
+TANO     51.9146 -178.1228    0.2690 North, Tanaga Volcano, Alaska                     
+TAPA     51.8144 -177.8148    0.6400 Point Aries, Tanaga Volcano, Alaska               
+TASE     51.8339 -178.0390    0.6820 Southeast, Tanaga Volcano, Alaska                 
+WACK     61.9858 -144.3305    2.2800 Chichokna Glacier, Wrangell, Alaska               
+WAZA     62.0746 -144.1544    2.5310 Wrangell Zanetti, Alaska                          
+WEBT     54.5902 -164.7550    0.4670 Beartrack Creek, Westdahl Peak, Alaska            
+WECS     54.5300 -164.7796    0.6390 Cape Sarichef, Westdahl Peak, Alaska              
+WESE     54.4723 -164.5860    0.9530 Southeast, Westdahl Peak, Alaska                  
+WESN     54.5761 -164.5804    0.5490 South, Westdahl Peak, Alaska                      
+WESP     54.4926 -164.7233    0.9370 Westdahl Peak, Westdahl Peak, Alaska              
+WTUG     54.8466 -164.3873    0.6360 Tungamak, Westdahl Peak, Alaska                   
+ZRO      54.0907 -165.9800    0.4460 Zero, Akutan Volcano, Alaska                      
+BBB      52.1847 -128.1133    0.0140 Bella Bella, BC, CA                               
+BNAB     53.4932 -130.6368   -0.0190 Bonilla, BC, CA                                   
+BVCY     62.4141 -140.8606    0.7080 Beaver Creek, YT, CA                              
+DAWY     64.0647 -139.3937    0.7710 Dawson, YT, CA                                    
+DIB      53.2025 -132.4767    0.0680 Dawson Inlet, BC, CA                              
+DLBC     58.4372 -130.0272    0.9780 Dease Lake, BC, CA                                
+HYT      60.8267 -137.5072    1.3730 Haines Jct., YT, CA                               
+INK      68.3065 -133.5254    0.0440 Inuvik, NT, CA                                    
+MOBC     53.1437 -131.9663    0.6750 Moresby, BC, CA                                   
+NBC1     59.6559 -123.8237    0.4210 Northern British Columbia Site One                
+NBC2     59.7735 -122.4878    0.4860 Northern British Columbia Site Two                
+NBC3     59.6372 -120.6688    0.4520 Northern British Columbia Site Three              
+NDB      53.9550 -132.9417    0.6860 Naden, BC, CA                                     
+PHC      50.7067 -127.4330    0.0320 Port Hardy, BC, CA                                
+PLBC     59.4550 -136.3659    0.2790 Pleasant Camp, BC, CA                             
+RUBB     54.3262 -130.2523    0.0120 Prince Rupert, BC, CA                             
+UBRB     52.8918 -124.0832    1.2410 Upper Baezaeko River, BC, CA                      
+WHY      60.6597 -134.8825    1.2730 Whitehorse, YT, CA                                
+YUK1     62.1533 -140.5288    1.5320 Sand Pete Hill, YT, CA                            
+YUK2     61.7668 -140.8426    1.2290 White River, YT, CA                               
+YUK3     61.7755 -140.4595    2.1000 Moose Creek, YT, CA                               
+YUK4     61.4348 -138.5463    2.0090 Talbot Arm, YT, CA                                
+YUK5     61.1315 -137.8593    1.6190 Granite Creek, YT, CA                             
+YUK6     60.9432 -138.3626    2.2330 Outpost Mountain, YT, CA                          
+YUK7     60.5307 -138.1399    1.9920 Dusty Glacier, YT, CA                             
+YUK8     61.2844 -139.7646    2.4560 Steele Glacier, YT, CA                            
+FARO     62.2296 -133.3481    0.0000 Faro, Yukon, CANADA                               
+FLDN     60.2390 -123.4754    0.0000 Fort Liard, Yukon, CANADA                         
+MAYO     63.5958 -135.8921    0.0000 Mayo, Yukon, CANADA                               
+MMPY     62.6189 -131.2625    0.0000 Sheldon Lake, Yukon, CANADA                       
+TGTN     61.5267 -128.2727    0.0000 Hyland Airport, Yukon, CANADA                     
+WGLY     63.2281 -123.4584    0.0000 Wrigley, Yukon, CANADA                            
+WTLY     60.1133 -128.7961    0.0000 Watson Lake, Yukon, CANADA                        
+EGAK     64.7774 -141.1581    0.2966 Eagle, Central Alaska, Alaska, USA                
+WRAK     56.4191 -132.3466    0.0809 Wrangell Island, Southeastern Alaska, Alaska, USA 
+AAK      42.6390   74.4940    1.6450 Ala Archa, Kyrgyzstan                             
+ABKT     37.9304   58.1189    0.6780 Alibek, Turkmenistan                              
+AFI     -13.9093 -171.7773    0.7060 Afiamalu, Samoa                                   
+ALE      82.5033  -62.3500    0.0600 Alert, N.W.T., Canada                             
+ANMO     34.9459 -106.4572    1.8200 Albuquerque, New Mexico, USA                      
+ANTO     39.8680   32.7934    1.0900 Ankara, Turkey                                    
+ASCN     -7.9327  -14.3601    0.1730 Butt Crater, Ascension Island                     
+BBSR     32.3713  -64.6963    0.0300 Bermuda Biological Station for Research, St George
+BFO      48.3319    8.3311    0.5890 Black Forest Observatory, Schiltach, Germany      
+BILL     68.0653  166.4531    0.3200 Bilibino, Russia                                  
+BJT      40.0183  116.1679    0.1970 Baijiatuan, Beijing, China                        
+BORG     64.7474  -21.3268    0.1100 Borgarfjordur, Asbjarnarstadir, Iceland           
+BRVK     53.0581   70.2828    0.3300 Borovoye, Kazakhstan                              
+BTDF      1.3608  103.7729    0.0640 Bukit Timah Dairy Farm, Singapore                 
+CASY    -66.2792  110.5354    0.0100 Casey, Antarctica                                 
+CCM      38.0557  -91.2446    0.2220 Cathedral Cave, Missouri, USA                     
+CHTO     18.8141   98.9443    0.4200 Chiang Mai, Thailand                              
+CMB      38.0346 -120.3865    0.6970 Columbia College, Columbia, CA, USA               
+CMLA     37.7637  -25.5243    0.4290 Cha de Macela, Sao Miguel Island, Azores          
+COCO    -12.1901   96.8349    0.0010 West Island, Cocos (Keeling) Islands              
+COR      44.5855 -123.3046    0.1100 Corvallis, Oregon, USA                            
+CTAO    -20.0882  146.2545    0.3570 Charters Towers, Australia                        
+DAV       7.0697  125.5791    0.1500 Davao, Philippines                                
+DGAR     -7.4121   72.4525    0.0010 Diego Garcia, Chagos Islands, Indian Ocean        
+DWPF     28.1103  -81.4327    0.0300 Disney Wilderness Preserve, Florida, USA          
+EFI     -51.6753  -58.0637    0.1100 Mount Kent, East Falkland Island                  
+ENH      30.2762  109.4944    0.5000 Enshi, Hubei Province, China                      
+ERM      42.0150  143.1572    0.0400 Erimo, Hokkaido Island, Japan                     
+ESK      55.3167   -3.2050    0.2420 Eskdalemuir, Scotland, UK                         
+FFC      54.7250 -101.9783    0.3380 Flin Flon, Canada                                 
+FUNA     -8.5259  179.1966    0.0200 Funafuti, Tuvalu                                  
+FURI      8.8952   38.6798    2.5700 Mt. Furi, Ethiopia                                
+GNI      40.1480   44.7410    1.6090 Garni, Armenia                                    
+GRFO     49.6909   11.2203    0.3840 Grafenberg, Germany                               
+GUMO     13.5893  144.8684    0.1700 Guam, Mariana Islands                             
+HIA      49.2704  119.7414    0.6200 Hailar, Neimenggu Province, China                 
+HKT      29.9618  -95.8384   -0.4130 Hockley, Texas                                    
+HNR      -9.4387  159.9475    0.1000 Honiara, Solomon Islands                          
+HRV      42.5064  -71.5583    0.2000 Adam Dziewonski Observatory (Oak Ridge), Massachus
+IL31     64.7714 -146.8866    0.4190 ILAR Array, Eilson, AK, USA                       
+INCN     37.4776  126.6239    0.0800 Inchon, Republic of Korea                         
+JOHN     16.7329 -169.5292    0.0020 Johnston Island, USA                              
+JTS      10.2908  -84.9525    0.3400 Las Juntas de Abangares, Costa Rica               
+KAPI     -5.0142  119.7517    0.3000 Kappang, Sulawesi, Indonesia                      
+KBS      78.9154   11.9385    0.0900 Ny-Alesund, Spitzbergen, Norway                   
+KEV      69.7565   27.0035    0.1000 Kevo, Finland                                     
+KIEV     50.7012   29.2242    0.1800 Kiev, Ukraine                                     
+KIP      21.4200 -158.0112    0.1100 Kipapa, Hawaii, USA                               
+KIV      43.9553   42.6863    1.0540 Kislovodsk, Russia                                
+KMBO     -1.1271   37.2525    1.9500 Kilima Mbogo, Kenya                               
+KMI      25.1233  102.7400    1.9750 Kunming, Yunnan Province, China                   
+KONO     59.6491    9.5982    0.2160 Kongsberg, Norway                                 
+KOWA     14.4967   -4.0140    0.3210 Kowa, Mali                                        
+KURK     50.7154   78.6202    0.1840 Kurchatov, Kazakhstan                             
+KWAJ      8.8019  167.6130    0.0000 Kwajalein Atoll, Pacific Ocean                    
+LBTB    -25.0151   25.5967    1.1280 Lobatse, Botswana, Africa                         
+LCO     -29.0110  -70.7004    2.3000 Las Campanas Astronomical Observatory, Chile      
+LSA      29.7031   91.1270    3.6600 Tibet, China                                      
+LSZ     -15.2779   28.1882    1.2000 Lusaka, Zambia                                    
+LVC     -22.6127  -68.9111    2.9600 Limon Verde, Chile                                
+LVZ      67.8979   34.6514    0.6300 Lovozero, Russia                                  
+MA2      59.5756  150.7700    0.3390 Magadan, Russia                                   
+MAJO     36.5457  138.2041    0.4050 Matsushiro, Japan                                 
+MAKZ     46.8080   81.9770    0.6000 Makanchi, Kazakhstan                              
+MBAR     -0.6019   30.7382    1.3900 Mbarara, Uganda                                   
+MBWA    -21.1590  119.7313    0.1900 Marble Bar, Western Australia                     
+MCQ     -54.4986  158.9561    0.0140 Macquarie Island, Australia                       
+MDJ      44.6170  129.5908    0.2700 Mudanjiang, Heilongjiang Province, China          
+MIDW     28.2156 -177.3698    0.0200 Midway Island, USA                                
+MSEY     -4.6737   55.4792    0.4750 Mahe, Seychelles                                  
+MSKU     -1.6557   13.6116    0.3120 Masuku, Gabon                                     
+MSVF    -17.7448  178.0528    0.8011 Monasavu, Fiji                                    
+NIL      33.6506   73.2686    0.6290 Nilore, Pakistan                                  
+NNA     -11.9875  -76.8422    0.5750 Nana, Peru                                        
+NRIL     69.5049   88.4414    0.0920 Norilsk, Russia                                   
+NWAO    -32.9277  117.2390    0.3800 Narrogin, Australia                               
+OBN      55.1146   36.5674    0.1600 Obninsk, Russia                                   
+OTAV      0.2376  -78.4508    3.5100 Otavalo, Ecuador                                  
+PAB      39.5446   -4.3499    0.9500 San Pablo, Spain                                  
+PALK      7.2728   80.7022    0.4600 Pallekele, Sri Lanka                              
+PAYG     -0.6742  -90.2861    0.2700 Puerto Ayora, Galapagos Islands                   
+PD31     42.7672 -109.5581    2.2190 PDAR Array, Pinedale, WY, USA                     
+PET      53.0233  158.6499    0.1100 Petropavlovsk, Russia                             
+PFO      33.6107 -116.4555    1.2800 Pinon Flat, California, USA                       
+PMG      -9.4047  147.1597    0.0900 Port Moresby, New Guinea                          
+PMSA    -64.7744  -64.0489    0.0400 Palmer Station, Antarctica                        
+POHA     19.7573 -155.5326    1.9900 Pohakuloa, Hawaii, USA                            
+PTCN    -25.0713 -130.0953    0.2200 Pitcairn Island, South Pacific                    
+PTGA     -0.7308  -59.9666    0.2370 Pitinga, Brazil                                   
+QIZ      19.0291  109.8445    0.2400 Qiongzhong, Hainan Province, China                
+QSPA    -89.9289  144.4382    2.8500 South Pole Remote Earth Science Observatory (Quiet
+RAO     -29.2450 -177.9290    0.0600 Raoul, Kermadec Islands                           
+RAR     -21.2125 -159.7733    0.0280 Rarotonga, Cook Islands                           
+RAYN     23.5225   45.5032    0.6310 Ar Rayn, Saudi Arabia                             
+RCBR     -5.8274  -35.9014    0.4000 Riachuelo, Brazil                                 
+RPN     -27.1267 -109.3344    0.1100 Rapanui, Easter Island, Chile                     
+RSSD     44.1212 -104.0359    2.0900 Black Hills, South Dakota, USA                    
+SACV     14.9702  -23.6085    0.3870 Santiago Island, Cape Verde                       
+SAML     -8.9489  -63.1831    0.1200 Samuel, Brazil                                    
+SBA     -77.8492  166.7572    0.0500 Scott Base, Antarctica                            
+SDV       8.8839  -70.6340    1.6200 Santo Domingo, Venezuela                          
+SFJD     66.9961  -50.6208    0.3300 Sondre Stromfjord, Greenland                      
+SHEL    -15.9588   -5.7457    0.5370 Horse Pasture, St. Helena Island                  
+SJG      18.1091  -66.1500    0.4200 San Juan, Puerto Rico                             
+SNZO    -41.3087  174.7043    0.1200 South Karori, New Zealand                         
+SSE      31.0948  121.1908    0.0400 Shanghai, China                                   
+SSPA     40.6358  -77.8876    0.2700 Standing Stone, Pennsylvania                      
+SUR     -32.3797   20.8117    1.7700 Sutherland, South Africa                          
+TATO     24.9735  121.4971    0.1600 Taipei, Taiwan                                    
+TAU     -42.9099  147.3204    0.1320 Hobart, Tasmania, Australia                       
+TEIG     20.2263  -88.2763    0.0400 Tepich, Yucatan, Mexico                           
+TIXI     71.6341  128.8667    0.0400 Tiksi, Russia                                     
+TLY      51.6807  103.6438    0.5790 Talaya, Russia                                    
+TRIS    -37.0681  -12.3152    0.0600 Tristan da Cunha                                  
+TRQA    -38.0568  -61.9787    0.5400 Tornquist, Argentina                              
+TSUM    -19.2022   17.5838    1.2600 Tsumeb, Namibia                                   
+TUC      32.3098 -110.7847    0.9100 Tucson, Arizona                                   
+TX31     29.3342 -103.6678    1.0250 TXAR Array, Lajitas, TX, USA                      
+ULN      47.8651  107.0532    1.6100 Ulaanbaatar, Mongolia                             
+VNDA    -77.5172  161.8528    0.1510 Wright Valley (Bull Pass) Antarctica              
+WAKE     19.2834  166.6520    0.0200 Wake Island                                       
+WCI      38.2289  -86.2939    0.2100 Wyandotte Cave, Indiana, USA                      
+WMQ      43.8138   87.7049    0.8500 Urumqi, Xinjiang Province, China                  
+WRAB    -19.9336  134.3600    0.3660 Tennant Creek, NT, Australia                      
+WVT      36.1297  -87.8300    0.1700 Waverly, Tennessee, USA                           
+XAN      34.0313  108.9237    0.6300 Xi'an, China                                      
+XMAS      2.0448 -157.4457    0.0200 Kiritimati Island, Republic of Kiribati           
+YAK      62.0310  129.6805    0.1100 Yakutsk, Russia                                   
+YSS      46.9587  142.7604    0.1500 Yuzhno Sakhalinsk, Russia                         
+ADK      51.8823 -176.6842    0.1300 Adak, Aleutian Islands, Alaska                    
+KDAK     57.7828 -152.5835    0.1520 Kodiak Island, Alaska, USA                        
+COLA     64.8736 -147.8616    0.2000 College Outpost, Alaska, USA                      
+O22K     60.4814 -149.7241    0.1400 Cooper Landing, AK, USA                           
+S12K     55.7030 -162.0610    0.4110 Black Hills, AK, USA                              
+GREN     63.9738 -145.6949    0.4140 Ft. Greely North, AK, USA                         
+GRES     63.9451 -145.7281    0.4450 Ft. Greely South, AK, USA                         
+ANM      64.5646 -165.3732    0.3380 Anvil Mountain, AK, USA                           
+ATKA     52.2016 -174.1975    0.0550 Atka Island, AK, USA                              
+BAGL     60.4896 -142.0915    1.4700 Bagley Icefield, AK, USA                          
+BAE      61.1319 -148.1234    0.5780 Barry Arm East, AK, USA                           
+BAL      61.0360 -142.3462    1.3180 Baldy Mountain, AK, USA                           
+BARK     60.4030 -142.4931    1.3896 Barkley Ridge, AK, USA                            
+BARN     61.0595 -141.6622    1.6890 Barnard Glacier, AK, USA                          
+BCP      59.9534 -139.6369    0.4218 Bancas Point, AK, USA                             
+BERG     60.3932 -143.7004    0.6240 Berg Lake, AK, USA                                
+BESE     58.5792 -134.8559    0.8670 Bessie Mountain, AK, USA                          
+BGLC     60.1205 -143.2841    0.0100 Bering Glacier BLM Camp, AK, USA                  
+BMR      60.9677 -144.6051    0.8420 Bremner River, AK, USA                            
+BPAW     64.0997 -150.9873    0.6190 Bear Paw Mountain, AK, USA                        
+BRLK     59.7511 -150.9063    0.4090 Bradley Lake, AK, USA                             
+BRSE     59.7417 -150.7414    0.5410 Bradley Lake South, AK, USA                       
+BWN      64.1732 -149.2991    0.3560 Browne, AK, USA                                   
+CAPN     60.7683 -151.1539    0.0470 Captain Cook Nikiski, AK, USA                     
+CAST     63.4188 -152.0844    0.6110 Castle Rocks, AK, USA                             
+CCB      64.6453 -147.8053    0.2330 Clear Creek Butte, AK, USA                        
+CHI      55.8218 -155.6225    0.2030 Chirikof Island, AK, USA                          
+CHN      54.8310 -159.5895    0.0710 Chernabura Island, AK, USA                        
+CHUM     63.8827 -152.3152    0.2170 Lake Minchumina, AK, USA                          
+CHX      60.0631 -141.1178    1.0850 Chaix Hills, AK, USA                              
+CNP      59.5251 -151.2373    0.5640 China Poot, AK, USA                               
+COLD     67.2278 -150.2070    0.3740 Coldfoot Broadband, AK, USA                       
+CRQ      60.7523 -143.0926    1.3923 Cirque, AK, USA                                   
+CUT      62.4058 -150.2625    0.5740 Chulitna, AK, USA                                 
+CYK      60.0823 -142.4872    0.0230 Cape Yakataga, AK, USA                            
+DCPH     59.0905 -138.2139    0.6690 Deception Hills, AK, USA                          
+DHY      63.0753 -147.3759    1.6110 Denali Highway, AK, USA                           
+DIV      61.1292 -145.7749    0.9414 Divide Microwave, AK, USA                         
+DOT      63.6487 -144.0674    0.6730 Dot Lake, AK, USA                                 
+EYAK     60.5487 -145.7500    0.1339 Cordova Ski Area, AK, USA                         
+FALS     54.8564 -163.4176    0.0606 False Pass, AK, USA                               
+FID      60.7277 -146.5987    0.5000 Fidalgo, AK, USA                                  
+FIRE     61.1426 -150.2164    0.0620 Fire Island, AK, USA                              
+FYU      66.5657 -145.2342    0.1370 Fort Yukon, AK, USA                               
+GAMB     63.7758 -171.7036    0.0050 Gambell, AK, USA                                  
+GCSA     64.7461 -156.8792    0.0450 Galena City School, AK, USA                       
+GHO      61.7710 -148.9260    1.0320 Gloryhole, AK, USA                                
+GLB      61.4417 -143.8123    0.8549 Gilahina Butte, AK, USA                           
+GLI      60.8792 -147.0959    0.4300 Glacier Island, AK, USA                           
+GOAT     60.5805 -144.7292    0.8955 Goat Mountain, AK, USA                            
+GRIN     60.2805 -143.3210    0.6250 Grindle Hills, AK, USA                            
+GRNC     60.7315 -141.7558    2.1160 Granite Creek, AK, USA                            
+HARP     62.3987 -145.1568    0.5810 HAARP, Gakona, AK, USA                            
+HDA      64.4091 -146.9482    0.4370 Harding Lake, AK, USA                             
+HIN      60.3960 -146.5035    0.6229 Hinchinbrook, AK, USA                             
+HOM      59.6572 -151.6515    0.2210 Homer Trailer, AK, USA                            
+ISLE     60.6024 -142.3406    1.4250 Juniper Island, AK, USA                           
+JIS      58.2758 -134.3848    0.0100 Juneau Island, AK, USA                            
+KAI      59.9268 -144.4188    0.3160 Kayak Island, AK, USA                             
+KHIT     60.4427 -143.2510    1.1010 Khitrov Hills, AK, USA                            
+KIAG     60.9231 -142.3605    1.7522 Kiagna River, AK, USA                             
+KLU      61.4924 -145.9227    1.0471 Klutina Pass, AK, USA                             
+KNK      61.4131 -148.4585    0.5980 Knik Glacier, AK, USA                             
+KTH      63.5527 -150.9233    1.1720 Kantishna Hills, AK, USA                          
+LOGN     60.8240 -141.0048    1.6631 Logan Glacier, AK, USA                            
+MCAR     61.3836 -143.0240    0.4470 McCarthy VSAT, AK, USA                            
+MCK      63.7318 -148.9373    0.6180 McKinley Park, AK, USA                            
+MDM      64.9602 -148.2319    0.6310 Murphy Dome, AK, USA                              
+MESA     60.1782 -141.9498    1.9070 Mesa, AK, USA                                     
+MLY      65.0304 -150.7442    0.8120 Manley Hot Springs, AK, USA                       
+NEA2     64.5928 -149.0694    0.4500 Nenana, AK, USA                                   
+NICH     60.2357 -143.9713    0.4850 Nichawak Mountain, AK, USA                        
+NIKH     52.9721 -168.8550    0.1990 Nikolski High Hill, AK, USA                       
+PAX      62.9699 -145.4699    1.1500 Paxson, AK, USA                                   
+PIN      60.0959 -140.2525    0.9750 Pinnacle, AK, USA                                 
+PNL      59.6670 -139.4014    0.5860 Peninsula, AK, USA                                
+PPD      65.5174 -145.5246    1.5050 Porcupine Dome, AK, USA                           
+PPLA     62.8962 -152.1894    1.5190 Purkeypile, AK, USA                               
+PTPK     61.1871 -142.4672    1.8926 Patty Peak Repeater, AK, USA                      
+PWL      60.8584 -148.3334    0.5500 Port Wells, AK, USA                               
+RAG      60.3863 -144.6773    0.7520 Ragged Mountain, AK, USA                          
+RC01     61.0889 -149.7390    0.3900 Rabbit Creek, AK, USA                             
+RDOG     68.0541 -162.9080    0.4230 Red Dog Mine, AK, USA                             
+RIDG     63.7399 -144.8462    0.8710 Independent Ridge, AK, USA                        
+RKAV     60.2994 -141.3478    1.6470 Rock Avalanche, AK, USA                           
+RND      63.4056 -148.8602    0.9936 Reindeer, AK, USA                                 
+SAMH     60.1294 -140.7828    1.1400 Samovar Hills, AK, USA                            
+SAW      61.8070 -148.3316    0.7810 Sawmill, AK, USA                                  
+SCM      61.8320 -147.3290    1.0500 Sheep Mountain, AK, USA                           
+SCRK     63.9761 -143.9905    1.3750 Sand Creek, AK, USA                               
+SII      56.5593 -154.1842    0.4920 Sitkinak Island Coast Guard, AK, USA              
+SKN      61.9800 -151.5317    0.5810 Skwentna, AK, USA                                 
+SLK      60.5117 -150.2231    0.6550 Skilak Lake, AK, USA                              
+SPIA     57.1766 -170.2478    0.0710 St Paul Island, AK, USA                           
+SSN      61.4636 -150.7467    1.3060 Susitna, AK, USA                                  
+SUCK     60.0720 -143.7790    0.4670 Suckling Hills, AK, USA                           
+SWD      60.1043 -149.4526    0.0770 Seward, AK, USA                                   
+TABL     60.4399 -141.1443    2.0500 Table Mountain, AK, USA                           
+TGL      60.7541 -142.8292    1.2664 Tana Glacier, AK, USA                             
+TNA      65.5598 -167.9267    0.0740 Tin City, AK, USA                                 
+TRF      63.4501 -150.2892    1.7099 Thorofare Mountian, AK, USA                       
+UNV      53.8452 -166.5045    0.0650 Unalaska Valley, AK, USA                          
+VRDI     61.2275 -143.4545    1.9094 Verde Repeater, AK, USA                           
+WAT1     62.8295 -148.5509    0.7220 Susitna Watana 1, AK, USA                         
+WAT6     62.5808 -147.7400    1.6810 Susitna Watana 6, AK, USA                         
+WAT7     62.8331 -148.8476    1.2320 Susitna Watana 7, AK, USA                         
+WAX      60.4480 -142.8529    1.0030 Waxell Ridge, AK, USA                             
+WRH      64.4716 -148.0918    0.3290 Wood River Hill, AK, USA                          
+YAH      60.3583 -141.7510    2.1250 Yahtse, AK, USA                                   
+PS01     70.2580 -148.6141    0.0090 TAPS Pump Station 1, AK, USA                      
+PS04     68.4215 -149.3568    0.8490 TAPS Pump Station 4, AK, USA                      
+PS05     66.8133 -150.6646    0.3270 TAPS Pump Station 5, AK, USA                      
+PS06     65.8545 -149.7369    0.2800 TAPS Pump Station 6, AK, USA                      
+PS07     65.3106 -148.2791    0.2890 TAPS Pump Station 7, AK, USA                      
+PS08     64.5422 -146.8221    0.3200 TAPS Pump Station 8, AK, USA                      
+PS09     63.9299 -145.7682    0.4680 TAPS Pump Station 9, AK, USA                      
+PS10     63.4229 -145.7684    0.7380 TAPS Pump Station 10, AK, USA                     
+PS11     62.0789 -145.4751    0.3750 TAPS Pump Station 11, AK, USA                     
+PS12     61.4749 -145.1458    0.5627 TAPS Pump Station 12, AK, USA                     
+VMT      61.0830 -146.3680    0.0970 Valdez Marine Terminal, AK, USA                   
+P23K     59.9979 -147.4031    0.2870 Montague Island, AK, USA                          
+S32K     57.4688 -134.5763    0.0260 Killisnoo, AK, USA                                
+H21K     65.6571 -152.8050    0.5200 Melozitna River, AK, USA                          
+H22K     65.8937 -151.3773    0.5610 Ishtalitna Creek, AK, USA                         
+H24K     65.8371 -147.8781    0.8140 Noodor Dome, AK, USA                              
+I27K     65.6035 -141.6153    0.8740 Kandik River, AK, USA                             
+J17K     63.3965 -159.0777    0.3230 VABM Dome, AK, USA                                
+J19K     63.9940 -155.6214    0.3890 Poorman, AK, USA                                  
+J20K     64.1767 -154.1467    0.3140 Nowitna River, AK, USA                            
+J25K     64.6130 -145.3697    0.9490 Salcha River, AK, USA                             
+J26L     64.5012 -143.5636    1.1440 Joseph Creek, AK, USA                             
+K20K     63.3569 -154.0700    0.5480 Telida, AK, USA                                   
+L18K     62.2195 -156.6886    0.3290 Granite Mountain, AK, USA                         
+L19K     62.1816 -154.8543    0.6500 White Mountain, AK, USA                           
+L20K     62.4787 -153.8798    0.6730 Farewell, AK, USA                                 
+M20K     61.8823 -153.1318    1.1070 Styx River, AK, USA                               
+M26K     62.4013 -142.9963    0.8880 Nabesna, AK, USA                                  
+M27K     62.3579 -141.8780    1.5360 Edge Creek, AK, USA                               
+N18K     60.6801 -155.8897    0.5720 Kilae Creek, AK, USA                              
+N19K     60.8132 -154.4838    1.1440 Bonanza Creek NPS repeater, AK, USA               
+I21K     65.1800 -151.9822    0.2480 Tanana, AK, USA                                   
+P16K     59.0314 -157.9906    0.0859 Nushagak River, AK, USA                           
+P17K     59.1953 -156.4394    0.0910 Kvichak River, AK, USA                            
+R16K     57.5673 -157.5742    0.0380 Pilot Point, AK, USA                              
+R32K     58.2747 -134.5181    0.3860 Eaglecrest, AK, USA                               
+O19K     60.1952 -154.3201    0.0960 Port Alsworth, AK, USA                            
+P08K     56.6011 -169.5484    0.0360 Saint George Island, AK, USA                      
+O20K     60.0815 -152.6240    0.9150 Slope Mountain, AK, USA                           
+Q19K     58.9287 -153.6446    0.6310 Cape Douglas, AK, USA                             
+Q23K     59.4296 -146.3399    0.0460 Middleton Island, AK, USA                         
+H23K     65.8251 -149.5432    0.6170 Yukon River, AK, USA                              
+I23K     65.1479 -149.3603    0.1490 Minto, Yukon-Koyukuk, AK, USA                     
+I26K     65.3064 -143.1541    0.3380 Coal Creek Mining Camp, AK, USA                   
+K27K     64.0292 -142.0758    0.7320 Chicken, AK, USA                                  
+L26K     63.0254 -143.3478    0.6500 Log Cabin Wilderness Lodge, Tok, AK, USA          
+M19K     61.9037 -154.3915    0.5210 Big River Lodge, Big River, AK, USA               
+R18K     57.5665 -154.4524    0.0390 Karluk, AK, USA                                   
+S31K     57.9616 -136.2320    0.0340 Pelican, AK, USA                                  
+U33K     56.1146 -133.1210    0.0110 Whale Pass, AK, USA                               
+O18K     59.8542 -155.2080    0.5440 Koktuh Hills, AK, USA                             
+K24K     63.8036 -145.7784    0.7240 Donnelly Dome, AK, USA                            
+V35K     55.3279 -131.6150    0.0640 Ketchikan, AK, USA                                
+L22K     62.5258 -150.7703    0.8170 Petersville, AK, USA                              
+POKR     65.1171 -147.4335    0.5010 Poker Flat Research Range, AK, USA                
+TOLK     68.6408 -149.5724    0.7600 Toolik Lake Research Station, AK, USA             
+A21K     71.3221 -156.6175    0.0050 Barrow, AK, USA                                   
+L17K     62.1344 -158.2972    0.3380 Donlin, AK, USA                                   
+M23K     61.7929 -147.7262    0.5830 Glacier View, AK, USA                             
+A19K     70.2043 -161.0713    0.0240 Wainwright, AK, USA                               
+A22K     71.0033 -154.9742    0.0060 Sinclair Lake, AK, USA                            
+B18K     69.3641 -161.8016    0.2220 Kokolik River, AK, USA                            
+B20K     70.0079 -157.1599    0.0746 Meade River, AK, USA                              
+B22K     70.3400 -153.4196    0.0497 Teshekpuk Lake, AK, USA                           
+C16K     68.2746 -165.3436    0.1020 Lisburne Hills, AK, USA                           
+C18K     68.6483 -161.1943    0.8450 Utukok River, AK, USA                             
+C19K     69.1049 -159.5874    0.7450 Lookout Ridge, AK, USA                            
+C21K     69.1565 -154.7833    0.4090 Knifeblade Ridge, AK, USA                         
+C23K     69.8360 -150.6126    0.1790 Itkillik River, AK, USA                           
+C26K     69.9175 -144.9122    0.1390 Camden Bay, AK, USA                               
+C27K     69.6260 -143.7114    0.3920 Jago River, AK, USA                               
+D20K     68.7132 -156.6132    0.5770 Etivluk River, AK, USA                            
+D22K     68.8799 -152.6821    0.5320 Ayikyak River, AK, USA                            
+D25K     69.3220 -146.3751    0.7700 Kavik River, AK, USA                              
+E18K     67.4213 -160.6027    0.2970 Tukpahlearik Creek, AK, USA                       
+E19K     67.4572 -157.2316    0.4410 Redstone River, AK, USA                           
+E21K     68.4414 -153.9721    0.6530 Killik River, AK, USA                             
+E24K     68.0748 -148.4868    0.8470 Your Creek, AK, USA                               
+E25K     68.1207 -145.5680    0.6520 Arctic Village, AK, USA                           
+E27K     68.1861 -141.5951    0.6540 Coleen River, AK, USA                             
+F15K     65.7077 -164.6483    0.3880 North Star Ditch, AK, USA                         
+F20K     67.0486 -155.7251    0.1360 Avaraart Lake, AK, USA                            
+F21K     67.2221 -153.4830    0.5970 Alatna River, AK, USA                             
+G17K     65.5011 -160.6514    0.3380 Kiwalik Mountain, AK, USA                         
+G19K     66.1434 -157.0870    0.3910 Purcell Mountains, AK, USA                        
+G23K     66.7108 -150.0239    0.7460 Bananza Creek, AK, USA                            
+G24K     66.7004 -147.4754    0.5030 Hadweenzic River, AK, USA                         
+G27K     66.8088 -141.6549    0.6860 Doyon Strip, AK, USA                              
+H16K     64.6379 -162.2390    0.2160 Elim, AK, USA                                     
+H17K     64.9370 -159.9126    0.3960 Granite Mountain, AK, USA                         
+H20K     65.4924 -154.8808    0.5140 Anotleneega Mountain, AK, USA                     
+K13K     61.9331 -164.6555    0.2042 Kusilvak Mountain, AK, USA                        
+K15K     62.2938 -161.5308    0.3460 Wolf Creek Mountain, AK, USA                      
+L14K     61.3416 -162.6829    0.0410 Kuka Creek, AK, USA                               
+M16K     61.0224 -158.9593    0.3940 Timber Creek, AK, USA                             
+N15K     60.1686 -160.0921    0.4490 Kwethluk River, AK, USA                           
+O14K     59.2533 -161.2638    0.1290 Tigyukauivet Mountain, AK, USA                    
+D24K     69.1532 -148.8233    0.2920 Happy Valley, AK, USA                             
+D17K     67.6988 -163.0831    0.1720 Noatak River, AK, USA                             
+E22K     68.1343 -151.8132    0.7720 Anaktuvuk Pass, AK, USA                           
+F18K     66.6001 -159.6514    0.0270 Selawik, AK, USA                                  
+L16K     61.7105 -159.4747    0.2270 Owhat River, AK, USA                              
+M11K     60.3849 -166.2011    0.0030 Mekoryuk, AK, USA                                 
+M14K     60.7515 -161.9600    0.0190 Bethel, AK, USA                                   
+BAT      61.1416 -148.1751    1.0270 Barry Arm Top, AK, USA                            

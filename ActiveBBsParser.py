@@ -4,6 +4,7 @@ import UsefulFunctions as uf
 from UsefulFunctions import Earthquake
 import numpy as np
 import re
+import pandas as pd
 #
 eq = Earthquake('Data/grid.xml')
 print(eq.detection_time)
