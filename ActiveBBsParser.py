@@ -7,7 +7,7 @@ import re
 import pandas as pd
 #
 eq = Earthquake('Data/grid.xml')
-print(eq.detection_time)
+# print(eq.detection_time)
 
 # Create an array from activeBBs.txt, specify data types and names for each column, delimit based on fixed char lengths
 # ActiveBBs = np.genfromtxt('Data/activeBBs.txt',
@@ -42,3 +42,9 @@ print(eq.detection_time)
 # # bearings = np.insert(bearings, 0, bearings[-1])
 # # bearings = np.append(bearings, -1, bearings[1])
 # print(bearings)
+
+# Change from .txt to .csv files
+# ActiveBBs = np.genfromtxt('Data/stations_Kept.csv')
+stations_kept = pd.read_csv('Data/stations_Kept.csv', quotechar='"')
+print(stations_kept['lat'])
+print(stations_kept['lat'][0] + stations_kept['lat'][1])

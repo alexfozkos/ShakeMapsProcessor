@@ -3,6 +3,19 @@ import math
 import numpy as np
 import requests
 import os
+import pandas as pd
+
+# old activebbs.txt
+# ActiveBBs = np.genfromtxt('Data/activeBBs.txt',
+#                           delimiter=[8, 9, 12, 8, 50],
+#                           # encoding='utf-8',
+#                           dtype=[('sta', 'U5'), ('lat', 'f8'), ('lon', 'f8'), ('elev', 'f8'), ('staname', 'U50')],
+#                           # usecols=(0, 1, 2, 3),
+#                           autostrip=True,
+#                           )
+
+# uses csv file stations_kept.csv
+ActiveBBs = pd.read_csv('Data/stations_Kept.csv', quotechar='"')
 
 
 # downloads grid.xml from shakemaps url because I can't figure out how to download it otherwise
@@ -11,14 +24,6 @@ def download(url):
     with open('Data/grid.xml', 'wb') as file:
         file.write(response.content)
 
-
-ActiveBBs = np.genfromtxt('Data/activeBBs.txt',
-                          delimiter=[8, 9, 12, 8, 50],
-                          # encoding='utf-8',
-                          dtype=[('sta', 'U5'), ('lat', 'f8'), ('lon', 'f8'), ('elev', 'f8'), ('staname', 'U50')],
-                          # usecols=(0, 1, 2, 3),
-                          autostrip=True,
-                          )
 
 # creates a set of points to draw a polygon around a set of x y data, done by slicing the
 # x points into chunks and finding the min and max y values in that slice.
@@ -71,7 +76,7 @@ def calculateDetectionTime(lon, lat, depth, vp):
     # get epicentral distances for each bb station from eq, we care for station criteria
     sta_dist_e = np.array(
         [getDistance(lat, lon, i, k)
-         for (i, k) in zip(Earthquake.ActiveBBs['lat'], Earthquake.ActiveBBs['lon'])]
+         for (i, k) in zip(ActiveBBs['lat'], ActiveBBs['lon'])]
     )
     # get hypocentral distances, we care for arrival times
     sta_dist_h = np.array(
@@ -84,7 +89,7 @@ def calculateDetectionTime(lon, lat, depth, vp):
     # sta_arr_p_col = sta_arr_p.reshape(sta_arr_p.shape[0], 1)
 
     # create array of columns of stations lons, lats, epicentral distances, and p arrival times
-    sta_list = np.vstack((Earthquake.ActiveBBs['lon'], Earthquake.ActiveBBs['lat'], sta_dist_e, sta_arr_p))
+    sta_list = np.vstack((ActiveBBs['lon'], ActiveBBs['lat'], sta_dist_e, sta_arr_p))
     # turn into rows of data instead of columns (lon, lat, dist, p arrival)
     sta_list = sta_list.transpose()
     # sort the rows (each stations data) by the arrival times
@@ -198,7 +203,7 @@ def getXY(d, theta):
 # get angle between two vectors
 def getAngle(a, b):
     # adotb = np.vdot(a, b)
-    adotb = sum(a[i]*b[i] for i in range(len(a)) )
+    adotb = sum(a[i] * b[i] for i in range(len(a)))
     amag = np.sqrt(np.vdot(a, a))
     bmag = np.sqrt(np.vdot(b, b))
     # print(adotb, amag, bmag)
@@ -224,13 +229,13 @@ def getDistance(lat1, lon1, lat2, lon2):
 
 class Earthquake:
     # Create an array containing info for active BB stations, used to calculate detection time
-    ActiveBBs = np.genfromtxt('Data/activeBBs.txt',
-                              delimiter=[8, 9, 12, 8, 50],
-                              # encoding='utf-8',
-                              dtype=[('sta', 'U5'), ('lat', 'f8'), ('lon', 'f8'), ('elev', 'f8'), ('staname', 'U50')],
-                              # usecols=(0, 1, 2, 3),
-                              autostrip=True,
-                              )
+    # ActiveBBs = np.genfromtxt('Data/activeBBs.txt',
+    #                           delimiter=[8, 9, 12, 8, 50],
+    #                           # encoding='utf-8',
+    #                           dtype=[('sta', 'U5'), ('lat', 'f8'), ('lon', 'f8'), ('elev', 'f8'), ('staname', 'U50')],
+    #                           # usecols=(0, 1, 2, 3),
+    #                           autostrip=True,
+    #                           )
     count = 0
 
     # wave velocities (km/s)
@@ -319,12 +324,12 @@ class Earthquake:
                                                      Earthquake.vel_p)
         self.station_distances = np.array(
             [getDistance(self.event['lat'], self.event['lon'], i, k)
-             for (i, k) in zip(Earthquake.ActiveBBs['lat'], Earthquake.ActiveBBs['lon'])]
+             for (i, k) in zip(ActiveBBs['lat'], ActiveBBs['lon'])]
         )
         # Calculate epicentral and hypocentral distances for each Active BB station
         # sta_dist = np.array(
         #     [getDistance(self.event['lat'], self.event['lon'], i, k)
-        #      for (i, k) in zip(Earthquake.ActiveBBs['lat'], Earthquake.ActiveBBs['lon'])]
+        #      for (i, k) in zip(ActiveBBs['lat'], ActiveBBs['lon'])]
         # )
         # sta_dist = np.array(
         #     np.sqrt(np.square(sta_dist) + np.square(self.event['depth']))
