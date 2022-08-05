@@ -1,3 +1,6 @@
+# Parses all of the Southern Coastline scenario grids and grabs data for points closest to select communities
+# then dumps info into a json so I don't have to rerun 25 grids every time I want to try a new plotting format
+
 import numpy as np
 import UsefulFunctions as uf
 import json

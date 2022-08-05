@@ -8,7 +8,7 @@ import os
 # downloads grid.xml from shakemaps url because I can't figure out how to download it otherwise
 def download(url):
     response = requests.get(url)
-    with open('Data/grid.xml', 'wb') as file:
+    with open('Data/misc/grid.xml', 'wb') as file:
         file.write(response.content)
 
 

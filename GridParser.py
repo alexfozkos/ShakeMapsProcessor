@@ -8,7 +8,7 @@ import numpy as np
 import os
 
 # parse an xml file using a name of a grid.xml
-tree = ET.parse('Data/Iniskin_grid.xml')
+tree = ET.parse('Data/misc/Iniskin_grid.xml')
 root = tree.getroot()
 
 headers = []

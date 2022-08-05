@@ -49,9 +49,9 @@ plt.rc('xtick', labelsize=10)
 
 draw_colorbar(fig, mmimap, None)
 plt.text(0.48, 1.2, 'MMI', fontsize=16)
-plt.suptitle('Community Scenario Data', fontsize=18)
+plt.suptitle('Newlist Community Scenario Data', fontsize=18)
 plt.tight_layout(rect=[0, 0.1, 1, 0.99])
-plt.savefig('Figures/CoastalScenarios/Community Data colored markers.png')
+plt.savefig('Figures/CoastalScenarios/Newlist Community Data colored markers.pdf')
 
 
 # fig, ax1 = plt.subplots()

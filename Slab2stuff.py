@@ -337,172 +337,172 @@ with open('Data/Southern Alaska Coast/Community Data.json') as json_file:
 #endregion
 
 #region Create PyGMT map of scenarios
-title = r"Alaska Southern Coast Scenarios"
-coast_border = "a/0.25p,black"
-shorelines = "0.15p,black"
-fig = pygmt.Figure()
-# fig.basemap(region=[160, 240, 40, 75], projection='M15c', frame=True)
-fig.basemap(region='195/50/235/66.5+r', projection='M15c', frame=["af", f'WSne+t"{title}"'])
-fig.coast(shorelines=shorelines, borders=coast_border, water='lightsteelblue1', land='gainsboro')  # draw coast over datawater='skyblue'
-
-fig.plot(  # Plot seismic stations as triangles
-    x=uf.ActiveBBs['lon'],
-    y=uf.ActiveBBs['lat'],
-    style='t+0.13c',
-    color='white',
-    pen='0.1p,black',
-)
-# fig.grdimage(
-#     grid='Data/alu_slab/alu_slab2_dip_02.23.18.grd'
+# title = r"Alaska Southern Coast Scenarios"
+# coast_border = "a/0.25p,black"
+# shorelines = "0.15p,black"
+# fig = pygmt.Figure()
+# # fig.basemap(region=[160, 240, 40, 75], projection='M15c', frame=True)
+# fig.basemap(region='195/50/235/66.5+r', projection='M15c', frame=["af", f'WSne+t"{title}"'])
+# fig.coast(shorelines=shorelines, borders=coast_border, water='lightsteelblue1', land='gainsboro')  # draw coast over datawater='skyblue'
+#
+# fig.plot(  # Plot seismic stations as triangles
+#     x=uf.ActiveBBs['lon'],
+#     y=uf.ActiveBBs['lat'],
+#     style='t+0.13c',
+#     color='white',
+#     pen='0.1p,black',
 # )
-fig.plot(
-    x=contours_20_1['lon'],
-    y=contours_20_1['lat'],
-    pen='0.75p,firebrick',
-)
-fig.plot(
-    x=contours_20_2['lon'],
-    y=contours_20_2['lat'],
-    pen='0.75p,firebrick',
-)
-fig.plot(
-    x=contours_20_3['lon'],
-    y=contours_20_3['lat'],
-    pen='0.75p,firebrick',
-)
-# plot communities
-for name, data in comm_dict.items():
-    fig.plot(
-        x=data['latlon'][1],
-        y=data['latlon'][0],
-        style='c0.08c',
-        color='black'
-    )
-    # fig.plot(
-    #     x=data['latlon'][1],
-    #     y=data['latlon'][0] + 0.1,
-    #     style=f'l0.25c+t"{name}"',
-    #     color='black'
-    # )
-
-starsize = 0.5
-numsize = 0.2
-planes = {}
-for index, row in alu_hypocenters.iterrows():
-    p = createPlane(row['lon'], row['lat'], 8.3, row['depth'], row['strike'], row['dip'], 'int')
-    planes[index] = p
-    fig.plot(
-        x=[p[1][0], p[3][0], p[5][0], p[7][0], p[1][0]],
-        y=[p[1][1], p[3][1], p[5][1], p[7][1], p[1][1]],
-        color='red',
-        transparency='75',
-        pen='1p,gray'
-    )
-    # fig.plot(
-    #     x=p[0][0],
-    #     y=p[0][1],
-    #     style=f'a{starsize}c',
-    #     color='white',
-    #     pen='0.25p,red'
-    # )
-    # fig.plot(
-    #     x=p[0][0],
-    #     y=p[0][1],
-    #     style=f'l{numsize}c+t"{index + 1}"',
-    #     color='black'
-    # )
-for index, row in alu_hypocenters.iterrows():
-    fig.plot(
-        x=row['lon'],
-        y=row['lat'],
-        style=f'a{starsize}c',
-        color='white',
-        pen='0.25p,red'
-    )
-    fig.plot(
-        x=row['lon'],
-        y=row['lat'],
-        style=f'l{numsize}c+t"{index+1}"',
-        color='black'
-    )
-
-planes = {}
-for index, row in cse_hypocenters.iterrows():
-    p = createPlane(row['lon'], row['lat'], 8.3, row['depth'], row['strike'], row['dip'], 'r')
-    planes[index] = p
-    fig.plot(
-        x=[p[1][0], p[3][0], p[5][0], p[7][0], p[1][0]],
-        y=[p[1][1], p[3][1], p[5][1], p[7][1], p[1][1]],
-        color='purple',
-        transparency='75',
-        pen='1p,gray'
-    )
-    # fig.plot(
-    #     x=p[0][0],
-    #     y=p[0][1],
-    #     style=f'a{starsize}c',
-    #     color='white',
-    #     pen='0.25p,purple'
-    # )
-    # fig.plot(
-    #     x=p[0][0],
-    #     y=p[0][1],
-    #     style=f'l{numsize}c+t"{index+1}"',
-    #     color='black'
-    # )
-for index, row in cse_hypocenters.iterrows():
-    fig.plot(
-        x=row['lon'],
-        y=row['lat'],
-        style=f'a{starsize}c',
-        color='white',
-        pen='0.25p,purple'
-    )
-    fig.plot(
-        x=row['lon'],
-        y=row['lat'],
-        style=f'l{numsize}c+t"{index+1}"',
-        color='black'
-    )
-
-planes = {}
-for index, row in qcf_hypocenters.iterrows():
-    p = createPlane(row['lon'], row['lat'], 8.3, row['depth'], row['strike'], row['dip'], 'ss')
-    planes[index] = p
-    fig.plot(
-        x=[p[1][0], p[3][0], p[5][0], p[7][0], p[1][0]],
-        y=[p[1][1], p[3][1], p[5][1], p[7][1], p[1][1]],
-        color='green3',
-        transparency='25',
-        pen='1p,green3'
-    )
-    # fig.plot(
-    #     x=p[0][0],
-    #     y=p[0][1],
-    #     style=f'a{starsize}c',
-    #     color='white',
-    #     pen='0.25p,green'
-    # )
-    # fig.plot(
-    #     x=p[0][0],
-    #     y=p[0][1],
-    #     style=f'l{numsize}c+t"{index+1}"',
-    #     color='black'
-    # )
-for index, row in qcf_hypocenters.iterrows():
-    fig.plot(
-        x=row['lon'],
-        y=row['lat'],
-        style=f'a{starsize}c',
-        color='white',
-        pen='0.25p,green3'
-    )
-    fig.plot(
-        x=row['lon'],
-        y=row['lat'],
-        style=f'l{numsize}c+t"{index+1}"',
-        color='black'
-    )
-
-fig.savefig('Figures/CoastalScenarios/ScenarioMap.pdf')
+# # fig.grdimage(
+# #     grid='Data/alu_slab/alu_slab2_dip_02.23.18.grd'
+# # )
+# fig.plot(
+#     x=contours_20_1['lon'],
+#     y=contours_20_1['lat'],
+#     pen='0.75p,firebrick',
+# )
+# fig.plot(
+#     x=contours_20_2['lon'],
+#     y=contours_20_2['lat'],
+#     pen='0.75p,firebrick',
+# )
+# fig.plot(
+#     x=contours_20_3['lon'],
+#     y=contours_20_3['lat'],
+#     pen='0.75p,firebrick',
+# )
+# # plot communities
+# for name, data in comm_dict.items():
+#     fig.plot(
+#         x=data['latlon'][1],
+#         y=data['latlon'][0],
+#         style='c0.08c',
+#         color='black'
+#     )
+#     # fig.plot(
+#     #     x=data['latlon'][1],
+#     #     y=data['latlon'][0] + 0.1,
+#     #     style=f'l0.25c+t"{name}"',
+#     #     color='black'
+#     # )
+#
+# starsize = 0.5
+# numsize = 0.2
+# planes = {}
+# for index, row in alu_hypocenters.iterrows():
+#     p = createPlane(row['lon'], row['lat'], 8.3, row['depth'], row['strike'], row['dip'], 'int')
+#     planes[index] = p
+#     fig.plot(
+#         x=[p[1][0], p[3][0], p[5][0], p[7][0], p[1][0]],
+#         y=[p[1][1], p[3][1], p[5][1], p[7][1], p[1][1]],
+#         color='red',
+#         transparency='75',
+#         pen='1p,gray'
+#     )
+#     # fig.plot(
+#     #     x=p[0][0],
+#     #     y=p[0][1],
+#     #     style=f'a{starsize}c',
+#     #     color='white',
+#     #     pen='0.25p,red'
+#     # )
+#     # fig.plot(
+#     #     x=p[0][0],
+#     #     y=p[0][1],
+#     #     style=f'l{numsize}c+t"{index + 1}"',
+#     #     color='black'
+#     # )
+# for index, row in alu_hypocenters.iterrows():
+#     fig.plot(
+#         x=row['lon'],
+#         y=row['lat'],
+#         style=f'a{starsize}c',
+#         color='white',
+#         pen='0.25p,red'
+#     )
+#     fig.plot(
+#         x=row['lon'],
+#         y=row['lat'],
+#         style=f'l{numsize}c+t"{index+1}"',
+#         color='black'
+#     )
+#
+# planes = {}
+# for index, row in cse_hypocenters.iterrows():
+#     p = createPlane(row['lon'], row['lat'], 8.3, row['depth'], row['strike'], row['dip'], 'r')
+#     planes[index] = p
+#     fig.plot(
+#         x=[p[1][0], p[3][0], p[5][0], p[7][0], p[1][0]],
+#         y=[p[1][1], p[3][1], p[5][1], p[7][1], p[1][1]],
+#         color='purple',
+#         transparency='75',
+#         pen='1p,gray'
+#     )
+#     # fig.plot(
+#     #     x=p[0][0],
+#     #     y=p[0][1],
+#     #     style=f'a{starsize}c',
+#     #     color='white',
+#     #     pen='0.25p,purple'
+#     # )
+#     # fig.plot(
+#     #     x=p[0][0],
+#     #     y=p[0][1],
+#     #     style=f'l{numsize}c+t"{index+1}"',
+#     #     color='black'
+#     # )
+# for index, row in cse_hypocenters.iterrows():
+#     fig.plot(
+#         x=row['lon'],
+#         y=row['lat'],
+#         style=f'a{starsize}c',
+#         color='white',
+#         pen='0.25p,purple'
+#     )
+#     fig.plot(
+#         x=row['lon'],
+#         y=row['lat'],
+#         style=f'l{numsize}c+t"{index+1}"',
+#         color='black'
+#     )
+#
+# planes = {}
+# for index, row in qcf_hypocenters.iterrows():
+#     p = createPlane(row['lon'], row['lat'], 8.3, row['depth'], row['strike'], row['dip'], 'ss')
+#     planes[index] = p
+#     fig.plot(
+#         x=[p[1][0], p[3][0], p[5][0], p[7][0], p[1][0]],
+#         y=[p[1][1], p[3][1], p[5][1], p[7][1], p[1][1]],
+#         color='green3',
+#         transparency='25',
+#         pen='1p,green3'
+#     )
+#     # fig.plot(
+#     #     x=p[0][0],
+#     #     y=p[0][1],
+#     #     style=f'a{starsize}c',
+#     #     color='white',
+#     #     pen='0.25p,green'
+#     # )
+#     # fig.plot(
+#     #     x=p[0][0],
+#     #     y=p[0][1],
+#     #     style=f'l{numsize}c+t"{index+1}"',
+#     #     color='black'
+#     # )
+# for index, row in qcf_hypocenters.iterrows():
+#     fig.plot(
+#         x=row['lon'],
+#         y=row['lat'],
+#         style=f'a{starsize}c',
+#         color='white',
+#         pen='0.25p,green3'
+#     )
+#     fig.plot(
+#         x=row['lon'],
+#         y=row['lat'],
+#         style=f'l{numsize}c+t"{index+1}"',
+#         color='black'
+#     )
+#
+# fig.savefig('Figures/CoastalScenarios/ScenarioMap.pdf')
 #endregion
