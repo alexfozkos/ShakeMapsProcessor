@@ -187,7 +187,7 @@ coast_border = "a/0.25p,black"
 shorelines = "0.15p,black"
 fig = pygmt.Figure()
 # fig.basemap(region=[160, 240, 40, 75], projection='M15c', frame=True)
-fig.basemap(region='205/60/235/66.5+r', projection='M15c', frame=["af", f'WSne+t"{title}"'])
+fig.basemap(region='207/61/220/66.5+r', projection='M15c', frame=["af", f'WSne+t"{title}"'])
 fig.coast(shorelines=shorelines, borders=coast_border, water='lightsteelblue1', land='gainsboro')  # draw coast over datawater='skyblue'
 
 fig.plot(  # Plot seismic stations as triangles
@@ -215,8 +215,8 @@ for name, data in comm_dict.items():
     #     color='black'
     # )
 
-starsize = 0.5
-numsize = 0.2
+starsize = 0.7
+numsize = 0.3
 planes = {}
 for index, row in crst_hypocenters.iterrows():
     p = createPlane(row['lon'], row['lat'], MAG, row['depth'], row['strike'], row['dip'], 'ss')
@@ -224,9 +224,9 @@ for index, row in crst_hypocenters.iterrows():
     fig.plot(
         x=[p[1][0], p[3][0], p[5][0], p[7][0], p[1][0]],
         y=[p[1][1], p[3][1], p[5][1], p[7][1], p[1][1]],
-        color='orange',
-        transparency='75',
-        pen='1p,orange'
+        color='black',
+        transparency='25',
+        pen='1p,black'
     )
     # fig.plot(
     #     x=p[0][0],
@@ -247,7 +247,7 @@ for index, row in crst_hypocenters.iterrows():
         y=row['lat'],
         style=f'a{starsize}c',
         color='white',
-        pen='0.25p,orange'
+        pen='0.25p,red'
     )
     fig.plot(
         x=row['lon'],
