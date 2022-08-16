@@ -187,7 +187,7 @@ coast_border = "a/0.25p,black"
 shorelines = "0.15p,black"
 fig = pygmt.Figure()
 # fig.basemap(region=[160, 240, 40, 75], projection='M15c', frame=True)
-fig.basemap(region='207/61/220/66.5+r', projection='M15c', frame=["af", f'WSne+t"{title}"'])
+fig.basemap(region='206.5/60.5/218/66.5+r', projection='M15c', frame=["af", f'WSne+t"{title}"'])
 fig.coast(shorelines=shorelines, borders=coast_border, water='lightsteelblue1', land='gainsboro')  # draw coast over datawater='skyblue'
 
 fig.plot(  # Plot seismic stations as triangles
@@ -215,8 +215,9 @@ for name, data in comm_dict.items():
     #     color='black'
     # )
 
-starsize = 0.7
-numsize = 0.3
+starsize = 1.0
+numsize = 0.45
+numsize2 = 0.25
 planes = {}
 for index, row in crst_hypocenters.iterrows():
     p = createPlane(row['lon'], row['lat'], MAG, row['depth'], row['strike'], row['dip'], 'ss')
@@ -249,10 +250,16 @@ for index, row in crst_hypocenters.iterrows():
         color='white',
         pen='0.25p,red'
     )
+
+    if index < 9:
+        numsize2 = numsize
+    else:
+        numsize2 = numsize - 0.05
+
     fig.plot(
         x=row['lon'],
         y=row['lat'],
-        style=f'l{numsize}c+t"{index+1}"',
+        style=f'l{numsize2}c+t"{index+1}"',
         color='black'
     )
 
