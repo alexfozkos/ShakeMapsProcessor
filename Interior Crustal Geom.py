@@ -182,6 +182,7 @@ for index, row in crst_hypocenters.iterrows():
 
 
 # Create PyGMT map of scenarios
+#region map maker
 title = r"Interior Crustal Scenarios"
 coast_border = "a/0.25p,black"
 shorelines = "0.15p,black"
@@ -217,7 +218,7 @@ for name, data in comm_dict.items():
 
 starsize = 1.0
 numsize = 0.45
-numsize2 = 0.25
+# numsize2 = 0.25
 planes = {}
 for index, row in crst_hypocenters.iterrows():
     p = createPlane(row['lon'], row['lat'], MAG, row['depth'], row['strike'], row['dip'], 'ss')
@@ -264,3 +265,4 @@ for index, row in crst_hypocenters.iterrows():
     )
 
 fig.savefig('Figures/Interior Crustal/InteriorScenarioMap.pdf')
+#endregion map maker
