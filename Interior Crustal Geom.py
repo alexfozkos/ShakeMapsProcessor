@@ -81,28 +81,28 @@ def createPlane(lon0, lat0, Mw, D, strike, dip, mech):
     y2 = 0.5 * L * sin(angle - pi)
     lat2 = lat0 + km2lat(y2)
     d2 = D
-    p2 = (lon2, lat2, d2)
+    p2 = (lon2-360, lat2, d2)
 
     x6 = 0.5 * L * cos(angle)
     lon6 = lon0 + km2lon(x6, lat0)
     y6 = 0.5 * L * sin(angle)
     lat6 = lat0 + km2lat(y6)
     d6 = D
-    p6 = (lon6, lat6, d6)
+    p6 = (lon6-360, lat6, d6)
 
     x8 = 0.5 * Wproj * cos(angle - pi / 2)
     lon8 = lon0 + km2lon(x8, lat0)
     y8 = 0.5 * Wproj * sin(angle - pi / 2)
     lat8 = lat0 + km2lat(y8)
     d8 = D + deld
-    p8 = (lon8, lat8, d8)
+    p8 = (lon8-360, lat8, d8)
 
     x4 = 0.5 * Wproj * cos(angle + pi / 2)
     lon4 = lon0 + km2lon(x4, lat0)
     y4 = 0.5 * Wproj * sin(angle + pi / 2)
     lat4 = lat0 + km2lat(y4)
     d4 = D - deld
-    p4 = (lon4, lat4, d4)
+    p4 = (lon4-360, lat4, d4)
 
     # Corners, use midpoints as reference
     x1 = 0.5 * L * cos(angle - pi)
@@ -110,28 +110,28 @@ def createPlane(lon0, lat0, Mw, D, strike, dip, mech):
     y1 = 0.5 * L * sin(angle - pi)
     lat1 = lat8 + km2lat(y1)
     d1 = D + deld
-    p1 = (lon1, lat1, d1)
+    p1 = (lon1-360, lat1, d1)
 
     x7 = 0.5 * L * cos(angle)
     lon7 = lon8 + km2lon(x7, lat0)
     y7 = 0.5 * L * sin(angle)
     lat7 = lat8 + km2lat(y7)
     d7 = D + deld
-    p7 = (lon7, lat7, d7)
+    p7 = (lon7-360, lat7, d7)
 
     x3 = 0.5 * L * cos(angle - pi)
     lon3 = lon4 + km2lon(x3, lat0)
     y3 = 0.5 * L * sin(angle - pi)
     lat3 = lat4 + km2lat(y3)
     d3 = D - deld
-    p3 = (lon3, lat3, d3)
+    p3 = (lon3-360, lat3, d3)
 
     x5 = 0.5 * L * cos(angle)
     lon5 = lon4 + km2lon(x5, lat0)
     y5 = 0.5 * L * sin(angle)
     lat5 = lat4 + km2lat(y5)
     d5 = D - deld
-    p5 = (lon5, lat5, d5)
+    p5 = (lon5-360, lat5, d5)
 
     p0 = (lon0, lat0, D)
     x = [x1, x2, x3, x4, x5, x6, x7, x8]
@@ -153,33 +153,54 @@ crst_hypocenters = pd.read_csv('Data/Interior Crustal/Crustal_Hypocenters.txt', 
                                names=['lon', 'lat', 'depth', 'dip', 'strike', 'name'])
 print(crst_hypocenters.info)
 # create rupture geometries
-for index, row in crst_hypocenters.iterrows():
-    p = createPlane(row['lon'], row['lat'], MAG, row['depth'], row['strike'], row['dip'], 'ss')
-    print(f'INDEX: {index}')
-    name = row['name']
-    lat = row['lat']
-    lon = row['lon']
-    d = row['depth']
-    path1 = f'Data/Interior Crustal/Shakemap Folders/{name}'
-    path2 = f'{path1}/current'
-    if not os.path.exists(path1):
-        os.mkdir(path1)
-    if not os.path.exists(path2):
-        os.mkdir(path2)
-    with open(f'{path2}/event.xml', 'w') as f:  # event file
-        f.write(f'<earthquake id="{ID}" netid="ak" network="Alaska Earthquake Center" lat="{lat}" '
-                f'lon="{lon}" depth="{d}" mag="{MAG}" time="2022-08-4T21:29:29Z" '
-                f'locstring="{name}" event_type="SCENARIO"/>')
-    with open(f'{path2}/rupture.json', 'w') as f:  # rupture file
-        f.write(f'{{"metadata": {{"id": "{ID}", "netid": "ak", "network": "Alaska Earthquake Center", '
-                f'"lat": {lat}, "lon": {lon}, "depth": {d}, "mag": {MAG}, "time": "2022-03-28T21:29:29.000000Z", '
-                f'"locstring": "{name}", "reference": "Fozkos 2022", "mech": "SS", "rake": 0.0, '
-                f'"productcode": "{ID}"}}, "features": [{{"geometry": {{"coordinates": '
-                f'[[[[{p[5][0]}, {p[5][1]}, {p[5][2]}], [{p[3][0]}, {p[3][1]}, {p[3][2]}], [{p[1][0]}, {p[1][1]}, {p[1][2]}], '
-                f'[{p[7][0]}, {p[7][1]}, {p[7][2]}], [{p[5][0]}, {p[5][1]}, {p[5][2]}]]]], "type": "MultiPolygon"}}, '
-                f'"properties": {{"rupture type": "rupture extent"}}, "type": "Feature"}}], '
-                f'"type": "FeatureCollection"}}')
-
+# for index, row in crst_hypocenters.iterrows():
+#     p = createPlane(row['lon'], row['lat'], MAG, row['depth'], row['strike'], row['dip'], 'ss')
+#     print(f'INDEX: {index}')
+#     name = row['name']
+#     lat = row['lat']
+#     lon = row['lon'] - 360
+#     d = row['depth']
+#     path1 = f'Data/Interior Crustal/Shakemap Folders/{name}'
+#     path2 = f'{path1}/current'
+#     if not os.path.exists(path1):
+#         os.mkdir(path1)
+#     if not os.path.exists(path2):
+#         os.mkdir(path2)
+#     with open(f'{path2}/event.xml', 'w') as f:  # event file
+#         f.write(f'<earthquake id="{ID}" netid="ak" network="Alaska Earthquake Center" lat="{lat}" '
+#                 f'lon="{lon}" depth="{d}" mag="{MAG}" time="2022-08-4T21:29:29Z" '
+#                 f'locstring="{name}" event_type="SCENARIO"/>')
+#     with open(f'{path2}/rupture.json', 'w') as f:  # rupture file
+#         f.write(f'{{"metadata": {{"id": "{ID}", "netid": "ak", "network": "Alaska Earthquake Center", '
+#                 f'"lat": {lat}, "lon": {lon}, "depth": {d}, "mag": {MAG}, "time": "2022-03-28T21:29:29.000000Z", '
+#                 f'"locstring": "{name}", "reference": "Fozkos 2022", "mech": "SS", "rake": 0.0, '
+#                 f'"productcode": "{ID}"}}, "features": [{{"geometry": {{"coordinates": '
+#                 f'[[[[{p[5][0]}, {p[5][1]}, {p[5][2]}], [{p[3][0]}, {p[3][1]}, {p[3][2]}], [{p[1][0]}, {p[1][1]}, {p[1][2]}], '
+#                 f'[{p[7][0]}, {p[7][1]}, {p[7][2]}], [{p[5][0]}, {p[5][1]}, {p[5][2]}]]]], "type": "MultiPolygon"}}, '
+#                 f'"properties": {{"rupture type": "rupture extent"}}, "type": "Feature"}}], '
+#                 f'"type": "FeatureCollection"}}')
+#     with open(f'{path2}/model.conf', 'w') as f:
+#         f.write('''# This file (model_select.conf) is generated automatically by the 'select'
+# # coremod. It will be completely overwritten the next time select is run. To
+# # preserve these settings, or to modify them, copy this file to a file called
+# # 'model.conf' in the event's current directory. That event-specific
+# # model.conf will be used and model_select.conf will be ignored. (To avoid
+# # confusion, you should probably delete this comment section from your event-
+# # specific model.conf.)
+# [gmpe_sets]
+#     [[gmpe_QCF3_custom]]
+#         gmpes = active_crustal_nshmp2014,
+#         weights = 1.0,
+#         weights_large_dist = None
+#         dist_cutoff = nan
+#         site_gmpes = None
+#         weights_site_gmpes = None
+# [modeling]
+#     gmpe = gmpe_QCF3_custom
+#     mechanism = SS
+#     ipe = VirtualIPE
+#     gmice = WGRW12
+#     ccf = LB13''')
 
 # Create PyGMT map of scenarios
 #region map maker
