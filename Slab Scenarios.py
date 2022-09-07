@@ -12,7 +12,7 @@ slab2projected = pygmt.project(data=slab2,
 print(slab2.info)
 print(slab2projected.info)
 
-title = r"Slab Scenarios Scenarios"
+title = r"Slab Scenarios"
 coast_border = "a/0.25p,black"
 shorelines = "0.15p,black"
 fig = pygmt.Figure()
