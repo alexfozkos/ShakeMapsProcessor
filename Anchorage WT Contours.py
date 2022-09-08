@@ -32,7 +32,7 @@ fig.coast(shorelines=shorelines, borders=coast_border, water='lightsteelblue1',
 fig.plot(x=anc.lons.flat,
          y=anc.lats.flat,
          color=anc.mmi.flat,
-         cmap='Data/mmi.cpt',
+         cmap=True,
          style='r.02/.025c',
          )
 
@@ -50,6 +50,14 @@ fig.plot(x=anc.event['lon'],
          style=f'a{starsize}c',
          color='white',
          pen='0.25p,red')
+# fig.contour(x=anc.lons.flat,
+#             y=anc.lats.flat,
+#             z=anc.mmi.flat,
+#             projection='M15c',
+#             region=bounds,
+#             levels=1,
+#             annotation=1,
+#             pen='red')
 fig.contour(x=anc.lons.flat,
             y=anc.lats.flat,
             z=anc.warning_times_s.flat,
@@ -60,4 +68,4 @@ fig.contour(x=anc.lons.flat,
             pen='black')
 fig.colorbar(frame='af+l"Intensity"')
 fig.show()
-fig.savefig('Figures/ancwt.png')
+fig.savefig('Figures/ancwtcolor.png')
