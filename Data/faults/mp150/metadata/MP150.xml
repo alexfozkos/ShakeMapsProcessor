@@ -1,0 +1,377 @@
+<?xml version="1.0"?>
+<metadata>
+    <idinfo>
+        <citation>
+            <citeinfo>
+                <origin>Koehler, R.D.</origin>
+                <origin>Burns, P.A.C.</origin>
+                <origin>Weakland, J.R.</origin>
+                <pubdate>2013</pubdate>
+                <title>Digitized faults of the Neotectonic map of Alaska (Plafker and others, 1994)</title>
+                <geoform>vector digital data</geoform>
+                <serinfo>
+                    <sername>Miscellaneous Publication</sername>
+                    <issue>MP 150</issue>
+                </serinfo>
+                <pubinfo>
+                    <pubplace>Fairbanks, AK, USA</pubplace>
+                    <publish>Alaska Division of Geological &amp; Geophysical Surveys</publish>
+                </pubinfo>
+                <othercit>1 p.</othercit>
+                <onlink>http://www.dggs.alaska.gov/pubs/id/24791</onlink>
+            </citeinfo>
+        </citation>
+        <descript>
+            <abstract>The Neotectonic Map of Alaska (Plafker and others, 1994) represents the first comprehensive compilation of tectonic faults and folds in Alaska and outlines the relative activity of post-Oligocene structures. Commonly referred to as "the Plafker map", this publication is out of print and was used as baseline information for the creation of the Quaternary fault and fold database for Alaska (Koehler and others, 2012).</abstract>
+            <purpose>To assist the user community and encourage more detailed mapping and paleoseismic research, we digitized the fault and fold traces from the Plafker map and created two vector shapefiles of these structures. These files are available for download.</purpose>
+            <supplinf>The DGGS metadata standard extends the FGDC standard to include elements that are required to facilitate our internal data management. These elements, referred to as "layers", group and describe files that have intrinsic logical or topological relationships. Attribute information for the layers (entity) is included in this metadata file under the "Entity_and_Attribute_Information" section. The layers are titled: &gt;all-faults-pflaker-1994: a shapefile of all structures from the Plafker map &gt;prequaternary-faults-pflaker-1994: a shapefile of only the pre-Quaternary structures that were displayed on the Plafker map</supplinf>
+        </descript>
+        <timeperd>
+            <timeinfo>
+                <mdattim>
+                    <sngdate>
+                        <caldate>1994</caldate>
+                    </sngdate>
+                    <sngdate>
+                        <caldate>2002</caldate>
+                    </sngdate>
+                    <sngdate>
+                        <caldate>2012</caldate>
+                    </sngdate>
+                </mdattim>
+            </timeinfo>
+            <current>ground condition</current>
+        </timeperd>
+        <status>
+            <progress>Complete</progress>
+            <update>None planned</update>
+        </status>
+        <spdom>
+            <bounding>
+                <westbc>-180.000000</westbc>
+                <eastbc>180.000000</eastbc>
+                <northbc>70.674259</northbc>
+                <southbc>47.410877</southbc>
+            </bounding>
+        </spdom>
+        <keywords>
+            <theme>
+                <themekt>ISO 19115 Topic Category</themekt>
+                <themekey>geoscientificInformation</themekey>
+            </theme>
+            <theme>
+                <themekt>Alaska Division of Geological &amp; Geophysical Surveys</themekt>
+                <themekey>Earthquake</themekey>
+                <themekey>Faulting</themekey>
+                <themekey>Faults</themekey>
+                <themekey>Folds</themekey>
+                <themekey>Active Fault</themekey>
+                <themekey>Paleoseismology</themekey>
+            </theme>
+            <temporal>
+                <tempkt>Walker, J. D., and Geissman, J. W., compilers, 2009, Geologic Time Scale: Geological Society of America</tempkt>
+                <tempkey>Quaternary</tempkey>
+            </temporal>
+        </keywords>
+        <accconst>This report, map, and/or dataset is available directly from the State of Alaska, Department of Natural Resources, Division of Geological &amp; Geophysical Surveys (see contact information below).</accconst>
+        <useconst>Any hard copies or published datasets utilizing these datasets shall clearly indicate their source. If the user has modified the data in any way, the user is obligated to describe the types of modifications the user has made. The user specifically agrees not to misrepresent these datasets, nor to imply that changes made by the user were approved by the State of Alaska, Department of Natural Resources, Division of Geological &amp; Geophysical Surveys. The State of Alaska makes no express or implied warranties (including warranties for merchantability and fitness) with respect to the character, functions, or capabilities of the electronic data or products or their appropriateness for any user's purposes. In no event will the State of Alaska be liable for any incidental, indirect, special, consequential, or other damages suffered by the user or any other person or entity whether from the use of the electronic services or products or any failure thereof or otherwise. In no event will the State of Alaska's liability to the Requestor or anyone else exceed the fee paid for the electronic service or product.</useconst>
+        <ptcontac>
+            <cntinfo>
+                <cntorgp>
+                    <cntorg>Alaska Division of Geological &amp; Geophysical Surveys</cntorg>
+                    <cntper>James Weakland</cntper>
+                </cntorgp>
+                <cntpos>GIS Analyst</cntpos>
+                <cntaddr>
+                    <addrtype>mailing and physical</addrtype>
+                    <address>3354 College Road</address>
+                    <city>Fairbanks</city>
+                    <state>AK</state>
+                    <postal>99709-3707</postal>
+                    <country>USA</country>
+                </cntaddr>
+                <cntvoice>(907)451-5029</cntvoice>
+                <cntvoice>(907)451-5020</cntvoice>
+                <cntemail>dggsgis@alaska.gov</cntemail>
+                <hours>8 am to 4:30 pm, Monday through Friday, except State holidays</hours>
+            </cntinfo>
+        </ptcontac>
+        <datacred>The authors extend gratitude to many staff members of the Division of Geological &amp; Geophysical Surveys who assisted in completing this project. Partial funding was provided by the U.S. Geological Survey National Earthquake Hazards Reduction Program (Grant #03WRAG0027) and the State of Alaska, Division of Homeland Security and Emergency Management, Earthquake Hazards Reduction State Assistance Program (Grant #39320/39507).</datacred>
+        <native>Microsoft Windows XP Version 5.1 (Build 2600) Service Pack 3; ESRI ArcGIS 10.0.0.2414</native>
+        <crossref>
+            <citeinfo>
+                <origin>Koehler, R.D.</origin>
+                <origin>Farrell, Rebecca-Ellen</origin>
+                <origin>Burns, P.A.C.</origin>
+                <origin>Combellick, R.A.</origin>
+                <pubdate>2012</pubdate>
+                <title>Quaternary faults and folds in Alaska: A digital database</title>
+                <geoform>document, map</geoform>
+                <serinfo>
+                    <sername>Miscellaneous Publication</sername>
+                    <issue>MP 141</issue>
+                </serinfo>
+                <pubinfo>
+                    <pubplace>Fairbanks, AK, USA</pubplace>
+                    <publish>Alaska Division of Geological &amp; Geophysical Surveys</publish>
+                </pubinfo>
+                <othercit>31 p., 1 sheet, scale 1:3,700,000</othercit>
+                <onlink>http://www.dggs.alaska.gov/pubs/id/23944</onlink>
+            </citeinfo>
+        </crossref>
+        <crossref>
+            <citeinfo>
+                <origin>Koehler, R.D.</origin>
+                <pubdate>2013</pubdate>
+                <title>Quaternary Faults and Folds (QFF)</title>
+                <geoform>web map</geoform>
+                <serinfo>
+                    <sername>Digital Data Series</sername>
+                    <issue>DDS 3</issue>
+                </serinfo>
+                <pubinfo>
+                    <pubplace>Fairbanks, AK, USA</pubplace>
+                    <publish>Alaska Division of Geological &amp; Geophysical Surveys</publish>
+                </pubinfo>
+                <onlink>http://www.dggs.alaska.gov/pubs/id/24956</onlink>
+            </citeinfo>
+        </crossref>
+    </idinfo>
+    <dataqual>
+        <attracc>
+            <attraccr>The features in the dataset were entirely derived from the Neotectonic map of Alaska (Plafker, George and others, 1994). The shapefiles in this data release provide only the location of the features and do not indicate feature type (fault vs. fold). Several geologists familiar with the Neotectonic map of Alaska have examined the line-work to ensure that all fault and fold features on the originating map were replicated.</attraccr>
+        </attracc>
+        <logic>Not applicable</logic>
+        <complete>The Neotectonic map of Alaska (Plafker, George and others, 1994) represents first comprehensive compilation of tectonic faults and folds in Alaska. DGGS publication MP 141 (Koehler, R.D. and others, 2012) includes significantly more data which, in some cases, may reflect more recent interpretations. This dataset (MP150) provides only the line traces of the structures that were displayed on the Plafker map.</complete>
+        <posacc>
+            <horizpa>
+                <horizpar>The scale of the originating Plafker map is 1:2,500,000, thus the data are not intended for depiction on large-scale maps. After digitizing the map features we adjusted line-work as needed to correct line segments that were obviously inconsistent with the USGS National Elevation Dataset</horizpar>
+            </horizpa>
+        </posacc>
+        <lineage>
+            <srcinfo>
+                <srccite>
+                    <citeinfo>
+                        <origin>Plafker, George</origin>
+                        <origin>Gilpin, L.M.</origin>
+                        <origin>Lahr, J.C.</origin>
+                        <pubdate>1994</pubdate>
+                        <title>Neotectonic map of Alaska</title>
+                        <geoform>map</geoform>
+                        <pubinfo>
+                            <pubplace>Boulder, CO, United States</pubplace>
+                            <publish>The Geology of Alaska: Geological Society of America</publish>
+                        </pubinfo>
+                        <othercit>2 sheets, scale 1:2,500,000</othercit>
+                        <onlink>http://www.dggs.alaska.gov/pubs/id/22331</onlink>
+                        <lworkcit>
+                            <citeinfo>
+                                <origin>Plafker, George</origin>
+                                <origin>Berg, H.C.</origin>
+                                <pubdate>1994</pubdate>
+                                <title>The Geology of Alaska</title>
+                                <geoform>book</geoform>
+                                <onlink>http://www.dggs.alaska.gov/pubs/id/22281</onlink>
+                            </citeinfo>
+                        </lworkcit>
+                    </citeinfo>
+                </srccite>
+                <srcscale>2500000</srcscale>
+                <typesrc>map</typesrc>
+                <srctime>
+                    <timeinfo>
+                        <sngdate>
+                            <caldate>1994</caldate>
+                        </sngdate>
+                    </timeinfo>
+                    <srccurr>ground condition</srccurr>
+                </srctime>
+                <srccitea>Plafker, George and others, 1994</srccitea>
+                <srccontr>source of digitized fault and fold traces</srccontr>
+            </srcinfo>
+            <srcinfo>
+                <srccite>
+                    <citeinfo>
+                        <origin>U.S. Geological Survey (USGS), EROS Data Center </origin>
+                        <pubdate>1999</pubdate>
+                        <title>National Elevation Dataset </title>
+                        <geoform>raster digital data</geoform>
+                        <pubinfo>
+                            <pubplace>Sioux Falls, SD </pubplace>
+                            <publish>U.S. Geological Survey </publish>
+                        </pubinfo>
+                        <onlink>http://ned.usgs.gov/</onlink>
+                    </citeinfo>
+                </srccite>
+                <typesrc>digital database file</typesrc>
+                <srctime>
+                    <timeinfo>
+                        <sngdate>
+                            <caldate>1999</caldate>
+                        </sngdate>
+                    </timeinfo>
+                    <srccurr>ground condition</srccurr>
+                </srctime>
+                <srccitea>U.S. Geological Survey, EROS Data Center, 1999 </srccitea>
+                <srccontr>basemap to verify horizontal positional accuracy</srccontr>
+            </srcinfo>
+            <procstep>
+                <procdesc>DGGS staff scanned the Neotectonic map of Alaska (Plafker, George and others, 1994) at resolution of 300 dpi, georeferenced the map, and digitized the fault and fold traces.</procdesc>
+                <srcused>Plafker, George and others, 1994</srcused>
+                <procdate>2002</procdate>
+            </procstep>
+            <procstep>
+                <procdesc>DGGS staff adjusted line-work as needed to correct features that were obviously inconsistent with the USGS National Elevation Dataset. We selected pre-Quaternary structures from the originating file and exported them to a secondary shapefile.</procdesc>
+                <srcused>Plafker, George and others, 1994</srcused>
+                <srcused>U.S. Geological Survey, EROS Data Center, 1999</srcused>
+                <procdate>2012</procdate>
+            </procstep>
+        </lineage>
+    </dataqual>
+    <spdoinfo>
+        <direct>vector</direct>
+    </spdoinfo>
+    <spref>
+        <horizsys>
+            <planar>
+                <mapproj>
+                    <mapprojn>Albers Conical Equal Area</mapprojn>
+                    <albers>
+                        <stdparll>55.0</stdparll>
+                        <stdparll>65.0</stdparll>
+                        <longcm>-154.0</longcm>
+                        <latprjo>50.0</latprjo>
+                        <feast>0</feast>
+                        <fnorth>0</fnorth>
+                    </albers>
+                </mapproj>
+                <planci>
+                    <plance>coordinate pair</plance>
+                    <coordrep>
+                        <absres>0.000001</absres>
+                        <ordres>0.000001</ordres>
+                    </coordrep>
+                    <plandu>meters</plandu>
+                    <pclname>all-faults-pflaker-1994</pclname>
+                </planci>
+            </planar>
+            <planar>
+                <mapproj>
+                    <mapprojn>Albers Conical Equal Area</mapprojn>
+                    <albers>
+                        <stdparll>55.0</stdparll>
+                        <stdparll>65.0</stdparll>
+                        <longcm>-154.0</longcm>
+                        <latprjo>50.0</latprjo>
+                        <feast>0</feast>
+                        <fnorth>0</fnorth>
+                    </albers>
+                </mapproj>
+                <planci>
+                    <plance>coordinate pair</plance>
+                    <coordrep>
+                        <absres>0.000001</absres>
+                        <ordres>0.000001</ordres>
+                    </coordrep>
+                    <plandu>meters</plandu>
+                    <pclname>prequaternary-faults-pflaker-1994</pclname>
+                </planci>
+            </planar>
+            <geodetic>
+                <horizdn>North American Datum of 1983</horizdn>
+                <ellips>North American Datum of 1983</ellips>
+                <semiaxis>6378137</semiaxis>
+                <denflat>298.257222101</denflat>
+            </geodetic>
+        </horizsys>
+    </spref>
+    <eainfo>
+        <detailed>
+            <enttyp>
+                <ealname>all-faults-pflaker-1994</ealname>
+                <enttypl>mp150-all-faults-pflaker-1994</enttypl>
+                <enttypd>a shapefile of all structures from the Plafker map</enttypd>
+                <enttypds>Alaska Division of Geological &amp; Geophysical Surveys</enttypds>
+            </enttyp>
+        </detailed>
+        <detailed>
+            <enttyp>
+                <ealname>prequaternary-faults-pflaker-1994</ealname>
+                <enttypl>mp150-prequaternary-faults-pflaker-1994</enttypl>
+                <enttypd>a shapefile of only pre-Quaternary structures that were displayed on the Plafker map</enttypd>
+                <enttypds>Alaska Division of Geological &amp; Geophysical Surveys</enttypds>
+            </enttyp>
+        </detailed>
+    </eainfo>
+    <distinfo>
+        <distrib>
+            <cntinfo>
+                <cntorgp>
+                    <cntorg>Alaska Division of Geological &amp; Geophysical Surveys</cntorg>
+                </cntorgp>
+                <cntaddr>
+                    <addrtype>mailing and physical</addrtype>
+                    <address>3354 College Road</address>
+                    <city>Fairbanks</city>
+                    <state>AK</state>
+                    <postal>99709-3707</postal>
+                    <country>USA</country>
+                </cntaddr>
+                <cntvoice>(907)451-5020</cntvoice>
+                <cntfax>(907)451-5050</cntfax>
+                <cntemail>dggspubs@alaska.gov</cntemail>
+                <hours>8 am to 4:30 pm, Monday through Friday, except State holidays</hours>
+                <cntinst>Please view our website (http://www.dggs.alaska.gov) for the latest information on available data. Please contact us using the e-mail address provided above when possible.</cntinst>
+            </cntinfo>
+        </distrib>
+        <resdesc>MP 150</resdesc>
+        <distliab>The State of Alaska makes no expressed or implied warranties (including warranties for merchantability and fitness) with respect to the character, functions, or capabilities of the electronic data or products or their appropriateness for any user's purposes. In no event will the State of Alaska be liable for any incidental, indirect, special, consequential, or other damages suffered by the user or any other person or entity whether from the use of the electronic services or products or any failure thereof or otherwise. In no event will the State of Alaska's liability to the Requestor or anyone else exceed the fee paid for the electronic service or product.</distliab>
+        <stdorder>
+            <nondig>DGGS publications are available as free online downloads or you may purchase paper hard-copies or digital files on CD/DVD or other digital storage media by mail, phone, fax, or email from the DGGS Fairbanks office. To purchase this or other printed reports and maps, contact DGGS by phone (907-451-5020), e-mail (dggspubs@alaska.gov), or fax (907-451-5050). Payment accepted: Cash, check, money order, VISA, or MasterCard. Turnaround time is 1-2 weeks unless special arrangements are made and an express fee is paid. Shipping charge will be the actual cost of postage and will be added to the total amount due. Contact us for the exact shipping amount.</nondig>
+            <fees>Contact DGGS for current pricing</fees>
+        </stdorder>
+        <stdorder>
+            <digform>
+                <digtinfo>
+                    <formname>vector digital data</formname>
+                </digtinfo>
+                <digtopt>
+                    <onlinopt>
+                        <computer>
+                            <networka>
+                                <networkr>http://www.dggs.alaska.gov/pubs/id/24791</networkr>
+                            </networka>
+                        </computer>
+                    </onlinopt>
+                </digtopt>
+            </digform>
+            <fees>Free download</fees>
+        </stdorder>
+    </distinfo>
+    <metainfo>
+        <metd>20130313</metd>
+        <metc>
+            <cntinfo>
+                <cntperp>
+                    <cntper>Metadata manager</cntper>
+                </cntperp>
+                <cntaddr>
+                    <addrtype>mailing and physical</addrtype>
+                    <address>3354 College Road</address>
+                    <city>Fairbanks</city>
+                    <state>AK</state>
+                    <postal>99709-3707</postal>
+                    <country>USA</country>
+                </cntaddr>
+                <cntvoice>(907)451-5020</cntvoice>
+            </cntinfo>
+        </metc>
+        <metstdn>FGDC Content Standard for Digital Geospatial Metadata</metstdn>
+        <metstdv>FGDC-STD-001-1998</metstdv>
+        <metuc>If the user has modified the data in any way they are obligated to describe the types of modifications they have performed in the supporting metadata file. User specifically agrees not to imply that changes they made were approved by the Alaska Department of Natural Resources or Division of Geological &amp; Geophysical Surveys.</metuc>
+        <metextns>
+            <onlink>http://www.dggs.alaska.gov/metadata/dggs.ext</onlink>
+            <metprof>dggs metadata extensions</metprof>
+        </metextns>
+    </metainfo>
+</metadata>

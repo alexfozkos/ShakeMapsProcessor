@@ -1,0 +1,260 @@
+Metadata:
+  Identification_Information:
+    Citation:
+      Citation_Information:
+        Originator: Koehler, R.D.
+        Publication_Date: 2013
+        Title: Quaternary Faults and Folds (QFF)
+        Geospatial_Data_Presentation_Form: map
+        Series_Information:
+          Series_Name: Digital Data Series
+          Issue_Identification: DDS 3
+        Publication_Information:
+          Publication_Place: Fairbanks, AK, USA
+          Publisher: Alaska Division of Geological & Geophysical Surveys
+        Online_Linkage: http://www.dggs.alaska.gov/pubs/id/24956
+    Description:
+      Abstract: Alaska is the most seismically active region of the United States. However, little information exists on the location, style of deformation, and slip rates of Quaternary faults. This interactive map displays locations and relative activity of Alaska's faults and folds. The map offers zoom and scroll options, and multiple base map layers. Click individual fault and fold traces to view basic fault parameters: name, age, slip rate, slip sense, dip direction, mapping certainty, and mapped scale. This resource is intended to provide simple and quick means of visualizing structure locations and characteristics. Users must recognize mapping certainty and data accuracy limitations when zooming in farther than the stated mapped scale for a given feature and treat resulting visual representations with appropriate caveats. The structures displayed are replicated from DGGS publications MP 141 (Quaternary) and MP 150 (pre-Quaternary).
+      Purpose: To provide an accurate, user-friendly, reference-based fault inventory to the public, we have compiled an interactive map which displays locations and relative activity of Alaskas faults and folds. This resource is intended to provide simple and quick means of visualizing structure locations and characteristics. Users must recognize mapping certainty and data accuracy limitations when zooming in farther than the stated mapped scale for a given feature and treat resulting visual representations with appropriate caveats.
+      Supplemental_Information: This FDGC compliant metadata file describes an interactive map interface. To facilitate use of the underlying datasets that are displayed by the interactive map application we provide a digital data distribution package containing the originating shapefiles and their associated metadata. The DGGS metadata standard extends the FGDC standard to include elements that are required to facilitate our internal data management. These elements, referred to as "layers," group and describe files that have intrinsic logical or topological relationships. Attribute information for the layers (entity) is included in this metadata file under the "Entity_and_Attribute_Information" section. The layers are titled: >qflt-line-alaska: a shapefile of Quaternary faults and folds throughout the state of Alaska, from DGGS publication MP 141 >prequaternary-faults-pflaker-1994: a shapefile of only pre-Quaternary faults and fold traces, from DGGS publication MP 150
+    Time_Period_of_Content:
+      Time_Period_Information:
+        Single_Date/Time:
+          Calendar_Date: 2013
+      Currentness_Reference: ground condition
+    Status:
+      Progress: in work
+      Maintenance_and_Update_Frequency: irregular
+    Spatial_Domain:
+      Bounding_Coordinates:
+        West_Bounding_Coordinate: 167
+        East_Bounding_Coordinate: -129
+        North_Bounding_Coordinate: 72
+        South_Bounding_Coordinate: 46
+    Keywords:
+      Theme:
+        Theme_Keyword_Thesaurus: ISO 19115 Topic Category
+        Theme_Keyword: geoscientificInformation
+      Theme:
+        Theme_Keyword_Thesaurus: Alaska Division of Geological & Geophysical Surveys
+        Theme_Keyword: Earthquake
+        Theme_Keyword: Faulting
+        Theme_Keyword: Faults
+        Theme_Keyword: Folds
+        Theme_Keyword: Hazards
+        Theme_Keyword: Active Fault
+        Theme_Keyword: Paleoseismology
+        Theme_Keyword: Alaska Statewide Maps
+      Place:
+        Place_Keyword_Thesaurus: Alaska Division of Geological & Geophysical Surveys
+        Place_Keyword: Alaska, State of
+        Place_Keyword: Alaska Statewide Quadrangle
+      Temporal:
+        Temporal_Keyword_Thesaurus: Walker, J. D., and Geissman, J. W., compilers, 2009, Geologic Time Scale: Geological Society of America
+        Temporal_Keyword: Quaternary
+    Access_Constraints: This report, map, and/or dataset is available directly from the State of Alaska, Department of Natural Resources, Division of Geological & Geophysical Surveys (see contact information below).
+    Use_Constraints: Any hard copies or published datasets utilizing these datasets shall clearly indicate their source. If the user has modified the data in any way, the user is obligated to describe the types of modifications the user has made. The user specifically agrees not to misrepresent these datasets, nor to imply that changes made by the user were approved by the State of Alaska, Department of Natural Resources, Division of Geological & Geophysical Surveys. The State of Alaska makes no express or implied warranties (including warranties for merchantability and fitness) with respect to the character, functions, or capabilities of the electronic data or products or their appropriateness for any user's purposes. In no event will the State of Alaska be liable for any incidental, indirect, special, consequential, or other damages suffered by the user or any other person or entity whether from the use of the electronic services or products or any failure thereof or otherwise. In no event will the State of Alaska's liability to the Requestor or anyone else exceed the fee paid for the electronic service or product.
+    Point_of_Contact:
+      Contact_Information:
+        Contact_Organization_Primary:
+          Contact_Organization: Alaska Division of Geological & Geophysical Surveys
+          Contact_Person: James Weakland
+        Contact_Position: GIS Analyst
+        Contact_Address:
+          Address_Type: mailing and physical
+          Address: 3354 College Road
+          City: Fairbanks
+          State_or_Province: AK
+          Postal_Code: 99709-3707
+          Country: USA
+        Contact_Voice_Telephone: (907)451-5029
+        Contact_Voice_Telephone: (907)451-5020
+        Contact_Electronic_Mail_Address: dggsgis@alaska.gov
+        Hours_of_Service: 8 am to 4:30 pm, Monday through Friday, except State holidays
+    Data_Set_Credit: The authors extend gratitude to many staff members of the Division of Geological & Geophysical Surveys who assisted in completing this project. Partial funding was provided by the U.S. Geological Survey National Earthquake Hazards Reduction Program (Grant #03WRAG0027) and the State of Alaska, Division of Homeland Security and Emergency Management, Earthquake Hazards Reduction State Assistance Program (Grant #39320/39507).
+  Data_Quality_Information:
+    Attribute_Accuracy:
+      Attribute_Accuracy_Report: The features in the dataset were entirely derived from peer reviewed publications. Users are directed to see DGGS publications MP 141 (Quaternary) and MP 150 (pre-Quaternary) for a comprehensive discussion of the attribute accuracy of the originating data.
+    Logical_Consistency_Report: Not applicable
+    Completeness_Report: This resource is intended to provide simple and quick means of visualizing structure locations and characteristics.
+    Positional_Accuracy:
+      Horizontal_Positional_Accuracy:
+        Horizontal_Positional_Accuracy_Report: Users must recognize mapping certainty and data accuracy limitations when zooming in farther than the stated mapped scale for a given feature and treat resulting visual representations with appropriate caveats. The scale of the originating Plafker map that was used to locate pre-Quaternary features is 1:2,500,000.
+    Lineage:
+      Source_Information:
+        Source_Citation:
+          Citation_Information:
+            Originator: Plafker, George
+            Originator: Gilpin, L.M.
+            Originator: Lahr, J.C.
+            Publication_Date: 1994
+            Title: Neotectonic map of Alaska
+            Geospatial_Data_Presentation_Form: map
+            Publication_Information:
+              Publication_Place: Boulder, CO, United States
+              Publisher: The Geology of Alaska: Geological Society of America
+            Other_Citation_Details: 2 sheets, scale 1:2,500,000
+            Online_Linkage: http://www.dggs.alaska.gov/pubs/id/22331
+            Larger_Work_Citation:
+              Citation_Information:
+                Originator: Plafker, George
+                Originator: Berg, H.C.
+                Publication_Date: 1994
+                Title: The Geology of Alaska
+                Geospatial_Data_Presentation_Form: book
+                Online_Linkage: http://www.dggs.alaska.gov/pubs/id/22281
+        Source_Scale_Denominator: 2500000
+        Type_of_Source_Media: map
+        Source_Time_Period_of_Content:
+          Time_Period_Information:
+            Single_Date/Time:
+              Calendar_Date: 1994
+          Source_Currentness_Reference: ground condition
+        Source_Citation_Abbreviation: Plafker, George and others, 1994
+        Source_Contribution: source of digitized Quaternary structures
+      Source_Information:
+        Source_Citation:
+          Citation_Information:
+            Originator: Koehler, R.D.
+            Originator: Farrell, Rebecca-Ellen
+            Originator: Burns, P.A.C.
+            Originator: Combellick, R.A.
+            Publication_Date: 2012
+            Title: Quaternary faults and folds in Alaska: A digital database
+            Geospatial_Data_Presentation_Form: document, map
+            Series_Information:
+              Series_Name: Miscellaneous Publication
+              Issue_Identification: MP 141
+            Publication_Information:
+              Publication_Place: Fairbanks, AK, USA
+              Publisher: Alaska Division of Geological & Geophysical Surveys
+            Other_Citation_Details: 31 p., 1 sheet, scale 1:3,700,000
+            Online_Linkage: http://www.dggs.alaska.gov/pubs/id/23944
+        Source_Scale_Denominator: 3700000
+        Type_of_Source_Media: document, map
+        Source_Time_Period_of_Content:
+          Time_Period_Information:
+            Single_Date/Time:
+              Calendar_Date: 2012
+          Source_Currentness_Reference: publication date
+        Source_Citation_Abbreviation: Koehler, R.D. and others, 2012
+        Source_Contribution: digitized Quaternary structures
+      Source_Information:
+        Source_Citation:
+          Citation_Information:
+            Originator: Koehler, R.D.
+            Originator: Burns, P.A.C.
+            Originator: Weakland, J.R.
+            Publication_Date: 2013
+            Title: Digitized faults of the Neotectonic map of Alaska (Plafker and others, 1994)
+            Geospatial_Data_Presentation_Form: document
+            Series_Information:
+              Series_Name: Miscellaneous Publication
+              Issue_Identification: MP 150
+            Publication_Information:
+              Publication_Place: Fairbanks, AK, USA
+              Publisher: Alaska Division of Geological & Geophysical Surveys
+            Other_Citation_Details: 1 p
+            Online_Linkage: http://www.dggs.alaska.gov/pubs/id/24791
+        Type_of_Source_Media: digital data
+        Source_Time_Period_of_Content:
+          Time_Period_Information:
+            Single_Date/Time:
+              Calendar_Date: 2013
+          Source_Currentness_Reference: publication date
+        Source_Citation_Abbreviation: Koehler, R.D. and others, 2013
+        Source_Contribution: digitized iteration of the pre-Quaternary structures
+      Process_Step:
+        Process_Description: map-based search interface - We built a interactive webmap using ArcGIS Server, javascript, and OpenLayers.
+        Source_Used_Citation_Abbreviation: Plafker, George and others, 1994
+        Source_Used_Citation_Abbreviation: Koehler, R.D. and others, 2012
+        Source_Used_Citation_Abbreviation: Koehler, R.D. and others, 2013
+        Process_Date: 2013
+  Spatial_Data_Organization_Information:
+    Direct_Spatial_Reference_Method: vector
+  Spatial_Reference_Information:
+    Horizontal_Coordinate_System_Definition:
+      Planar:
+        Map_Projection:
+          Map_Projection_Name: GS_1984_Web_Mercator_Auxiliary_Sphere
+          Mercator:
+            Standard_Parallel: 0
+            Longitude_of_Central_Meridian: 0
+            False_Easting: 0
+            False_Northing: 0
+        Planar_Coordinate_Information:
+          Planar_Coordinate_Encoding_Method: coordinate pair
+          Coordinate_Representation:
+            Abscissa_Resolution: 0.00000001
+            Ordinate_Resolution: 0.00000001
+          Planar_Distance_Units: meters
+      Geodetic_Model:
+        Horizontal_Datum_Name: D_WGS_1984
+        Ellipsoid_Name: WGS_1984
+        Semi-major_Axis: 6378137.000000
+        Denominator_of_Flattening_Ratio: 298.257223563
+  Entity_and_Attribute_Information:
+    Detailed_Description:
+      Entity_Type:
+        Entity_Attribute_Layer_Name: qflt-line-alaska
+        Entity_Type_Label: dds3-qflt-line-alaska
+        Entity_Type_Definition: a shapefile of Quaternary faults and folds throughout the state of Alaska, from DGGS publication MP 141
+        Entity_Type_Definition_Source: Alaska Division of Geological & Geophysical Surveys
+    Detailed_Description:
+      Entity_Type:
+        Entity_Attribute_Layer_Name: prequaternary-faults-pflaker-1994
+        Entity_Type_Label: dds3-prequaternary-faults-pflaker-1994
+        Entity_Type_Definition: a shapefile of only pre-Quaternary faults and fold traces, from DGGS publication MP 150
+        Entity_Type_Definition_Source: Alaska Division of Geological & Geophysical Surveys
+  Distribution_Information:
+    Distributor:
+      Contact_Information:
+        Contact_Organization_Primary:
+          Contact_Organization: Alaska Division of Geological & Geophysical Surveys
+        Contact_Address:
+          Address_Type: mailing and physical
+          Address: 3354 College Road
+          City: Fairbanks
+          State_or_Province: AK
+          Postal_Code: 99709-3707
+          Country: USA
+        Contact_Voice_Telephone: (907)451-5020
+        Contact_Facsimile_Telephone: (907)451-5050
+        Contact_Electronic_Mail_Address: dggspubs@alaska.gov
+        Hours_of_Service: 8 am to 4:30 pm, Monday through Friday, except State holidays
+        Contact_Instructions: Please view our website (http://www.dggs.alaska.gov) for the latest information on available data. Please contact us using the e-mail address provided above when possible.
+    Resource_Description: DDS 3
+    Distribution_Liability: The State of Alaska makes no expressed or implied warranties (including warranties for merchantability and fitness) with respect to the character, functions, or capabilities of the electronic data or products or their appropriateness for any user's purposes. In no event will the State of Alaska be liable for any incidental, indirect, special, consequential, or other damages suffered by the user or any other person or entity whether from the use of the electronic services or products or any failure thereof or otherwise. In no event will the State of Alaska's liability to the Requestor or anyone else exceed the fee paid for the electronic service or product.
+    Standard_Order_Process:
+      Non-digital_Form: DGGS publications are available as free online downloads or you may purchase paper hard-copies or digital files on CD/DVD or other digital storage media by mail, phone, fax, or email from the DGGS Fairbanks office. To purchase this or other printed reports and maps, contact DGGS by phone (907-451-5020), e-mail (dggspubs@alaska.gov), or fax (907-451-5050). Payment accepted: Cash, check, money order, VISA, or MasterCard. Turnaround time is 1-2 weeks unless special arrangements are made and an express fee is paid. Shipping charge will be the actual cost of postage and will be added to the total amount due. Contact us for the exact shipping amount.
+      Fees: Contact DGGS for current pricing
+    Standard_Order_Process:
+      Digital_Form:
+        Digital_Transfer_Information:
+          Format_Name: vector digital data
+        Digital_Transfer_Option:
+          Online_Option:
+            Computer_Contact_Information:
+              Network_Address:
+                Network_Resource_Name: http://www.dggs.alaska.gov/pubs/id/24956
+      Fees: Free download
+  Metadata_Reference_Information:
+    Metadata_Date: 20130319
+    Metadata_Contact:
+      Contact_Information:
+        Contact_Person_Primary:
+          Contact_Person: Metadata manager
+        Contact_Address:
+          Address_Type: mailing and physical
+          Address: 3354 College Road
+          City: Fairbanks
+          State_or_Province: AK
+          Postal_Code: 99709-3707
+          Country: USA
+        Contact_Voice_Telephone: (907)451-5020
+    Metadata_Standard_Name: FGDC Content Standard for Digital Geospatial Metadata
+    Metadata_Standard_Version: FGDC-STD-001-1998
+    Metadata_Use_Constraints: If the user has modified the data in any way they are obligated to describe the types of modifications they have performed in the supporting metadata file. User specifically agrees not to imply that changes they made were approved by the Alaska Department of Natural Resources or Division of Geological & Geophysical Surveys.
+    Metadata_Extensions:
+      Online_Linkage: http://www.dggs.alaska.gov/metadata/dggs.ext
+      Profile_Name: dggs metadata extensions

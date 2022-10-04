@@ -1,7 +1,7 @@
 import os
 import json
 import matplotlib as mpl
-import geopandas as gpd
+
 mpl.rcParams["backend"] = "TkAgg"
 import pandas as pd
 import numpy as np
@@ -10,8 +10,8 @@ from matplotlib import pyplot as plt
 import pygmt
 import UsefulFunctions as uf
 
-MAG = 7.3
-ID = 'INTERIORSCENARIOS'
+MAG = 7.8
+ID = 'SLABSCENARIOS'
 
 def km2lat(d):
     return d / 110.574
@@ -149,10 +149,8 @@ def fixlons(df):
     return df
 
 
-crst_hypocenters = pd.read_csv('Data/Interior Crustal/Crustal_Hypocenters.txt', delimiter='\t',
-                               names=['lon', 'lat', 'depth', 'dip', 'strike', 'name'])
+crst_hypocenters = pd.read_csv('Data/Down Dip/sample_points_full.txt', delimiter=' ')
 print(crst_hypocenters.info)
-
 # create rupture geometries
 # for index, row in crst_hypocenters.iterrows():
 #     p = createPlane(row['lon'], row['lat'], MAG, row['depth'], row['strike'], row['dip'], 'ss')
@@ -204,31 +202,14 @@ print(crst_hypocenters.info)
 #     ccf = LB13''')
 
 # Create PyGMT map of scenarios
-
-gdf = gpd.read_file('Data/faults/mp141/shapefiles/mp141-qflt-line-alaska.shp')
-# gdf = gdf.drop(['CODE', 'NUM', 'AGE', 'ACODE', 'SLIPRATE', 'SLIPCODE', 'SLIPSENSE', 'DIPDIRECTI', 'FCODE', 'FTYPE', 'SecondaryS'], axis=1)
-searchfor = 'Denali fault|Castle Mountain fault|Northern Foothills fold and thrust belt|seismic zone'
-all_data = []
-all_data.append(gdf[gdf['NAME'].str.contains(searchfor, regex=True)])
-gdf.plot()
-plt.show()
-
 #region map maker
 title = r"Interior Crustal Scenarios"
 coast_border = "a/0.25p,black"
 shorelines = "0.15p,black"
 fig = pygmt.Figure()
 # fig.basemap(region=[160, 240, 40, 75], projection='M15c', frame=True)
-fig.basemap(region='206.5/60.5/218/66.5+r', projection='M15c', frame=["af", f'WSne+t"{title}"'])
+fig.basemap(region='206.5/60.5/218/63+r', projection='M15c', frame=["af", f'WSne+t"{title}"'])
 fig.coast(shorelines=shorelines, borders=coast_border, water='lightsteelblue1', land='gainsboro')  # draw coast over datawater='skyblue'
-
-for data_shp in all_data:
-    fig.plot(
-        data=data_shp,
-        color='darkblue'
-    )
-
-fig.plot(data=gdf, color='black')
 
 fig.plot(  # Plot seismic stations as triangles
     x=uf.ActiveBBs['lon'],
@@ -238,14 +219,12 @@ fig.plot(  # Plot seismic stations as triangles
     pen='0.1p,black',
 )
 
-
-
 starsize = 1.0
 numsize = 0.45
 # numsize2 = 0.25
 planes = {}
 for index, row in crst_hypocenters.iterrows():
-    p = createPlane(row['lon'], row['lat'], MAG, row['depth'], row['strike'], row['dip'], 'ss')
+    p = createPlane(row['lon'], row['lat'], MAG, row['depth'], row['strike'], row['dip'], row['mech'])
     planes[index] = p
     fig.plot(
         x=[p[1][0], p[3][0], p[5][0], p[7][0], p[1][0]],
