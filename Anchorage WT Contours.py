@@ -83,5 +83,5 @@ fig.contour(x=anc.lons.flat,
             pen='0.04c,black')
 fig.colorbar(position="JMR+o1c/0c+w7c/0.5c+mc")
 fig.show()
-fig.savefig('Figures/ancwtcolor.pdf')
+fig.savefig('Figures/ancwtcolor.pdf', dpi=300)
 fig.savefig('Figures/ancwtcolor.png')
