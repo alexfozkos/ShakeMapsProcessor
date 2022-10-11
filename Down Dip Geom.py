@@ -282,5 +282,5 @@ for name, data in comm_dict.items():
         style=f'l0.25c+t"{name}"',
         color='black'
     )
-fig.savefig('Figures/Interior Crustal/InteriorScenarioMap.pdf')
+fig.savefig('Figures/Interior Crustal/InteriorScenarioMap_pre.pdf')
 #endregion map maker

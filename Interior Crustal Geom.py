@@ -207,11 +207,14 @@ print(crst_hypocenters.info)
 
 gdf = gpd.read_file('Data/faults/mp141/shapefiles/mp141-qflt-line-alaska.shp')
 # gdf = gdf.drop(['CODE', 'NUM', 'AGE', 'ACODE', 'SLIPRATE', 'SLIPCODE', 'SLIPSENSE', 'DIPDIRECTI', 'FCODE', 'FTYPE', 'SecondaryS'], axis=1)
-searchfor = 'Denali fault|Castle Mountain fault|Northern Foothills fold and thrust belt|seismic zone'
-all_data = []
-all_data.append(gdf[gdf['NAME'].str.contains(searchfor, regex=True)])
-gdf.plot()
-plt.show()
+searchfor = 'Denali fault|Castle Mountain fault|Northern Foothills fold and thrust belt|seismic zone|Tintina'
+linestrings = [geom for geom in gdf[gdf['NAME'].str.contains(searchfor, regex=True)].geometry]
+# linestrings = [geom for geom in gdf.geometry]
+
+# all_data = []
+# all_data.append(gdf[gdf['NAME'].str.contains(searchfor, regex=True)])
+# gdf.plot()
+# plt.show()
 
 #region map maker
 title = r"Interior Crustal Scenarios"
@@ -222,13 +225,14 @@ fig = pygmt.Figure()
 fig.basemap(region='206.5/60.5/218/66.5+r', projection='M15c', frame=["af", f'WSne+t"{title}"'])
 fig.coast(shorelines=shorelines, borders=coast_border, water='lightsteelblue1', land='gainsboro')  # draw coast over datawater='skyblue'
 
-for data_shp in all_data:
-    fig.plot(
-        data=data_shp,
-        color='darkblue'
-    )
-
-fig.plot(data=gdf, color='black')
+for geom in linestrings:
+    if geom.type == 'LineString':
+        x, y = geom.coords.xy
+        fig.plot(x=x, y=y, pen='thin,brown')
+    elif geom.type == 'MultiLineString':
+        for line in geom.geoms:
+            x, y = line.coords.xy
+            fig.plot(x=x, y=y, pen='thin,brown')
 
 fig.plot(  # Plot seismic stations as triangles
     x=uf.ActiveBBs['lon'],
@@ -287,6 +291,7 @@ for index, row in crst_hypocenters.iterrows():
         style=f'l{numsize2}c+t"{index+1}"',
         color='black'
     )
+
 with open('Data/Southern Alaska Coast/Community Data.json') as json_file:
     comm_dict = json.load(json_file)
 # plot communities
@@ -297,11 +302,17 @@ for name, data in comm_dict.items():
         style='c0.08c',
         color='black'
     )
-    fig.plot(
+    # fig.plot(
+    #     x=data['latlon'][1],
+    #     y=data['latlon'][0] + 0.1,
+    #     style=f'l0.25c+t"{name}"',
+    #     color='black'
+    # )
+    fig.text(
+        text=name,
         x=data['latlon'][1],
         y=data['latlon'][0] + 0.1,
-        style=f'l0.25c+t"{name}"',
-        color='black'
+        font="10p,Helvetica-Bold,black"
     )
 fig.savefig('Figures/Interior Crustal/InteriorScenarioMap.pdf')
 #endregion map maker
