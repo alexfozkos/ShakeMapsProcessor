@@ -224,6 +224,10 @@ fig = pygmt.Figure()
 # fig.basemap(region=[160, 240, 40, 75], projection='M15c', frame=True)
 fig.basemap(region='206.5/60.5/218/66.5+r', projection='M15c', frame=["af", f'WSne+t"{title}"'])
 fig.coast(shorelines=shorelines, borders=coast_border, water='lightsteelblue1', land='gainsboro')  # draw coast over datawater='skyblue'
+ll = 1
+data=gdf
+
+fig.plot(data=data)
 
 for geom in linestrings:
     if geom.type == 'LineString':
@@ -256,7 +260,7 @@ for index, row in crst_hypocenters.iterrows():
         y=[p[1][1], p[3][1], p[5][1], p[7][1], p[1][1]],
         color='black',
         transparency='25',
-        pen='1p,black'
+        pen='2p,black'
     )
     # fig.plot(
     #     x=p[0][0],
