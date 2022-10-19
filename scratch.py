@@ -1,35 +1,51 @@
 import math
 import numpy as np
+import pandas as pd
 import UsefulFunctions as uf
+import json
 import matplotlib
+from MMILegend import mmimap, mmi_cmap, draw_colorbar
+
 matplotlib.rcParams["backend"] = "TkAgg"
 from matplotlib import pyplot as plt
+from MMILegend import mmimap, mmi_cmap, draw_colorbar
 
-qcf1 = uf.Earthquake('Data/Southern Alaska Coast/grids/QCF1grid.xml')
-qcf1_man = uf.Earthquake('Data/Southern Alaska Coast/grids/QCF1man_grid.xml')
-eqlist_mini = [qcf1, qcf1_man]
-colors = ['r', 'g', 'b']
-fig, ax = plt.subplots(figsize=(8, 6))
-fig.suptitle('QCF1 Automatic vs Manual GMPE')
-eqlabels_mini = ['Automatic', 'Manual']
+plt.rcParams.update({'font.size': 12})
 
-# for j in np.linspace(-10, 110, num=13):
-#     ax.axhline(j, c='silver', lw=0.5)
-for i in range(len(eqlist_mini)):
-    eq = eqlist_mini[i]
-    # x, y = uf.createPolygon(eq.pga, eq.distances_epi, xscale='lin')
-    ax.scatter(eq.pga, eq.distances_epi, s=1, c=colors[i], label=eqlabels_mini[i])
-    # ax[i].plot(x, y, c=colors[i], alpha=0.6)
-    # ax.fill(y, x, c=colors[i], alpha=0.5, label=eqlabels_mini[i])
-# ax.axhline(0, c='k', lw=1)
-# ax.set_xscale('log')
-# ax.invert_xaxis()
-# ax.set_xlim(2.5, 8)
-# ax.set_ylim(-15, 120)
-ax.set_ylabel('PGA (%g)')
-ax.set_xlabel('Distance (km)')
-ax.set_yscale('log')
-plt.legend(loc='upper right')
-# plt.tight_layout(rect=(0, 0, 1, 0.99))
-plt.savefig('Figures/test.png')
-plt.show()
+crst_hypocenters = pd.read_csv('Data/Interior Crustal/Crustal_Hypocenters.txt', delimiter='\t',
+                               names=['lon', 'lat', 'depth', 'dip', 'strike', 'name'])
+
+eq_labels = ['Tintina', 'RSZ', 'MSZ', 'FSZ', 'SSZ', 'NF']
+for i in range(1, 6):
+    eq_labels.append(f'Denali_{i}')
+for i in range(1, 3):
+    eq_labels.append(f'CM_{i}')
+
+with open('Data/Interior Crustal/Interior Community Data.json') as json_file:
+    comm_dict = json.load(json_file)
+print(len(comm_dict.keys()))
+
+# plt.rc('axes', titlesize=10, labelsize=8)
+# plt.rc('xtick', labelsize=6)
+# plt.rc('ytick', labelsize=6)
+
+markers = 'o^v12spP*h+xD'
+fig, ax = plt.subplots(figsize=(6,6))
+
+for row in crst_hypocenters.iterrows():
+    distances = []
+    mmis = []
+    wts = []
+    for name, data in comm_dict.items():
+        distances.append(uf.getDistance(row[1]['lat'], row[1]['lon'], data['latlon'][0], data['latlon'][1]))
+        mmis.append(data['mmi'][row[0]])
+        wts.append(data['wt'][row[0]])
+
+    ax.scatter(distances, wts, c=mmis, cmap=mmi_cmap, marker='o', label=row[1]['name'])
+ax.axhline(0, ls=':', c='k', alpha=.5)
+ax.set_xlabel('Epicentral Distance (km)')
+ax.set_ylabel('Warning Times (s)')
+ax.set_title('Distance vs warning times for Crustal Quakes')
+draw_colorbar(fig, mmimap, None)
+plt.tight_layout()
+plt.savefig('Figures/misc/test.pdf')
