@@ -39,11 +39,16 @@ def createPlane(lon0, lat0, Mw, D, strike, dip, mech):
 
     theta = np.deg2rad(dip)  # convert dip to radians
     angle = np.deg2rad(360 - strike + 90)  # Convert strike to positive angle from x axis, and to radians
-    if mech == 'int':  # Table 2, interfrace rupture
+    if mech == 'int':  # Table 2, interface rupture
         L = 10 ** (-2.90 + 0.63 * Mw)  # km, length of fault
         WL = 10 ** (0.39 + 0.74 * np.log10(L))  # km, width of fault
         W1 = 10 ** (-0.86 + 0.35 * Mw)
         W = 10 ** (-1.91 + 0.48 * Mw)  # W2
+        Wproj = W * cos(theta)  # find the projected width of the fault
+        deld = 0.5 * W * sin(theta)  # find the change in depth from the center to the top/bottom of the fault
+    elif mech == 'r':  # Table 2 in drive reverse fault (where did these numbers come from? Investigate)
+        L = 10 ** (-2.693 + 0.614 * Mw)  # km, length of fault
+        W = 10 ** (-1.669 + 0.435 * Mw)
         Wproj = W * cos(theta)  # find the projected width of the fault
         deld = 0.5 * W * sin(theta)  # find the change in depth from the center to the top/bottom of the fault
     elif mech == 'ss':  # Table 5, strike slip rupture
@@ -52,9 +57,14 @@ def createPlane(lon0, lat0, Mw, D, strike, dip, mech):
         W = 10 ** (-1.39 + 0.35 * Mw)
         Wproj = W * cos(theta)  # find the projected width of the fault
         deld = 0.5 * W * sin(theta)  # find the change in depth from the center to the top/bottom of the fault
-    elif mech == 'r':  # Table 2 in drive? reverse fault
-        L = 10 ** (-2.693 + 0.614 * Mw)  # km, length of fault
-        W = 10 ** (-1.669 + 0.435 * Mw)
+    elif mech == 'is':  # Table 5 in drive inslab
+        L = 10 ** (-3.03 + 0.63 * Mw)  # km, length of fault
+        W = 10 ** (-1.01 + 0.35 * Mw)
+        Wproj = W * cos(theta)  # find the projected width of the fault
+        deld = 0.5 * W * sin(theta)  # find the change in depth from the center to the top/bottom of the fault
+    elif mech == 'or':  # Table 5 outer rise
+        L = 10 ** (-2.87 + 0.63 * Mw)  # km, length of fault
+        W = 10 ** (-1.18 + 0.35 * Mw)
         Wproj = W * cos(theta)  # find the projected width of the fault
         deld = 0.5 * W * sin(theta)  # find the change in depth from the center to the top/bottom of the fault
     else:

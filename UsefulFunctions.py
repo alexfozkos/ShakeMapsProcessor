@@ -1,6 +1,7 @@
 import xml.etree.ElementTree as ET
 import math
 import numpy as np
+from numpy import sin, cos, pi
 import requests
 import os
 import pandas as pd
@@ -24,6 +25,160 @@ def download(url):
     with open('Data/misc/grid.xml', 'wb') as file:
         file.write(response.content)
 
+
+def km2lat(d):
+    return d / 110.574
+
+
+def km2lon(d, lat):
+    return d / (111.320 * cos(np.deg2rad(lat)))
+
+
+def createPlane(lon0, lat0, Mw, D, strike, dip, mech):
+    #
+    #                    1
+    #
+    #                           2
+    #
+    #           8                       3
+    #
+    #                 '0'
+    #
+    #   7                      4
+    #
+    #          6
+    #
+    #                 5
+
+    theta = np.deg2rad(dip)  # convert dip to radians
+    angle = np.deg2rad(360 - strike + 90)  # Convert strike to positive angle from x axis, and to radians
+    if mech == 'int':  # Table 2, interface rupture
+        L = 10 ** (-2.90 + 0.63 * Mw)  # km, length of fault
+        WL = 10 ** (0.39 + 0.74 * np.log10(L))  # km, width of fault
+        W1 = 10 ** (-0.86 + 0.35 * Mw)
+        W = 10 ** (-1.91 + 0.48 * Mw)  # W2
+        Wproj = W * cos(theta)  # find the projected width of the fault
+        deld = 0.5 * W * sin(theta)  # find the change in depth from the center to the top/bottom of the fault
+    elif mech == 'r':  # Table 2 in drive reverse fault (where did these numbers come from? Investigate)
+        L = 10 ** (-2.693 + 0.614 * Mw)  # km, length of fault
+        W = 10 ** (-1.669 + 0.435 * Mw)
+        Wproj = W * cos(theta)  # find the projected width of the fault
+        deld = 0.5 * W * sin(theta)  # find the change in depth from the center to the top/bottom of the fault
+    elif mech == 'ss':  # Table 5, strike slip rupture
+        L = 10 ** (-2.81 + 0.63 * Mw)  # km, length of fault
+        W_L = 10 ** (-0.22 + 0.74 * np.log10(L))  # km, width of fault
+        W = 10 ** (-1.39 + 0.35 * Mw)
+        Wproj = W * cos(theta)  # find the projected width of the fault
+        deld = 0.5 * W * sin(theta)  # find the change in depth from the center to the top/bottom of the fault
+    elif mech == 'is':  # Table 5 in drive inslab
+        L = 10 ** (-3.03 + 0.63 * Mw)  # km, length of fault
+        W = 10 ** (-1.01 + 0.35 * Mw)
+        Wproj = W * cos(theta)  # find the projected width of the fault
+        deld = 0.5 * W * sin(theta)  # find the change in depth from the center to the top/bottom of the fault
+    elif mech == 'or':  # Table 5 outer rise
+        L = 10 ** (-2.87 + 0.63 * Mw)  # km, length of fault
+        W = 10 ** (-1.18 + 0.35 * Mw)
+        Wproj = W * cos(theta)  # find the projected width of the fault
+        deld = 0.5 * W * sin(theta)  # find the change in depth from the center to the top/bottom of the fault
+    else:
+        L = 1
+        W = 1
+        Wproj = W * cos(theta)
+        deld = 0.5 * W * sin(theta)
+
+    print('''Fault Plane Parameters
+    Strike: {}
+    Dip: {}
+    Length: {}
+    Width: {}
+    Projected Width: {}
+    Lower depth: {}
+    Upper depth: {}
+    '''.format(strike, dip, L, W, Wproj, D + deld, D - deld))
+    # calculate points of the plane, midpoints first
+    x2 = 0.5 * L * cos(angle - pi)
+    # print(type(lon0))
+    # print(lon0)
+    # print(type(km2lon(x2, lat0)))
+    lon2 = lon0 + km2lon(x2, lat0)
+    y2 = 0.5 * L * sin(angle - pi)
+    lat2 = lat0 + km2lat(y2)
+    d2 = D
+    p2 = (lon2-360, lat2, d2)
+
+    x6 = 0.5 * L * cos(angle)
+    lon6 = lon0 + km2lon(x6, lat0)
+    y6 = 0.5 * L * sin(angle)
+    lat6 = lat0 + km2lat(y6)
+    d6 = D
+    p6 = (lon6-360, lat6, d6)
+
+    x8 = 0.5 * Wproj * cos(angle - pi / 2)
+    lon8 = lon0 + km2lon(x8, lat0)
+    y8 = 0.5 * Wproj * sin(angle - pi / 2)
+    lat8 = lat0 + km2lat(y8)
+    d8 = D + deld
+    p8 = (lon8-360, lat8, d8)
+
+    x4 = 0.5 * Wproj * cos(angle + pi / 2)
+    lon4 = lon0 + km2lon(x4, lat0)
+    y4 = 0.5 * Wproj * sin(angle + pi / 2)
+    lat4 = lat0 + km2lat(y4)
+    d4 = D - deld
+    p4 = (lon4-360, lat4, d4)
+
+    # Corners, use midpoints as reference
+    x1 = 0.5 * L * cos(angle - pi)
+    lon1 = lon8 + km2lon(x1, lat0)
+    y1 = 0.5 * L * sin(angle - pi)
+    lat1 = lat8 + km2lat(y1)
+    d1 = D + deld
+    p1 = (lon1-360, lat1, d1)
+
+    x7 = 0.5 * L * cos(angle)
+    lon7 = lon8 + km2lon(x7, lat0)
+    y7 = 0.5 * L * sin(angle)
+    lat7 = lat8 + km2lat(y7)
+    d7 = D + deld
+    p7 = (lon7-360, lat7, d7)
+
+    x3 = 0.5 * L * cos(angle - pi)
+    lon3 = lon4 + km2lon(x3, lat0)
+    y3 = 0.5 * L * sin(angle - pi)
+    lat3 = lat4 + km2lat(y3)
+    d3 = D - deld
+    p3 = (lon3-360, lat3, d3)
+
+    x5 = 0.5 * L * cos(angle)
+    lon5 = lon4 + km2lon(x5, lat0)
+    y5 = 0.5 * L * sin(angle)
+    lat5 = lat4 + km2lat(y5)
+    d5 = D - deld
+    p5 = (lon5-360, lat5, d5)
+
+    p0 = (lon0, lat0, D)
+    x = [x1, x2, x3, x4, x5, x6, x7, x8]
+    y = [y1, y2, y3, y4, y5, y6, y7, y8]
+    points = [p0, p1, p2, p3, p4, p5, p6, p7, p8]
+    # for point in points:
+    #     print(point)
+    # print(x)
+    # print(y)
+    return points, [L, W]
+
+
+# create medians and means of y values for each step in x
+# defaults to mmi step of 0.1
+def meansAndMedians(x, y, step=0.1):
+    y_means = []
+    y_medians = []
+    x_vals = np.arange(x.min(), x.max()+step, step)
+    for k in x_vals:
+        mask = np.isclose(x, k)
+        y_means.append(np.mean(y[mask]))
+        y_medians.append(np.median(y[mask]))
+
+    return [y_means, y_medians]
 
 # creates a set of points to draw a polygon around a set of x y data, done by slicing the
 # x points into chunks and finding the min and max y values in that slice.
