@@ -179,5 +179,5 @@ for name, data in comm_dict.items():
         font='6p,Helvetica,white',
         fill='black',
     )
-fig.savefig('Figures/Down Dip/ScenarioMap_pre.pdf')
+fig.savefig('Figures/Down Dip/ScenarioMap_pre.png', dpi=700)
 #endregion map maker
