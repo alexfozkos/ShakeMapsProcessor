@@ -3,6 +3,7 @@ import pygmt
 import UsefulFunctions as uf
 import pandas as pd
 import matplotlib.pyplot as plt
+import json
 
 slab2path = 'Data/Down Dip/Closest_slab2.txt'
 slab2 = pd.read_csv(slab2path)
@@ -39,7 +40,7 @@ coast_border = "a/0.25p,black"
 shorelines = "0.15p,black"
 fig = pygmt.Figure()
 # fig.basemap(region=[160, 240, 40, 75], projection='M15c', frame=True)
-fig.basemap(region='206.5/58/218/66.5+r', projection='M15c', frame=["af", f'WSne+t"{title}"'])
+fig.basemap(region='206.5/58/218/63+r', projection='M15c', frame=["af", f'WSne+t"{title}"'])
 fig.coast(shorelines=shorelines, borders=coast_border, water='lightsteelblue1', land='gainsboro')  # draw coast over datawater='skyblue'
 
 fig.plot(  # Plot seismic stations as triangles
@@ -81,10 +82,26 @@ fig.plot(
     color='blue',
     transparency=40
 )
+with open('Data/Southern Alaska Coast/Community Data.json') as json_file:
+    comm_dict = json.load(json_file)
+# plot communities
+for name, data in comm_dict.items():
+    fig.plot(
+        x=data['latlon'][1],
+        y=data['latlon'][0],
+        style='c0.08c',
+        color='black'
+    )
+    fig.plot(
+        x=data['latlon'][1],
+        y=data['latlon'][0] + 0.1,
+        style=f'l0.25c+t"{name}"',
+        color='black'
+    )
 
-A_p = sample_points['p'].min()  # minimum p value to subtract to that we can draw a cross section A to A', with A at 0 km
 fig.savefig('Figures/Down Dip/SlabScenarioMap.pdf')
 
+A_p = sample_points['p'].min()  # minimum p value to subtract to that we can draw a cross section A to A', with A at 0 km
 fig, ax = plt.subplots(figsize=(8, 4))
 ax.scatter(slab2projected[5]-A_p, -slab2projected[2], s=20, c='k')
 ax.scatter(-A_p, 46.7, marker='*', c='darkblue')

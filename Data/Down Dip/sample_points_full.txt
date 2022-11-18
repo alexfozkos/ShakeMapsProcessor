@@ -1,14 +1,21 @@
- r s p depth strike dip
-0 -152.937 62.471 -200 -300 220 55
-1 -152.171 62.196 -150 -175 220 31
-2 -151.419 61.916 -100 -117 220 18
-3 -150.680 61.633 -50 -80 220 5
-4 -149.955 61.346 0 -46.7 6 28
-5 -149.243 61.055 50 -42 220 5
-6 -148.545 60.761 100 -37 220 5
-7 -147.859 60.462 150 -32 220 4
-8 -147.185 60.161 200 -16 40 30
-9 -146.524 59.856 250 -15 40 30
-10 -145.875 59.548 300 -12 40 30
-11 -145.238 59.236 350 -8 40 30
-12 -144.612 58.922 400 -8 40 30
+ lon lat p depth strike dip mech name
+# too deep?
+0 -152.937 62.471 -200 225 220 85 is SlabSection1
+# Intraplate
+1 -152.171 62.196 -150 139 220 80 is SlabSection2
+2 -151.419 61.916 -100 90 220 75 is SlabSection3
+3 -150.680 61.633 -50 62.9 220 70 is SlabSection4
+# Anchorage 2018
+4 -149.955 61.346 0 46.7 220 62 is SlabSection5
+# Slight Intraplate
+5 -149.243 61.055 50 37 220 45 is SlabSection6
+# Interface
+6 -148.545 60.761 100 22 220 5 int SlabSection7
+7 -147.859 60.462 150 19 220 5 int SlabSection8
+8 -147.185 60.161 200 16 220 4 int SlabSection9
+9 -146.524 59.856 250 15 220 4 int SlabSection10
+# Outer Rise, Delete last one?
+# https://earthquake.usgs.gov/earthquakes/eventpage/ak0165nn2kdk/moment-tensor
+10 -145.875 59.548 300 12 40 30 or SlabSection11
+11 -145.238 59.236 350 10 40 30 or SlabSection12
+12 -144.612 58.922 400 10 40 30 or SlabSection13

@@ -1,0 +1,63 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Oct 26 14:29:01 2022
+
+@author: sknoel
+"""
+
+import pygmt
+import pandas as pd
+
+headers = ["station", "1", "2", "latitude", "longitude", "5", "6", "7", "8", "9", "10", "11"]
+drop = ["1", "2", "5", "6", "7", "8", "9", "10", "11"]
+
+Site_Path = "PurcellMtn.site"
+Site_df   = pd.read_fwf(Site_Path, header=None, names=headers)
+print(Site_df)
+data = Site_df.drop(labels=drop, axis=1)
+data = data.drop(0)
+data = data.reset_index()
+
+
+Station_Names = ["GCSA", 
+                 "E17K", "E18K", "E19K",
+                 "F17K", "F18K", "F19K", "F20K",
+                 "G17K", "G18K", "G19K",
+                 "H17K", "H18K", "H19K", "H20K"]
+
+
+Station_Lat = [64.7461, 67.0800, 67.4213, 67.4572, 66.4400, 66.6001, 66.8300, 67.0486,
+               65.5011, 65.8900, 66.1434, 64.9370, 65.1500, 65.5300, 65.4924]
+
+Station_Lon = [-156.8792, -161.8300, -160.6027, -157.2316, -161.2500, -159.6514, -157.7700, 
+               -155.7251, -160.6514, -158.6500, -157.0870, -159.9126, -158.3600, -156.4500, -154.8808]
+
+
+print(data)
+
+longitude = data["longitude"]
+latitude = data["latitude"]
+print(longitude)
+#region = [-162.1, -154.5, 64.5, 67.6]
+
+
+region = [
+    data.longitude.min() - 1,
+    data.longitude.max() + 1,
+    data.latitude.min() - 1,
+    data.latitude.max() + 1,
+]
+
+
+fig = pygmt.Figure()
+
+fig.basemap(region=region, projection="M15c", frame=True)
+
+fig.coast(land="palegreen", 
+          water='royalblue')
+# fig.plot(x=longitude, y=latitude, style='c0.3c', color='red', pen='black')
+# fig.plot(x=Station_Lon, y=Station_Lat, style="c0.3c", color="white", pen="black")
+#fig.plot(x=-156.8792, y=64.7461)
+
+fig.show()

@@ -1,7 +1,7 @@
 import os
 import json
 import matplotlib as mpl
-
+import geopandas as gpd
 mpl.rcParams["backend"] = "TkAgg"
 import pandas as pd
 import numpy as np
@@ -39,11 +39,16 @@ def createPlane(lon0, lat0, Mw, D, strike, dip, mech):
 
     theta = np.deg2rad(dip)  # convert dip to radians
     angle = np.deg2rad(360 - strike + 90)  # Convert strike to positive angle from x axis, and to radians
-    if mech == 'int':  # Table 2, interfrace rupture
+    if mech == 'int':  # Table 2, interface rupture
         L = 10 ** (-2.90 + 0.63 * Mw)  # km, length of fault
         WL = 10 ** (0.39 + 0.74 * np.log10(L))  # km, width of fault
         W1 = 10 ** (-0.86 + 0.35 * Mw)
         W = 10 ** (-1.91 + 0.48 * Mw)  # W2
+        Wproj = W * cos(theta)  # find the projected width of the fault
+        deld = 0.5 * W * sin(theta)  # find the change in depth from the center to the top/bottom of the fault
+    elif mech == 'r':  # Table 2 in drive reverse fault (where did these numbers come from? Investigate)
+        L = 10 ** (-2.693 + 0.614 * Mw)  # km, length of fault
+        W = 10 ** (-1.669 + 0.435 * Mw)
         Wproj = W * cos(theta)  # find the projected width of the fault
         deld = 0.5 * W * sin(theta)  # find the change in depth from the center to the top/bottom of the fault
     elif mech == 'ss':  # Table 5, strike slip rupture
@@ -52,9 +57,14 @@ def createPlane(lon0, lat0, Mw, D, strike, dip, mech):
         W = 10 ** (-1.39 + 0.35 * Mw)
         Wproj = W * cos(theta)  # find the projected width of the fault
         deld = 0.5 * W * sin(theta)  # find the change in depth from the center to the top/bottom of the fault
-    elif mech == 'r':  # Table 2 in drive? reverse fault
-        L = 10 ** (-2.693 + 0.614 * Mw)  # km, length of fault
-        W = 10 ** (-1.669 + 0.435 * Mw)
+    elif mech == 'is':  # Table 5 in drive inslab
+        L = 10 ** (-3.03 + 0.63 * Mw)  # km, length of fault
+        W = 10 ** (-1.01 + 0.35 * Mw)
+        Wproj = W * cos(theta)  # find the projected width of the fault
+        deld = 0.5 * W * sin(theta)  # find the change in depth from the center to the top/bottom of the fault
+    elif mech == 'or':  # Table 5 outer rise
+        L = 10 ** (-2.87 + 0.63 * Mw)  # km, length of fault
+        W = 10 ** (-1.18 + 0.35 * Mw)
         Wproj = W * cos(theta)  # find the projected width of the fault
         deld = 0.5 * W * sin(theta)  # find the change in depth from the center to the top/bottom of the fault
     else:
@@ -152,6 +162,7 @@ def fixlons(df):
 crst_hypocenters = pd.read_csv('Data/Interior Crustal/Crustal_Hypocenters.txt', delimiter='\t',
                                names=['lon', 'lat', 'depth', 'dip', 'strike', 'name'])
 print(crst_hypocenters.info)
+
 # create rupture geometries
 # for index, row in crst_hypocenters.iterrows():
 #     p = createPlane(row['lon'], row['lat'], MAG, row['depth'], row['strike'], row['dip'], 'ss')
@@ -203,6 +214,18 @@ print(crst_hypocenters.info)
 #     ccf = LB13''')
 
 # Create PyGMT map of scenarios
+
+gdf = gpd.read_file('Data/faults/mp141/shapefiles/mp141-qflt-line-alaska.shp')
+# gdf = gdf.drop(['CODE', 'NUM', 'AGE', 'ACODE', 'SLIPRATE', 'SLIPCODE', 'SLIPSENSE', 'DIPDIRECTI', 'FCODE', 'FTYPE', 'SecondaryS'], axis=1)
+searchfor = 'Denali fault|Castle Mountain fault|Northern Foothills fold and thrust belt|seismic zone|Tintina'
+linestrings = [geom for geom in gdf[gdf['NAME'].str.contains(searchfor, regex=True)].geometry]
+# linestrings = [geom for geom in gdf.geometry]
+
+# all_data = []
+# all_data.append(gdf[gdf['NAME'].str.contains(searchfor, regex=True)])
+# gdf.plot()
+# plt.show()
+
 #region map maker
 title = r"Interior Crustal Scenarios"
 coast_border = "a/0.25p,black"
@@ -211,6 +234,19 @@ fig = pygmt.Figure()
 # fig.basemap(region=[160, 240, 40, 75], projection='M15c', frame=True)
 fig.basemap(region='206.5/60.5/218/66.5+r', projection='M15c', frame=["af", f'WSne+t"{title}"'])
 fig.coast(shorelines=shorelines, borders=coast_border, water='lightsteelblue1', land='gainsboro')  # draw coast over datawater='skyblue'
+ll = 1
+data=gdf
+
+fig.plot(data=data)
+
+for geom in linestrings:
+    if geom.type == 'LineString':
+        x, y = geom.coords.xy
+        fig.plot(x=x, y=y, pen='thin,brown')
+    elif geom.type == 'MultiLineString':
+        for line in geom.geoms:
+            x, y = line.coords.xy
+            fig.plot(x=x, y=y, pen='thin,brown')
 
 fig.plot(  # Plot seismic stations as triangles
     x=uf.ActiveBBs['lon'],
@@ -220,22 +256,7 @@ fig.plot(  # Plot seismic stations as triangles
     pen='0.1p,black',
 )
 
-with open('Data/Southern Alaska Coast/Community Data.json') as json_file:
-    comm_dict = json.load(json_file)
-# plot communities
-for name, data in comm_dict.items():
-    fig.plot(
-        x=data['latlon'][1],
-        y=data['latlon'][0],
-        style='c0.08c',
-        color='black'
-    )
-    # fig.plot(
-    #     x=data['latlon'][1],
-    #     y=data['latlon'][0] + 0.1,
-    #     style=f'l0.25c+t"{name}"',
-    #     color='black'
-    # )
+
 
 starsize = 1.0
 numsize = 0.45
@@ -249,7 +270,7 @@ for index, row in crst_hypocenters.iterrows():
         y=[p[1][1], p[3][1], p[5][1], p[7][1], p[1][1]],
         color='black',
         transparency='25',
-        pen='1p,black'
+        pen='2p,black'
     )
     # fig.plot(
     #     x=p[0][0],
@@ -285,5 +306,27 @@ for index, row in crst_hypocenters.iterrows():
         color='black'
     )
 
+with open('Data/Southern Alaska Coast/Community Data.json') as json_file:
+    comm_dict = json.load(json_file)
+# plot communities
+for name, data in comm_dict.items():
+    fig.plot(
+        x=data['latlon'][1],
+        y=data['latlon'][0],
+        style='c0.08c',
+        color='black'
+    )
+    # fig.plot(
+    #     x=data['latlon'][1],
+    #     y=data['latlon'][0] + 0.1,
+    #     style=f'l0.25c+t"{name}"',
+    #     color='black'
+    # )
+    fig.text(
+        text=name,
+        x=data['latlon'][1],
+        y=data['latlon'][0] + 0.1,
+        font="10p,Helvetica-Bold,black"
+    )
 fig.savefig('Figures/Interior Crustal/InteriorScenarioMap.pdf')
 #endregion map maker
