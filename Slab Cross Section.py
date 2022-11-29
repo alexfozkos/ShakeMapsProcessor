@@ -4,6 +4,7 @@ import UsefulFunctions as uf
 import pandas as pd
 import matplotlib.pyplot as plt
 import json
+from scipy.optimize import curve_fit
 MAG = 7.8
 
 sample_points = pd.read_csv('Data/Down Dip/sample_points_full.txt', delimiter=' ', comment='#')
@@ -19,11 +20,12 @@ slab2projected = pygmt.project(data=slab2,
 
 A_p = sample_points['p'].min()  # minimum p value to subtract to that we can draw a cross section A to A', with A at 0 km
 fig, ax = plt.subplots(figsize=(8, 4))
-ax.scatter(slab2projected[5]-A_p, -slab2projected[2], s=10, c='dimgray')  # slab outline
+plt.grid(alpha=0.6, zorder=0)
+ax.scatter(slab2projected[5]-A_p, -slab2projected[2], s=10, c='dimgray', zorder=3)  # slab outline
 # ax.scatter(-A_p, 46.7, marker='*', c='darkblue')
-ax.scatter(sample_points['p']-A_p, y=np.zeros(sample_points['p'].count()), s=30, c='darkred')  # sample points
-for p1 in sample_points['p']:
-    ax.axvline(p1-A_p, lw=1, alpha=0.5, c='darkred', ls=':')
+# ax.scatter(sample_points['p']-A_p, y=np.zeros(sample_points['p'].count()), s=30, c='darkred')  # sample points
+# for p1 in sample_points['p']:
+#     ax.axvline(p1-A_p, lw=1, alpha=0.5, c='darkred', ls=':')
 
 planes = {}
 for index, row in sample_points.iterrows():
@@ -38,16 +40,28 @@ for index, row in sample_points.iterrows():
     print(deld, delp)
     x = np.array([row['p'] - delp, row['p'] + delp])
     y = np.array([row['depth'] - deld, row['depth'] + deld])
-    plt.plot(x-A_p, y, c='r', lw=2, zorder=2)
-    plt.scatter(row['p']-A_p, row['depth'], s=450, c='white', marker='*', zorder=3, linewidths=1, edgecolors='k')
-    plt.text(row['p']-A_p, row['depth'], s=str(index+1), fontsize=6, zorder=4, ha='center', va='center')
+    plt.plot(x-A_p, y, c='r', lw=2, zorder=4)
+    plt.scatter(row['p']-A_p, row['depth'], s=450, c='white', marker='*', zorder=5, linewidths=1, edgecolors='k')
+    plt.text(row['p']-A_p, row['depth'], s=str(index+1), fontsize=6, zorder=6, ha='center', va='center')
 
 
 plt.gca().invert_yaxis()
 plt.gca().set_aspect('equal', adjustable='box')
-plt.grid(alpha=0.6)
 plt.title('Subduction Cross Section and Scenarios')
 plt.ylabel('Depth (km)')
 plt.xlabel('Distance (km)')
 plt.tight_layout()
-plt.savefig('Figures/Down Dip/CrossSection_2.png', dpi=700)
+plt.savefig('Figures/Down Dip/CrossSection_2.pdf', dpi=700)
+
+
+def func(x, a, b, c, d):
+    y = a + b*x + c*x**2 + d*x**3
+    return y
+
+
+parms = curve_fit(func, xdata=slab2projected[5]-A_p, ydata=-slab2projected[2])
+a, b, c, d = parms[0]
+new_x = np.linspace(1, 500, 500-1)
+new_y = func(new_x, a, b, c, d)
+plt.plot(new_x, new_y)
+plt.savefig('Figures/misc/linefitcstest.png', dpi=700)
