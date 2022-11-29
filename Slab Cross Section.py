@@ -4,7 +4,6 @@ import UsefulFunctions as uf
 import pandas as pd
 import matplotlib.pyplot as plt
 import json
-from scipy.optimize import curve_fit
 MAG = 7.8
 
 sample_points = pd.read_csv('Data/Down Dip/sample_points_full.txt', delimiter=' ', comment='#')
@@ -52,16 +51,3 @@ plt.ylabel('Depth (km)')
 plt.xlabel('Distance (km)')
 plt.tight_layout()
 plt.savefig('Figures/Down Dip/CrossSection_2.pdf', dpi=700)
-
-
-def func(x, a, b, c, d):
-    y = a + b*x + c*x**2 + d*x**3
-    return y
-
-
-parms = curve_fit(func, xdata=slab2projected[5]-A_p, ydata=-slab2projected[2])
-a, b, c, d = parms[0]
-new_x = np.linspace(1, 500, 500-1)
-new_y = func(new_x, a, b, c, d)
-plt.plot(new_x, new_y)
-plt.savefig('Figures/misc/linefitcstest.png', dpi=700)
