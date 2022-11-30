@@ -14,8 +14,10 @@ community_dict = {'Anchorage': {'latlon': [61.2167, -149.8936]},
                   'Fort Greely': {'latlon': [63.9800, -145.7424]},
                   'Eielson Air Force Base': {'latlon': [64.6638, -147.0992]},
                   'Fort Wainwright': {'latlon': [64.8278, -147.6429]},
-                  'Clear Space Force Station': {'latlon': [64.2912, -149.1595]}}
-# coord_dict[''] = {'latlon': []}
+                  'Clear Space Force Station': {'latlon': [64.2912, -149.1595]},
+                  'Whittier': {'latlon': [60.7667, -148.7000]},
+                  'Talkeetna': {'latlon': [62.3333, -150.1000]}
+                  }
 
 eq_dict = {'tin': uf.Earthquake('Data/Interior Crustal/grids/Tintina.xml'),
            'rsz': uf.Earthquake('Data/Interior Crustal/grids/Rampart.xml'),

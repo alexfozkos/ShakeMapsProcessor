@@ -309,5 +309,5 @@ for name, data in comm_dict.items():
     )
 
 
-fig.savefig('Figures/CoastalScenarios/ScenarioMap_notitle.png', dpi=700)
+fig.savefig('Figures/CoastalScenarios/ScenarioMap_notitle.png', dpi=1000)
 fig.savefig('Figures/CoastalScenarios/ScenarioMap_notitle.pdf', dpi=700)

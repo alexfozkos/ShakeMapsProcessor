@@ -181,11 +181,11 @@ coast_border = "a/0.25p,black"
 shorelines = "0.15p,black"
 fig = pygmt.Figure()
 # fig.basemap(region=[160, 240, 40, 75], projection='M15c', frame=True)
-fig.basemap(region='206.5/60.5/218/66.5+r', projection='M15c', frame=None)
+fig.basemap(region='207.5/60.5/217/66.2+r', projection='M15c', frame=None)
 fig.coast(shorelines=shorelines, borders=coast_border, water='lightsteelblue1', land='gainsboro', map_scale='n0.8/0.04+w100+f+u', frame=None)  # draw coast over datawater='skyblue'
 ll = 1
 data = gdf
-
+# plot faults
 for geom in linestrings:
     if geom.type == 'LineString':
         x, y = geom.coords.xy
@@ -205,10 +205,10 @@ fig.plot(  # Plot seismic stations as triangles
 
 
 
-starsize = 1.0
-numsize = 0.35
+starsize = 1.1
+numsize = 0.4
 ruptpen = 0.5
-starpen = 0.75
+starpen = 0.8
 planes = {}
 for index, row in crst_hypocenters.iterrows():
     p = createPlane(row['lon'], row['lat'], MAG, row['depth'], row['strike'], row['dip'], 'ss')
@@ -236,10 +236,12 @@ for index, row in crst_hypocenters.iterrows():
         color='black'
     )
 
-with open('Data/Southern Alaska Coast/Community Data.json') as json_file:
+with open('Data/Interior Crustal/Interior Community Data.json') as json_file:
     comm_dict = json.load(json_file)
 # plot communities
 for name, data in comm_dict.items():
+    if name in ['North Pole', 'Eielson Air Force Base', 'Clear Space Force Station', 'Fort Wainwright']:
+        continue
     fig.plot(
         x=data['latlon'][1],
         y=data['latlon'][0],
@@ -256,7 +258,7 @@ for name, data in comm_dict.items():
         x=data['latlon'][1],
         y=data['latlon'][0] + adjust,
         text=name,
-        font='10p,Helvetica-Narrow-Bold,black,=0.45p,white',
+        font='14p,Helvetica-Narrow-Bold,black,=0.6p,white',
         justify=corner
     )
 
