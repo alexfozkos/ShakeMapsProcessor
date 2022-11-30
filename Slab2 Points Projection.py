@@ -35,12 +35,12 @@ print(slab2projected[6].max())
 # print(sample_points_top)
 # print(sample_points_bot)
 
-title = r"Slab Scenarios"
+# title = r"Slab Scenarios"
 coast_border = "a/0.25p,black"
 shorelines = "0.15p,black"
 fig = pygmt.Figure()
 # fig.basemap(region=[160, 240, 40, 75], projection='M15c', frame=True)
-fig.basemap(region='206.5/58/218/63+r', projection='M15c', frame=["af", f'WSne+t"{title}"'])
+fig.basemap(region='206.5/58/218/63+r', projection='M15c', frame=None)
 fig.coast(shorelines=shorelines, borders=coast_border, water='lightsteelblue1', land='gainsboro')  # draw coast over datawater='skyblue'
 
 fig.plot(  # Plot seismic stations as triangles
@@ -95,24 +95,26 @@ for name, data in comm_dict.items():
     fig.plot(
         x=data['latlon'][1],
         y=data['latlon'][0] + 0.1,
-        style=f'l0.25c+t"{name}"',
+        style=f'l12p+t"{name}"',
         color='black'
     )
 
-fig.savefig('Figures/Down Dip/SlabScenarioMap.pdf')
+fig.savefig('Figures/Down Dip/SlabScenarioMap_notitle.pdf', dpi=700)
+fig.savefig('Figures/Down Dip/SlabScenarioMap_notitle.png', dpi=700)
 
-A_p = sample_points['p'].min()  # minimum p value to subtract to that we can draw a cross section A to A', with A at 0 km
-fig, ax = plt.subplots(figsize=(8, 4))
-ax.scatter(slab2projected[5]-A_p, -slab2projected[2], s=20, c='k')
-ax.scatter(-A_p, 46.7, marker='*', c='darkblue')
-ax.scatter(sample_points['p']-A_p, y=np.zeros(sample_points['p'].count()), s=30, c='darkred')
-for p1 in sample_points['p']:
-    ax.axvline(p1-A_p, lw=1, alpha=0.5, c='darkred', ls=':')
-plt.gca().invert_yaxis()
-plt.gca().set_aspect('equal', adjustable='box')
-plt.grid(alpha=0.6)
-plt.title('Subduction Cross Section and Scenarios')
-plt.ylabel('Depth (km)')
-plt.xlabel('Distance (km)')
-plt.tight_layout()
-plt.savefig('Figures/Down Dip/CrossSection.pdf')
+# A_p = sample_points['p'].min()  # minimum p value to subtract to that we can draw a cross section A to A', with A at 0 km
+# fig, ax = plt.subplots(figsize=(8, 4))
+# ax.scatter(slab2projected[5]-A_p, -slab2projected[2], s=20, c='k')
+# ax.scatter(-A_p, 46.7, marker='*', c='darkblue')
+# ax.scatter(sample_points['p']-A_p, y=np.zeros(sample_points['p'].count()), s=30, c='darkred')
+# for p1 in sample_points['p']:
+#     ax.axvline(p1-A_p, lw=1, alpha=0.5, c='darkred', ls=':')
+# plt.gca().invert_yaxis()
+# plt.gca().set_aspect('equal', adjustable='box')
+# plt.grid(alpha=0.6)
+# plt.title('Subduction Cross Section and Scenarios')
+# plt.ylabel('Depth (km)')
+# plt.xlabel('Distance (km)')
+# plt.tight_layout()
+# plt.savefig('Figures/Down Dip/CrossSection.pdf', dpi=700)
+# plt.savefig('Figures/Down Dip/CrossSection.png', dpi=700)

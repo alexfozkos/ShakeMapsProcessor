@@ -190,20 +190,6 @@ fig.plot(  # Plot seismic stations as triangles
 #     y=contours_20_3['lat'],
 #     pen='0.75p,firebrick',
 # )
-# plot communities
-for name, data in comm_dict.items():
-    fig.plot(
-        x=data['latlon'][1],
-        y=data['latlon'][0],
-        style='c0.08c',
-        color='black'
-    )
-    # fig.plot(
-    #     x=data['latlon'][1],
-    #     y=data['latlon'][0] + 0.1,
-    #     style=f'l0.25c+t"{name}"',
-    #     color='black'
-    # )
 
 starsize = 1
 numsize = 0.35
@@ -302,4 +288,26 @@ for index, row in qcf_hypocenters.iterrows():
         style=f'l{numsize}c+t"{index+16}"',
         color='black'
     )
-fig.savefig('Figures/CoastalScenarios/ScenarioMap.png', dpi=700)
+# plot communities
+for name, data in comm_dict.items():
+    fig.plot(
+        x=data['latlon'][1],
+        y=data['latlon'][0],
+        style='c0.08c',
+        color='black'
+    )
+    if name.lower() in ['sitka', 'sand point']:
+        corner = 'BL'
+    else:
+        corner = 'BR'
+    fig.text(
+        x=data['latlon'][1],
+        y=data['latlon'][0]+0.05,
+        text=name,
+        font='8p,Helvetica-Narrow-Bold,black,=0.4p,white',
+        justify=corner
+    )
+
+
+fig.savefig('Figures/CoastalScenarios/ScenarioMap_notitle.png', dpi=700)
+fig.savefig('Figures/CoastalScenarios/ScenarioMap_notitle.pdf', dpi=700)
