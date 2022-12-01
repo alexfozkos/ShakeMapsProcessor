@@ -32,17 +32,32 @@ eq_dict = {'tin': uf.Earthquake('Data/Interior Crustal/grids/Tintina.xml'),
            'cm2': uf.Earthquake('Data/Interior Crustal/grids/Castle_1.xml'),
            'cm1': uf.Earthquake('Data/Interior Crustal/grids/Castle_2.xml')}
 
-plt.figure()
+fig, ax = plt.subplots(figsize=(8, 6))
+warn_colors = ['maroon', 'orange', 'yellow']
 for i in range(0, 3):
-    plt.axhline(i * 10, lw=0.5, c=grays[i], ls=':')
+    ax.axhline(i * 10, lw=1.5, c=warn_colors[i], ls=':', zorder=0, label='%i s' % (i * 10))
+
 
 for k, v in eq_dict.items():
+    mmi = v.mmi
+    wt = v.warning_times_s
+    wt_means = []
+    wt_medians = []
+    mmi_vals = np.arange(mmi.min(), mmi.max() + 0.1, 0.1)
+    for p in mmi_vals:
+        mask = np.isclose(mmi, p)
+        wt_means.append(np.mean(wt[mask]))
+        wt_medians.append(np.median(wt[mask]))
+
     x, y = uf.createPolygon(v.mmi, v.warning_times_s, xscale='lin')
-    plt.plot(x, y, c='gray', alpha=0.8)
+    ax.plot(x, y, c='dimgray', alpha=0.9)
+    # ax.plot(mmi_vals, wt_means, lw=2, marker='^', markersize=3, c='g', label='Warning Time Means', alpha=0.9)
+    ax.plot(mmi_vals, wt_medians, lw=2, c='purple', label='Warning Time Medians', alpha=0.5)
 
 
-plt.ylabel('Warning Time (s)')
-plt.xlabel('MMI')
-plt.title('Interior Scenarios WT vs MMI')
-plt.show()
-plt.savefig('Figures/Interior Crustal/pickles.png')
+ax.set_ylabel('Warning Time (s)')
+ax.set_xlabel('MMI')
+# plt.title('Interior Scenarios WT vs MMI')
+plt.savefig('Figures/Interior Crustal/pickles.png', dpi=700)
+plt.savefig('Figures/Interior Crustal/pickles.pdf', dpi=700)
+
