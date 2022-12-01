@@ -5,6 +5,7 @@ import matplotlib
 import json
 matplotlib.rcParams["backend"] = "TkAgg"
 from matplotlib import pyplot as plt
+from matplotlib import cm, colors
 
 plt.rcParams.update({'font.size': 16})
 
@@ -32,12 +33,16 @@ eq_dict = {'tin': uf.Earthquake('Data/Interior Crustal/grids/Tintina.xml'),
            'cm2': uf.Earthquake('Data/Interior Crustal/grids/Castle_1.xml'),
            'cm1': uf.Earthquake('Data/Interior Crustal/grids/Castle_2.xml')}
 
+
+my_cmap = cm.winter
+my_norm = colors.Normalize(vmin=1, vmax=13)
+
 fig, ax = plt.subplots(figsize=(8, 6))
 warn_colors = ['maroon', 'orange', 'yellow']
 for i in range(0, 3):
     ax.axhline(i * 10, lw=1.5, c=warn_colors[i], ls=':', zorder=0, label='%i s' % (i * 10))
 
-
+ii=0
 for k, v in eq_dict.items():
     mmi = v.mmi
     wt = v.warning_times_s
@@ -49,11 +54,11 @@ for k, v in eq_dict.items():
         wt_means.append(np.mean(wt[mask]))
         wt_medians.append(np.median(wt[mask]))
 
-    x, y = uf.createPolygon(v.mmi, v.warning_times_s, xscale='lin')
-    ax.plot(x, y, c='dimgray', alpha=0.9)
+    # x, y = uf.createPolygon(v.mmi, v.warning_times_s, xscale='lin')
+    # ax.plot(x, y, c='dimgray', alpha=0.9)
     # ax.plot(mmi_vals, wt_means, lw=2, marker='^', markersize=3, c='g', label='Warning Time Means', alpha=0.9)
-    ax.plot(mmi_vals, wt_medians, lw=2, c='purple', label='Warning Time Medians', alpha=0.5)
-
+    ax.plot(mmi_vals, wt_medians, lw=4, c=my_cmap(my_norm(ii)), label='Warning Time Medians', alpha=0.7)
+    ii+=0
 
 ax.set_ylabel('Warning Time (s)')
 ax.set_xlabel('MMI')
