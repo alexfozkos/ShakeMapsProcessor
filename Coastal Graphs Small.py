@@ -69,6 +69,7 @@ for name, data in comm_dict.items():
 # plt.rc('xtick', labelsize=12)
 cbar_ax = fig.add_axes([0.92, 0.2, 0.03, 0.6])
 fig.colorbar(wt, cax=cbar_ax, orientation='vertical', label='MMI')
+# fig.colorbar(wt, cax=cbar_ax, orientation='horizontal', label='MMI')
 plt.rc('xtick', labelsize=12)
 
 # draw_colorbar(fig, mmimap, None)
