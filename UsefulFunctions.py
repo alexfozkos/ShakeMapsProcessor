@@ -6,6 +6,9 @@ import requests
 import os
 import pandas as pd
 
+PROJ_ROOT = os.path.dirname(__file__)
+DATA_PATH = os.path.join(PROJ_ROOT, 'Data')
+
 # old activebbs.txt
 # ActiveBBs = np.genfromtxt('Data/activeBBs.txt',
 #                           delimiter=[8, 9, 12, 8, 50],
@@ -16,13 +19,13 @@ import pandas as pd
 #                           )
 
 # uses csv file stations_kept.csv
-ActiveBBs = pd.read_csv('Data/stations_Kept.csv', quotechar='"')
+ActiveBBs = pd.read_csv(f'{DATA_PATH}/stations_Kept.csv', quotechar='"')
 
 
 # downloads grid.xml from shakemaps url because I can't figure out how to download it otherwise
 def download(url):
     response = requests.get(url)
-    with open('Data/misc/grid.xml', 'wb') as file:
+    with open(f'{DATA_PATH}/misc/grid.xml', 'wb') as file:
         file.write(response.content)
 
 
@@ -404,7 +407,7 @@ class Earthquake:
 
     # default init takes a string, assumes that the string is the name of a shakemap xml grid file,
     # defaults to 'grid.xml'
-    def __init__(self, xml='Data/grid.xml'):
+    def __init__(self, xml=f'{DATA_PATH}/grid.xml'):
         print('Start of Parsing for {}'.format(xml))
 
         # parse an xml file using a name of a grid.xml
