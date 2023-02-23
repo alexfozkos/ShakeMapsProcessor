@@ -6,7 +6,7 @@ import requests
 import os
 import pandas as pd
 
-PROJ_ROOT = os.path.dirname(__file__)
+PROJ_ROOT = os.path.dirname(os.path.dirname(__file__))
 DATA_PATH = os.path.join(PROJ_ROOT, 'Data')
 
 # old activebbs.txt
