@@ -55,34 +55,40 @@ def createPlane(lon0, lat0, Mw, D, strike, dip, mech):
 
     theta = np.deg2rad(dip)  # convert dip to radians
     angle = np.deg2rad(360 - strike + 90)  # Convert strike to positive angle from x axis, and to radians
-    if mech == 'int':  # Table 2, interface rupture
+
+    if mech == 'int':  # Table 2 (Allen & Hayes 2017), interface rupture
         L = 10 ** (-2.90 + 0.63 * Mw)  # km, length of fault
         WL = 10 ** (0.39 + 0.74 * np.log10(L))  # km, width of fault
         W1 = 10 ** (-0.86 + 0.35 * Mw)
         W = 10 ** (-1.91 + 0.48 * Mw)  # W2
         Wproj = W * cos(theta)  # find the projected width of the fault
         deld = 0.5 * W * sin(theta)  # find the change in depth from the center to the top/bottom of the fault
+
     elif mech == 'r':  # Table 2 in drive reverse fault (where did these numbers come from? Investigate)
-        L = 10 ** (-2.693 + 0.614 * Mw)  # km, length of fault
+        L = 10 ** (-2.693 + 0.614 * Mw)
         W = 10 ** (-1.669 + 0.435 * Mw)
-        Wproj = W * cos(theta)  # find the projected width of the fault
-        deld = 0.5 * W * sin(theta)  # find the change in depth from the center to the top/bottom of the fault
-    elif mech == 'ss':  # Table 5, strike slip rupture
-        L = 10 ** (-2.81 + 0.63 * Mw)  # km, length of fault
-        W_L = 10 ** (-0.22 + 0.74 * np.log10(L))  # km, width of fault
+        Wproj = W * cos(theta)
+        deld = 0.5 * W * sin(theta)
+
+    elif mech == 'ss':  # Table 5 (Allen & Hayes 2017), offshore strike slip rupture
+        L = 10 ** (-2.81 + 0.63 * Mw)
+        W_L = 10 ** (-0.22 + 0.74 * np.log10(L))
         W = 10 ** (-1.39 + 0.35 * Mw)
-        Wproj = W * cos(theta)  # find the projected width of the fault
-        deld = 0.5 * W * sin(theta)  # find the change in depth from the center to the top/bottom of the fault
-    elif mech == 'is':  # Table 5 in drive inslab
-        L = 10 ** (-3.03 + 0.63 * Mw)  # km, length of fault
+        Wproj = W * cos(theta)
+        deld = 0.5 * W * sin(theta)
+
+    elif mech == 'is':  # Table 5 (Allen & Hayes 2017) inslab
+        L = 10 ** (-3.03 + 0.63 * Mw)
         W = 10 ** (-1.01 + 0.35 * Mw)
-        Wproj = W * cos(theta)  # find the projected width of the fault
-        deld = 0.5 * W * sin(theta)  # find the change in depth from the center to the top/bottom of the fault
-    elif mech == 'or':  # Table 5 outer rise
-        L = 10 ** (-2.87 + 0.63 * Mw)  # km, length of fault
+        Wproj = W * cos(theta)
+        deld = 0.5 * W * sin(theta)
+
+    elif mech == 'or':  # Table 5 (Allen & Hayes 2017) outer rise
+        L = 10 ** (-2.87 + 0.63 * Mw)
         W = 10 ** (-1.18 + 0.35 * Mw)
-        Wproj = W * cos(theta)  # find the projected width of the fault
-        deld = 0.5 * W * sin(theta)  # find the change in depth from the center to the top/bottom of the fault
+        Wproj = W * cos(theta)
+        deld = 0.5 * W * sin(theta)
+
     else:
         L = 1
         W = 1
@@ -168,6 +174,24 @@ def createPlane(lon0, lat0, Mw, D, strike, dip, mech):
     # print(x)
     # print(y)
     return points, [L, W]
+
+
+def getLength(Mw, mech):
+    # This calculates the fault length of an earthquake given magnitude and rupture mechanism
+    if mech == 'int':  # Table 2, interface rupture
+        L = 10 ** (-2.90 + 0.63 * Mw)  # km, length of fault
+    elif mech == 'r':  # Table 2 in drive reverse fault (where did these numbers come from? Investigate)
+        L = 10 ** (-2.693 + 0.614 * Mw)  # km, length of fault
+    elif mech == 'ss':  # Table 5, strike slip rupture
+        L = 10 ** (-2.81 + 0.63 * Mw)  # km, length of fault
+    elif mech == 'is':  # Table 5 in drive inslab
+        L = 10 ** (-3.03 + 0.63 * Mw)  # km, length of fault
+    elif mech == 'or':  # Table 5 outer rise
+        L = 10 ** (-2.87 + 0.63 * Mw)  # km, length of fault
+    else:
+        L = 1
+
+    return L
 
 
 # create medians and means of y values for each step in x
@@ -400,6 +424,10 @@ class Earthquake:
     vel_p = 6.7
     vel_s = vel_p * 0.6
     vel_surf = vel_s * 0.9
+
+    # rupture velocity calculation
+    vel_rup = vel_s * 0.7
+
     # Detection Requirement (DR), number of stations required to detect an earthquake
     DR = 4
     # Time to process (TTP) and send out an earthquake warning (s) (calculation, processing, and data latency)
@@ -499,7 +527,6 @@ class Earthquake:
         self.alert_time = Earthquake.TTP + self.detection_time
         self.warning_times_s = self.arrivals_s - self.alert_time
         self.warning_times_surf = self.arrivals_surf - self.alert_time
-
         # This next line makes negative warning times 0 (rename appropriately), left in for posterity's sake
         # self.warning_times = np.where(self.warning_times < 0, 0, self.warning_times)
 
