@@ -1,0 +1,4 @@
+event, stationcode, hypodist, maxacc, vapp
+MintoFlats, KTH, 200.24, 0.01, 3.36
+MintoFlats, MLY, 82.80, 0.12, 3.04
+MintoFlats, COLA, 65.27, 0.29, 3.35

@@ -1,0 +1,21 @@
+On 5-Apr-2023 1:37:42, the following files were downloaded via the Strong-motion Virtual Data Center.
+Please credit the originating agencies and institutions and Virtual Data Center in any publications or reports that utilize this data.
+
+https://strongmotioncenter.org/vdc/waveform_data/alyeska/denali/ps07a.smc
+https://strongmotioncenter.org/vdc/waveform_data/alyeska/denali/ps07b.smc
+https://strongmotioncenter.org/vdc/waveform_data/alyeska/denali/ps08c.smc
+https://strongmotioncenter.org/vdc/waveform_data/alyeska/denali/ps12a.smc
+https://strongmotioncenter.org/vdc/waveform_data/alyeska/denali/ps12c.smc
+https://strongmotioncenter.org/vdc/waveform_data/alyeska/denali/ps10b.smc
+https://strongmotioncenter.org/vdc/waveform_data/alyeska/denali/ps07c.smc
+https://strongmotioncenter.org/vdc/waveform_data/alyeska/denali/ps11a.smc
+https://strongmotioncenter.org/vdc/waveform_data/alyeska/denali/ps10c.smc
+https://strongmotioncenter.org/vdc/waveform_data/alyeska/denali/ps11c.smc
+https://strongmotioncenter.org/vdc/waveform_data/alyeska/denali/ps10a.smc
+https://strongmotioncenter.org/vdc/waveform_data/alyeska/denali/ps09a.smc
+https://strongmotioncenter.org/vdc/waveform_data/alyeska/denali/ps09c.smc
+https://strongmotioncenter.org/vdc/waveform_data/alyeska/denali/ps08b.smc
+https://strongmotioncenter.org/vdc/waveform_data/alyeska/denali/ps12b.smc
+https://strongmotioncenter.org/vdc/waveform_data/alyeska/denali/ps08a.smc
+https://strongmotioncenter.org/vdc/waveform_data/alyeska/denali/ps09b.smc
+https://strongmotioncenter.org/vdc/waveform_data/alyeska/denali/ps11b.smc

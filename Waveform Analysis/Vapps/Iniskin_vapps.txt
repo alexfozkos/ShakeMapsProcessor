@@ -1,0 +1,7 @@
+event, stationcode, hypodist, maxacc, vapp
+Iniskin, CNP, 178.01, 0.59, 3.76
+Iniskin, HOM, 162.34, 2.53, 3.71
+Iniskin, PWL, 336.69, 0.62, 4.21
+Iniskin, AHOU, 323.34, 0.47, 4.05
+Iniskin, ARTY, 319.48, 3.29, 4.34
+Iniskin, AWPL, 331.83, 0.62, 4.20

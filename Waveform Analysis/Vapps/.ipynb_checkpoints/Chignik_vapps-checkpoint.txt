@@ -1,0 +1,3 @@
+event, stationcode, hypodist, maxacc, vapp
+Chignik, S15K, 105.55, 2.09, 2.22
+Chignik, S19K, 350.15, 0.16, 2.96

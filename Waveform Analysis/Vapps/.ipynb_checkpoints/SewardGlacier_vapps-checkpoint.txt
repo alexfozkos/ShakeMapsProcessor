@@ -1,0 +1,4 @@
+event, stationcode, hypodist, maxacc, vapp
+SewardGlacier, CNP, 167.27, 0.28, 4.05
+SewardGlacier, FIRE, 245.15, 0.14, 3.86
+SewardGlacier, SSN, 249.98, 0.15, 4.13
