@@ -1,0 +1,7 @@
+event, stationcode, hypodist, maxacc, vapp
+Denali2002, PS07, 203.54, 0.19, 3.10
+Denali2002, PS08, 118.18, 0.50, 2.53
+Denali2002, PS09, 94.60, 0.61, 2.45
+Denali2002, PS10, 84.13, 3.60, 2.48
+Denali2002, PS11, 187.66, 0.85, 1.90
+Denali2002, PS12, 255.88, 0.35, 2.26

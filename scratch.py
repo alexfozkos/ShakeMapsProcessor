@@ -1,45 +1,35 @@
 import math
 import numpy as np
-import pandas as pd
 import UsefulFunctions as uf
-import json
 import matplotlib
-from MMILegend import mmimap, mmi_cmap, draw_colorbar
-
 matplotlib.rcParams["backend"] = "TkAgg"
 from matplotlib import pyplot as plt
-from MMILegend import mmimap, mmi_cmap, draw_colorbar
 
-eq = uf.Earthquake('Data/AncScenarioGrids/gridreal.xml')
+qcf1 = uf.Earthquake('Data/Southern Alaska Coast/grids/QCF1grid.xml')
+qcf1_man = uf.Earthquake('Data/Southern Alaska Coast/grids/QCF1man_grid.xml')
+eqlist_mini = [qcf1, qcf1_man]
+colors = ['r', 'g', 'b']
+fig, ax = plt.subplots(figsize=(8, 6))
+fig.suptitle('QCF1 Automatic vs Manual GMPE')
+eqlabels_mini = ['Automatic', 'Manual']
 
-
-mmi = eq.mmi
-wt = eq.warning_times_s
-wt_means = []
-wt_medians = []
-mmi_vals = np.arange(mmi.min(), mmi.max()+0.1, 0.1)
-print(mmi.max())
-print(mmi.min())
-print(mmi_vals)
-rng = np.random.default_rng()
-noise = 0.1 * rng.random(mmi.shape) - 0.05
-for k in mmi_vals:
-    mask = np.isclose(mmi, k)
-    wt_means.append(np.mean(wt[mask]))
-    wt_medians.append(np.median(wt[mask]))
-
-x_mids, y_points = uf.createPolygon(mmi, wt, xscale='lin', )
-
-fig = plt.figure(figsize=(6, 6))
-plt.scatter(mmi+noise, wt, c='k', label='Data', s=0.01, marker='o')
-plt.plot(x_mids, y_points, lw=0.5, c='r', label='Cloud Polygon')
-plt.plot(mmi_vals, wt_means, lw=2, marker='^', markersize=3, c='g', label='Warning Time Means', alpha=0.9)
-plt.plot(mmi_vals, wt_medians, lw=2, marker='s', markersize=3, c='purple', label='Warning Time Medians', alpha=0.9)
-plt.ylabel('Warning Time (s)')
-plt.xlabel('MMI')
-plt.title('Warning Time vs MMI Plot types w/ noise')
-plt.xlim(left=2)
-plt.ylim(top=200)
-plt.axhline(0, ls=':', lw=1, c='gray', alpha=0.8)
-plt.legend()
-plt.savefig('Figures/Test.png', dpi=700)
+# for j in np.linspace(-10, 110, num=13):
+#     ax.axhline(j, c='silver', lw=0.5)
+for i in range(len(eqlist_mini)):
+    eq = eqlist_mini[i]
+    # x, y = uf.createPolygon(eq.pga, eq.distances_epi, xscale='lin')
+    ax.scatter(eq.pga, eq.distances_epi, s=1, c=colors[i], label=eqlabels_mini[i])
+    # ax[i].plot(x, y, c=colors[i], alpha=0.6)
+    # ax.fill(y, x, c=colors[i], alpha=0.5, label=eqlabels_mini[i])
+# ax.axhline(0, c='k', lw=1)
+# ax.set_xscale('log')
+# ax.invert_xaxis()
+# ax.set_xlim(2.5, 8)
+# ax.set_ylim(-15, 120)
+ax.set_ylabel('PGA (%g)')
+ax.set_xlabel('Distance (km)')
+ax.set_yscale('log')
+plt.legend(loc='upper right')
+# plt.tight_layout(rect=(0, 0, 1, 0.99))
+plt.savefig('Figures/test.png')
+plt.show()
