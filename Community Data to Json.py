@@ -51,9 +51,12 @@ for key in community_dict.keys():
 # print(ancindex)
 for label, eq in eq_dict.items():
     for city in community_dict.values():
-        if 'wt' not in city:
-            city['wt'] = []
-        city['wt'].append(float(np.around(eq.warning_times_s[city['index'], 0], decimals=1)))
+        if 'wtfast' not in city:
+            city['wtfast'] = []
+        city['wtfast'].append(float(np.around(eq.warning_times_s[city['index'], 0], decimals=1)))
+        if 'wtslow' not in city:
+            city['wtslow'] = []
+        city['wtslow'].append(float(np.around(eq.warning_times_slow[city['index'], 0], decimals=1)))
         if 'pga' not in city:
             city['pga'] = []
         city['pga'].append(eq.pga[city['index'], 0])

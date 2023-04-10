@@ -423,7 +423,7 @@ class Earthquake:
     # wave velocities (km/s)
     vel_p = 6.7
     vel_s = vel_p * 0.6
-    vel_surf = vel_s * 0.9
+    vel_slow = 2.5  # based on looking at apparent velociies of recent significant Alaska earthquakes
 
     # rupture velocity calculation
     vel_rup = vel_s * 0.7
@@ -505,7 +505,7 @@ class Earthquake:
         # Calculate arrival times for p, s, and surface waves for each point
         self.arrivals_p = self.distances_hypo / Earthquake.vel_p
         self.arrivals_s = self.distances_hypo / Earthquake.vel_s
-        self.arrivals_surf = self.distances_hypo / Earthquake.vel_surf
+        self.arrivals_slow = self.distances_hypo / Earthquake.vel_slow
         self.detection_time = calculateDetectionTime(self.event['lon'], self.event['lat'], self.event['depth'],
                                                      Earthquake.vel_p)
         self.station_distances = np.array(
@@ -526,7 +526,7 @@ class Earthquake:
         # Calculate S wave and Surface wave Warning Time for each grid point
         self.alert_time = Earthquake.TTP + self.detection_time
         self.warning_times_s = self.arrivals_s - self.alert_time
-        self.warning_times_surf = self.arrivals_surf - self.alert_time
+        self.warning_times_slow = self.arrivals_slow - self.alert_time
         # This next line makes negative warning times 0 (rename appropriately), left in for posterity's sake
         # self.warning_times = np.where(self.warning_times < 0, 0, self.warning_times)
 

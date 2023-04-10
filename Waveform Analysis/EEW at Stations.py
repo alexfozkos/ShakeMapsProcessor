@@ -54,7 +54,7 @@ for name in station_names:
     hypo_dist = (epi_dist**2 + eq_dep**2)**.5
     p_arr = hypo_dist/eq.vel_p
     s_arr = hypo_dist/eq.vel_s
-    surf_arr = hypo_dist/eq.vel_surf
+    surf_arr = hypo_dist/eq.vel_slow
     # Save the info into the data dict
     station_data[name] = {'lat': lat,
                           'lon': lon,
