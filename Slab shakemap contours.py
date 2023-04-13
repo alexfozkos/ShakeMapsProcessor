@@ -44,13 +44,17 @@ coast_border = "a/0.25p,black"
 shorelines = "0.1p,black"
 # frame = ["a", f'WSne+t"{title}"']
 # relief = pygmt.datasets.load_earth_relief(resolution="03s", region=[206, 215, 59, 63.5], registration='gridline')
-
+levels = '-20,-10,0,10,20,30,40,50,60,70,80,90,100,110,120'
 starsize = 1.0
 numsize = 0.35
 ruptpen = 0.5
 starpen = 0.75
 planes = {}
 for k, eq in eq_dict.items():
+    line_lon = eq.event['lon']
+    line_lonright = eq.event['lon'] + 4
+    line_toplat = eq.event['lat']
+    line_botlat = eq.event['lat'] - 5
     fig = pygmt.Figure()
     # fig.basemap(region=[160, 240, 40, 75], projection='M15c', frame=True)
     fig.basemap(region=bounds, projection='M15c')
@@ -96,9 +100,21 @@ for k, eq in eq_dict.items():
                 z=eq.warning_times_s.flat,
                 projection='M15c',
                 region=bounds,
-                levels=10,
-                annotation=10,
-                pen='1,black')
+                levels=levels,
+                annotation=levels,
+                pen='1,darkorange3',
+                label_placement=f'l{line_lon}/{line_toplat}/{line_lon}/{line_botlat}'
+                )
+    fig.contour(x=eq.lons.flat,
+                y=eq.lats.flat,
+                z=eq.warning_times_slow.flat,
+                projection='M15c',
+                region=bounds,
+                levels=levels,
+                annotation=levels,
+                pen='1,navyblue,--',
+                label_placement=f'l{line_lon}/{line_toplat}/{line_lonright}/{line_botlat}'
+                )
     # plot communities
     for name, data in comm_dict.items():
         fig.plot(
@@ -121,6 +137,6 @@ for k, eq in eq_dict.items():
             justify=corner
         )
 
-    fig.colorbar(position="JBC+o1c/0c+w10c/0.5c+mc")
-    fig.savefig(f'Figures/Down Dip/WT Contours/{k}_map.pdf', dpi=700)
-    fig.savefig(f'Figures/Down Dip/WT Contours/{k}_map.png', dpi=700)
+    fig.colorbar(position="JBC+o1c/0c+w10c/0.3c+mc")
+    fig.savefig(f'Figures/Down Dip/WT Contours/{k}_map_ranges.pdf', dpi=700)
+    fig.savefig(f'Figures/Down Dip/WT Contours/{k}_map_ranges.png', dpi=700)
