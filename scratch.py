@@ -1,35 +1,106 @@
-import math
-import numpy as np
 import UsefulFunctions as uf
-import matplotlib
-matplotlib.rcParams["backend"] = "TkAgg"
-from matplotlib import pyplot as plt
+import numpy as np
+import pandas as pd
+import pygmt
+import xarray as xr
 
-qcf1 = uf.Earthquake('Data/Southern Alaska Coast/grids/QCF1grid.xml')
-qcf1_man = uf.Earthquake('Data/Southern Alaska Coast/grids/QCF1man_grid.xml')
-eqlist_mini = [qcf1, qcf1_man]
-colors = ['r', 'g', 'b']
-fig, ax = plt.subplots(figsize=(8, 6))
-fig.suptitle('QCF1 Automatic vs Manual GMPE')
-eqlabels_mini = ['Automatic', 'Manual']
+anc = uf.Earthquake('Data/AncScenarioGrids/Anc2018.xml')
+cities = [(-150.1066, 62.3209, 'Talkeetna'),
+          (-149.4411, 61.5809, 'Wasilla'),
+          (-149.1146, 61.5994, 'Palmer'),
+          (-149.8997, 61.2176, 'Anchorage'),
+          (-151.0572, 60.4864, 'Soldotna'),
+          (-151.5299, 59.6481, 'Homer'),
+          (-149.4421, 60.1048, 'Seward'),
+          (-146.3499, 61.1309, 'Valdez'),
+          (-145.5340, 62.1081, 'Glennallen')]
 
-# for j in np.linspace(-10, 110, num=13):
-#     ax.axhline(j, c='silver', lw=0.5)
-for i in range(len(eqlist_mini)):
-    eq = eqlist_mini[i]
-    # x, y = uf.createPolygon(eq.pga, eq.distances_epi, xscale='lin')
-    ax.scatter(eq.pga, eq.distances_epi, s=1, c=colors[i], label=eqlabels_mini[i])
-    # ax[i].plot(x, y, c=colors[i], alpha=0.6)
-    # ax.fill(y, x, c=colors[i], alpha=0.5, label=eqlabels_mini[i])
-# ax.axhline(0, c='k', lw=1)
-# ax.set_xscale('log')
-# ax.invert_xaxis()
-# ax.set_xlim(2.5, 8)
-# ax.set_ylim(-15, 120)
-ax.set_ylabel('PGA (%g)')
-ax.set_xlabel('Distance (km)')
-ax.set_yscale('log')
-plt.legend(loc='upper right')
-# plt.tight_layout(rect=(0, 0, 1, 0.99))
-plt.savefig('Figures/test.png')
-plt.show()
+cmap = [(255, 255, 255),
+        (191, 204, 255),
+        (160, 230, 255),
+        (128, 255, 255),
+        (122, 255, 147),
+        (255, 255, 0),
+        (255, 200, 0),
+        (255, 145, 0),
+        (255, 0, 0),
+        (200, 0, 0)]
+mmi_rng = range(1, 11)
+cpt = pygmt.makecpt(cmap="Data/mmi_short.cpt", series=[3, 8])
+title = r"Anchorage 2018 Estimated WT"
+bounds = '206/59/215/63.5+r'
+coast_border = "a/0.25p,black"
+shorelines = "0.1p,black"
+# frame = ["a", f'WSne+t"{title}"']
+relief = pygmt.datasets.load_earth_relief(resolution="03s", region='Alaska', registration='gridline')
+fig = pygmt.Figure()
+# fig.basemap(region=[160, 240, 40, 75], projection='M15c', frame=True)
+fig.basemap(region=bounds, projection='M15c', frame=False)
+fig.coast(shorelines=shorelines, borders=coast_border, water='skyblue2',
+          land='gainsboro', frame=False)  # draw coast over datawater='skyblue'
+# fig.grdimage(grid=relief, projection='M15c', region=bounds, cmap='gray')
+# fig.plot(x=anc.lons.flat,
+#          y=anc.lats.flat,
+#          color=anc.mmi.flat,
+#          cmap=True,
+#          style='r.018/.032c',
+#          )
+anc_nlon = anc.grid_spec['nlon']
+anc_nlat = anc.grid_spec['nlat']
+anc_lons_single = anc.lons[:anc_nlon].flatten()
+anc_lats_single = anc.lats[::anc_nlon].flatten()
+data = anc.mmi.reshape((anc_nlat, anc_nlon))
+grid = xr.DataArray(
+    data=data,
+    dims=['lat', 'lon'],
+    coords=dict(
+        lon=(['lon'], anc_lons_single),
+        lat=(['lat'], anc_lats_single)
+    )
+)
+fig.grdimage(
+    grid=grid,
+    cmap=True,
+    projection='M15c',
+    frame=False,
+)
+starsize=.6
+fig.coast(shorelines=shorelines, water='skyblue2', frame=False)  # draw coast over data
+# fig.plot(  # Plot seismic stations as triangles
+#     x=uf.ActiveBBs['lon'],
+#     y=uf.ActiveBBs['lat'],
+#     style='t+0.13c',
+#     color='white',
+#     pen='0.1p,black',
+# )
+fig.plot(x=anc.event['lon'],
+         y=anc.event['lat'],
+         style=f'a{starsize}c',
+         color='white',
+         pen='0.25p,red')
+# fig.contour(x=anc.lons.flat,
+#             y=anc.lats.flat,
+#             z=anc.mmi.flat,
+#             projection='M15c',
+#             region=bounds,
+#             levels=1,
+#             annotation=1,
+#             pen='red')
+for city in cities:
+    fig.plot(x=city[0],
+             y=city[1],
+             style='c0.08c',
+             pen='0.02c,black',
+             color='white')
+fig.contour(x=anc.lons.flat,
+            y=anc.lats.flat,
+            z=anc.warning_times_s.flat,
+            projection='M15c',
+            region=bounds,
+            levels=10,
+            annotation=10,
+            pen='0.04c,black')
+fig.colorbar(position="JMR+o1c/0c+w7c/0.5c+mc")
+fig.show()
+fig.savefig('Figures/misc/gmmaptest.pdf', dpi=300)
+fig.savefig('Figures/misc/gmmaptest.png')
