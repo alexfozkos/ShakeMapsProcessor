@@ -1,4 +1,4 @@
-# This file is for messing with the way activeBBs.txt is parsed, without screwing up UsefulFunctions.py
+# This file is for messing with the way activeBBs.txt is parsed, without screwing up UsefulFunctions_PAG.py
 
 import UsefulFunctions as uf
 from UsefulFunctions import Earthquake
@@ -44,7 +44,7 @@ eq = Earthquake('Data/grid.xml')
 # print(bearings)
 
 # Change from .txt to .csv files
-# ActiveBBs = np.genfromtxt('Data/stations_Kept.csv')
+# ActiveBBs = np.genfromtxt('Data/station_list.csv')
 stations_kept = pd.read_csv('Data/stations_Kept.csv', quotechar='"')
 print(stations_kept['lat'])
 print(stations_kept['lat'][0] + stations_kept['lat'][1])
