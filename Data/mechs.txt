@@ -1,0 +1,16 @@
+name,mech
+Tintina,ss
+Rampart,ss
+Minto_Flats,ss
+Fairbanks,ss
+Salcha,ss
+Northern_Foothills,ss
+Denali_1,ss
+Denali_2,ss
+Denali_3,ss
+Denali_4,ss
+Denali_5,ss
+Castle_1,ss
+Castle_2,ss
+Castle_2_SW,ss
+Castle_2_NE,ss

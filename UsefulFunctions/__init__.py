@@ -20,7 +20,7 @@ DATA_PATH = os.path.join(PROJ_ROOT, 'Data')
 
 # uses csv file stations_kept.csv
 ActiveBBs = pd.read_csv(f'{DATA_PATH}/stations_Kept.csv', quotechar='"')
-
+mechs_df = pd.read_csv(f'{DATA_PATH}/mechs.txt')
 
 # downloads grid.xml from shakemaps url because I can't figure out how to download it otherwise
 def download(url):
@@ -38,7 +38,7 @@ def km2lon(d, lat):
 
 
 def createPlane(lon0, lat0, Mw, D, strike, dip, mech):
-    #
+    #       dipping northwest (towards 8)
     #                    1
     #
     #                           2
@@ -192,6 +192,26 @@ def getLength(Mw, mech):
         L = 1
 
     return L
+
+
+def getMech(name):  # tries to get the mech given a scneario name
+    if (mechs_df['name'] == name).sum() > 0:  # if the name is in the mechs list
+        return mechs_df.loc[mechs_df['name'] == name]['mech'].iloc[0]  # return the mech
+    else:
+        return None  # otherwise return none
+
+
+def getDuration(name, Mw, rup_vel=6.7*.6*.7, rup_dir='bi'):  # treis to calculate rupture duration for a scenario
+    mech = getMech(name)
+    if mech == None:
+        return 0
+    length = getLength(Mw, mech)
+    if rup_dir == 'bi':
+        return length/2/rup_vel/2
+    elif rup_dir == 'uni':
+        return length/rup_vel/2
+    else:
+        return 0
 
 
 # create medians and means of y values for each step in x
@@ -494,6 +514,14 @@ class Earthquake:
                 self.pga = np.array([self.grid_array['PGA']]).T
                 self.pgv = np.array([self.grid_array['PGV']]).T
 
+        # get half rupture duration estimate
+        if self.event['event_id'][-2:] in ['NW', 'NE', 'SW', 'SE', 'N', 'W', 'E', 'S']:
+            self.rupture_type = 'uni'
+        else:
+            self.rupture_type = 'bi'
+
+        self.half_dur = getDuration(self.event['event_id'], self.event['magnitude'], self.vel_rup, self.rupture_type)
+
         # Calculate epicentral and hypocentral distances for each point
         self.distances_epi = np.array(
             [[getDistance(self.event['lat'], self.event['lon'], i, k)
@@ -527,6 +555,9 @@ class Earthquake:
         self.alert_time = Earthquake.TTP + self.detection_time
         self.warning_times_s = self.arrivals_s - self.alert_time
         self.warning_times_slow = self.arrivals_slow - self.alert_time
+        self.warning_times_s_dur = self.warning_times_s + self.half_dur
+        self.warning_times_slow_dur = self.warning_times_slow + self.half_dur
+
         # This next line makes negative warning times 0 (rename appropriately), left in for posterity's sake
         # self.warning_times = np.where(self.warning_times < 0, 0, self.warning_times)
 
