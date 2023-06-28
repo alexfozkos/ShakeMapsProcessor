@@ -447,6 +447,9 @@ class Earthquake:
 
     # rupture velocity calculation
     vel_rup = vel_s * 0.7
+    # Tolerances for early and late peak moment rate
+    early_peak = 0.2
+    late_peak = 0.8
 
     # Detection Requirement (DR), number of stations required to detect an earthquake
     DR = 4
@@ -515,7 +518,7 @@ class Earthquake:
                 self.pgv = np.array([self.grid_array['PGV']]).T
 
         # get half rupture duration estimate
-        if self.event['event_id'][-2:] in ['NW', 'NE', 'SW', 'SE', 'N', 'W', 'E', 'S']:
+        if self.event['event_id'][-2:] in ['NW', 'NE', 'SW', 'SE', 'NN', 'WW', 'EE', 'SS']:
             self.rupture_type = 'uni'
         else:
             self.rupture_type = 'bi'
@@ -555,8 +558,15 @@ class Earthquake:
         self.alert_time = Earthquake.TTP + self.detection_time
         self.warning_times_s = self.arrivals_s - self.alert_time
         self.warning_times_slow = self.arrivals_slow - self.alert_time
+        # add half duration
         self.warning_times_s_dur = self.warning_times_s + self.half_dur
         self.warning_times_slow_dur = self.warning_times_slow + self.half_dur
+        # add early and late arrivals of peak source time function
+        self.early_peak_time = 2*self.half_dur*Earthquake.early_peak
+        self.late_peak_time = 2*self.half_dur*Earthquake.late_peak
+        self.warning_times_earlypeak = self.warning_times_s + self.early_peak_time
+        self.warning_times_latepeak = self.warning_times_s + self.late_peak_time
+
 
         # This next line makes negative warning times 0 (rename appropriately), left in for posterity's sake
         # self.warning_times = np.where(self.warning_times < 0, 0, self.warning_times)

@@ -14,3 +14,9 @@ Castle_1,ss
 Castle_2,ss
 Castle_2_SW,ss
 Castle_2_NE,ss
+ALU8_man,int
+CSE0_man,r
+QCF0_man,ss
+SlabSection5,is
+SlabSection9,int
+SlabSection12,or
