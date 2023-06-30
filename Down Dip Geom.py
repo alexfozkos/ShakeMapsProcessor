@@ -96,88 +96,90 @@ for index, row in dd_hypocenters.iterrows():
     gmice = WGRW12
     ccf = LB13''')
 
+    # add mechanism to the mechs.txt file (if not already) for rupture duration calculation in uf
+    uf.update_mechstxt(name, row['mech'])
 # Create PyGMT map of scenarios
 
-#region map maker
-title = r"Subduction Cross Section Scenarios"
-coast_border = "a/0.25p,black"
-shorelines = "0.15p,black"
-fig = pygmt.Figure()
-# fig.basemap(region=[160, 240, 40, 75], projection='M15c', frame=True)
-fig.basemap(region='205.5/57.5/218/63.5+r', projection='M15c', frame=["af", f'WSne+t"{title}"'])
-fig.coast(shorelines=shorelines, borders=coast_border, water='lightsteelblue1', land='gainsboro')  # draw coast over datawater='skyblue'
-
-fig.plot(  # Plot seismic stations as triangles
-    x=uf.ActiveBBs['lon'],
-    y=uf.ActiveBBs['lat'],
-    style='t+0.13c',
-    color='white',
-    pen='0.1p,black',
-)
-
-starsize = 1.0
-numsize = 0.45
-# numsize2 = 0.25
-planes = {}
-for index, row in dd_hypocenters.iterrows():
-    p, [l, w] = uf.createPlane(row['lon'], row['lat'], MAG, row['depth'], row['strike'], row['dip'], row['mech'])
-    planes[index] = p
-    fig.plot(
-        x=[p[1][0], p[3][0], p[5][0], p[7][0], p[1][0]],
-        y=[p[1][1], p[3][1], p[5][1], p[7][1], p[1][1]],
-        color='red',
-        transparency='50',
-        pen='1p,black'
-    )
-    # fig.plot(
-    #     x=p[0][0],
-    #     y=p[0][1],
-    #     style=f'a{starsize}c',
-    #     color='white',
-    #     pen='0.25p,red'
-    # )
-    # fig.plot(
-    #     x=p[0][0],
-    #     y=p[0][1],
-    #     style=f'l{numsize}c+t"{index + 1}"',
-    #     color='black'
-    # )
-for index, row in dd_hypocenters.iterrows():
-    fig.plot(
-        x=row['lon'],
-        y=row['lat'],
-        style=f'a{starsize}c',
-        color='white',
-        pen='0.25p,red'
-    )
-
-    if index < 9:
-        numsize2 = numsize
-    else:
-        numsize2 = numsize - 0.05
-
-    fig.plot(
-        x=row['lon'],
-        y=row['lat'],
-        style=f'l{numsize2}c+t"{index+1}"',
-        color='black'
-    )
-with open('Data/Southern Alaska Coast/Community Data.json') as json_file:
-    comm_dict = json.load(json_file)
-# plot communities
-for name, data in comm_dict.items():
-    fig.plot(
-        x=data['latlon'][1],
-        y=data['latlon'][0],
-        style='c0.08c',
-        color='black'
-    )
-    fig.text(
-        text=f'{name}',
-        x=data['latlon'][1] - 0.3,
-        y=data['latlon'][0] - 0.08,
-        font='6p,Helvetica,white',
-        fill='black',
-    )
-fig.savefig('Figures/Down Dip/ScenarioMap_pre.png', dpi=700)
-#endregion map maker
+# #region map maker
+# title = r"Subduction Cross Section Scenarios"
+# coast_border = "a/0.25p,black"
+# shorelines = "0.15p,black"
+# fig = pygmt.Figure()
+# # fig.basemap(region=[160, 240, 40, 75], projection='M15c', frame=True)
+# fig.basemap(region='205.5/57.5/218/63.5+r', projection='M15c', frame=["af", f'WSne+t"{title}"'])
+# fig.coast(shorelines=shorelines, borders=coast_border, water='lightsteelblue1', land='gainsboro')  # draw coast over datawater='skyblue'
+#
+# fig.plot(  # Plot seismic stations as triangles
+#     x=uf.ActiveBBs['lon'],
+#     y=uf.ActiveBBs['lat'],
+#     style='t+0.13c',
+#     color='white',
+#     pen='0.1p,black',
+# )
+#
+# starsize = 1.0
+# numsize = 0.45
+# # numsize2 = 0.25
+# planes = {}
+# for index, row in dd_hypocenters.iterrows():
+#     p, [l, w] = uf.createPlane(row['lon'], row['lat'], MAG, row['depth'], row['strike'], row['dip'], row['mech'])
+#     planes[index] = p
+#     fig.plot(
+#         x=[p[1][0], p[3][0], p[5][0], p[7][0], p[1][0]],
+#         y=[p[1][1], p[3][1], p[5][1], p[7][1], p[1][1]],
+#         color='red',
+#         transparency='50',
+#         pen='1p,black'
+#     )
+#     # fig.plot(
+#     #     x=p[0][0],
+#     #     y=p[0][1],
+#     #     style=f'a{starsize}c',
+#     #     color='white',
+#     #     pen='0.25p,red'
+#     # )
+#     # fig.plot(
+#     #     x=p[0][0],
+#     #     y=p[0][1],
+#     #     style=f'l{numsize}c+t"{index + 1}"',
+#     #     color='black'
+#     # )
+# for index, row in dd_hypocenters.iterrows():
+#     fig.plot(
+#         x=row['lon'],
+#         y=row['lat'],
+#         style=f'a{starsize}c',
+#         color='white',
+#         pen='0.25p,red'
+#     )
+#
+#     if index < 9:
+#         numsize2 = numsize
+#     else:
+#         numsize2 = numsize - 0.05
+#
+#     fig.plot(
+#         x=row['lon'],
+#         y=row['lat'],
+#         style=f'l{numsize2}c+t"{index+1}"',
+#         color='black'
+#     )
+# with open('Data/Southern Alaska Coast/Community Data.json') as json_file:
+#     comm_dict = json.load(json_file)
+# # plot communities
+# for name, data in comm_dict.items():
+#     fig.plot(
+#         x=data['latlon'][1],
+#         y=data['latlon'][0],
+#         style='c0.08c',
+#         color='black'
+#     )
+#     fig.text(
+#         text=f'{name}',
+#         x=data['latlon'][1] - 0.3,
+#         y=data['latlon'][0] - 0.08,
+#         font='6p,Helvetica,white',
+#         fill='black',
+#     )
+# fig.savefig('Figures/Down Dip/ScenarioMap_pre.png', dpi=700)
+# #endregion map maker

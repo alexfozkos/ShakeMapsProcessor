@@ -29,6 +29,19 @@ def download(url):
         file.write(response.content)
 
 
+def update_mechstxt(name, mech):
+    # add name and mechanism to the mechs.txt file (if not already) for rupture duration calculation in uf
+    # create line for the given scenario name an mech
+    mech_string = name + ',' + mech + '\n'
+    # checks for the mech_string in mechs.txt
+    with open("Data/mechs.txt", "r+") as file:
+        for line in file:
+            if mech_string == line:
+                break
+        else:  # not found, we are at the eof
+            file.write(mech_string)  # append missing data
+
+
 def km2lat(d):
     return d / 110.574
 
