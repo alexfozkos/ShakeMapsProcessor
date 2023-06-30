@@ -103,8 +103,7 @@ for mag in MAGS:
     fig.plot(
         x=[p[1][0], p[3][0], p[5][0], p[7][0], p[1][0]],
         y=[p[1][1], p[3][1], p[5][1], p[7][1], p[1][1]],
-        color='black',
-        transparency='85',
+        transparency='50',
         pen=f'{pt}p,{color}'
     )
     # fig.plot(
@@ -124,7 +123,7 @@ for mag in MAGS:
             text=str(mag),
             x=p[1][0],
             y=p[1][1],
-            font="8p,Helvetica-Bold,black=0.45p,white"
+            font=f"8p,Helvetica-Bold,{color}=0.45p,white"
         )
 with open('Data/Southern Alaska Coast/Community Data.json') as json_file:
     comm_dict = json.load(json_file)
