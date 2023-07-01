@@ -77,7 +77,7 @@ def createPlane(lon0, lat0, Mw, D, strike, dip, mech):
         Wproj = W * cos(theta)  # find the projected width of the fault
         deld = 0.5 * W * sin(theta)  # find the change in depth from the center to the top/bottom of the fault
 
-    elif mech == 'r':  # Table 2 in drive reverse fault (where did these numbers come from? Investigate)
+    elif mech == 'r':  # Table 1 (Thingbaijam et al. 2017), reverse fault
         L = 10 ** (-2.693 + 0.614 * Mw)
         W = 10 ** (-1.669 + 0.435 * Mw)
         Wproj = W * cos(theta)
@@ -90,13 +90,13 @@ def createPlane(lon0, lat0, Mw, D, strike, dip, mech):
         Wproj = W * cos(theta)
         deld = 0.5 * W * sin(theta)
 
-    elif mech == 'is':  # Table 5 (Allen & Hayes 2017) inslab
+    elif mech == 'is':  # Table 5 (Allen & Hayes 2017), inslab rupture
         L = 10 ** (-3.03 + 0.63 * Mw)
         W = 10 ** (-1.01 + 0.35 * Mw)
         Wproj = W * cos(theta)
         deld = 0.5 * W * sin(theta)
 
-    elif mech == 'or':  # Table 5 (Allen & Hayes 2017) outer rise
+    elif mech == 'or':  # Table 5 (Allen & Hayes 2017), outer-rise rupture
         L = 10 ** (-2.87 + 0.63 * Mw)
         W = 10 ** (-1.18 + 0.35 * Mw)
         Wproj = W * cos(theta)
