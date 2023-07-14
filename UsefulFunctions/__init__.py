@@ -50,6 +50,13 @@ def km2lon(d, lat):
     return d / (111.320 * cos(np.deg2rad(lat)))
 
 
+# get closest 1d index to a given lat lon in the column of grid lats and lons
+def getNearestIndex(grid_lons, grid_lats, search_lon, search_lat):
+    subtracted_list = np.hstack((grid_lons - search_lon, grid_lats - search_lat))
+    nearest_index = np.nanargmin(np.sum(subtracted_list**2, axis=1))
+    return nearest_index
+
+
 def createPlane(lon0, lat0, Mw, D, strike, dip, mech):
     #       dipping northwest (towards 8)
     #                    1
@@ -214,15 +221,15 @@ def getMech(name):  # tries to get the mech given a scneario name
         return None  # otherwise return none
 
 
-def getDuration(name, Mw, rup_vel=6.7*.6*.7, rup_dir='bi'):  # treis to calculate rupture duration for a scenario
+def getDuration(name, Mw, rup_vel=6.7*.6*.7, rup_dir='bi'):  # tries to calculate rupture duration for a scenario
     mech = getMech(name)
     if mech == None:
         return 0
     length = getLength(Mw, mech)
     if rup_dir == 'bi':
-        return length/2/rup_vel/2
+        return length/2/rup_vel
     elif rup_dir == 'uni':
-        return length/rup_vel/2
+        return length/rup_vel
     else:
         return 0
 
@@ -458,11 +465,13 @@ class Earthquake:
     vel_s = vel_p * 0.6
     vel_slow = 2.5  # based on looking at apparent velociies of recent significant Alaska earthquakes
 
+    # Tolerances for early and late peak moment rate
+    # normalized centroid time interquartile limits
+    q25 = 0.38
+    q75 = 0.64
+
     # rupture velocity calculation
     vel_rup = vel_s * 0.7
-    # Tolerances for early and late peak moment rate
-    early_peak = 0.2
-    late_peak = 0.8
 
     # Detection Requirement (DR), number of stations required to detect an earthquake
     DR = 4
@@ -530,13 +539,14 @@ class Earthquake:
                 self.pga = np.array([self.grid_array['PGA']]).T
                 self.pgv = np.array([self.grid_array['PGV']]).T
 
-        # get half rupture duration estimate
+        # get rupture duration estimate
         if self.event['event_id'][-2:] in ['NW', 'NE', 'SW', 'SE', 'NN', 'WW', 'EE', 'SS']:
             self.rupture_type = 'uni'
         else:
             self.rupture_type = 'bi'
 
-        self.half_dur = getDuration(self.event['event_id'], self.event['magnitude'], self.vel_rup, self.rupture_type)
+        self.duration = getDuration(self.event['event_id'], self.event['magnitude'], self.vel_rup, self.rupture_type)
+        self.half_dur = self.duration/2
 
         # Calculate epicentral and hypocentral distances for each point
         self.distances_epi = np.array(
@@ -572,11 +582,11 @@ class Earthquake:
         self.warning_times_s = self.arrivals_s - self.alert_time
         self.warning_times_slow = self.arrivals_slow - self.alert_time
         # add half duration
-        self.warning_times_s_dur = self.warning_times_s + self.half_dur
-        self.warning_times_slow_dur = self.warning_times_slow + self.half_dur
+        # self.warning_times_s_dur = self.warning_times_s + self.half_dur
+        # self.warning_times_slow_dur = self.warning_times_slow + self.half_dur
         # add early and late arrivals of peak source time function
-        self.early_peak_time = 2*self.half_dur*Earthquake.early_peak
-        self.late_peak_time = 2*self.half_dur*Earthquake.late_peak
+        self.early_peak_time = self.duration * Earthquake.q25
+        self.late_peak_time = self.duration * Earthquake.q75
         self.warning_times_earlypeak = self.warning_times_s + self.early_peak_time
         self.warning_times_latepeak = self.warning_times_s + self.late_peak_time
 

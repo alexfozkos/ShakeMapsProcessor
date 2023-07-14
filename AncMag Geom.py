@@ -1,7 +1,6 @@
 import os
 import json
 import matplotlib as mpl
-import geopandas as gpd
 mpl.rcParams["backend"] = "TkAgg"
 import pandas as pd
 import numpy as np
