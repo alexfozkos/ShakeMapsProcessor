@@ -10,17 +10,57 @@ from matplotlib import pyplot as plt
 import pygmt
 import UsefulFunctions as uf
 
-MAGS = np.round(np.arange(5.0, 9.6, .1), decimals=1)
-ID = 'INTERFACEMAGSCENARIOS'
-
 
 def fixlons(df):
     df['lon'][df['lon'] > 180] -= 360  # convert lons past 180 to negative western lons
     return df
 
 
+MAGS = np.round(np.arange(5.0, 9.6, .1), decimals=1)
+ID = 'INTERFACEMAGSCENARIOS'
+
+title = r"Interface Magnitude Scenarios"
+coast_border = "a/0.25p,black"
+shorelines = "0.15p,black"
+fig = pygmt.Figure()
+fig.basemap(region=f'195/51.5/220/65+r', projection='M15c',
+            frame=["af", f'WSne+t"{title}"'])
+fig.coast(shorelines=shorelines, borders=coast_border, water='lightsteelblue1',
+          land='gainsboro')  # draw coast over datawater='skyblue'
+ll = 1
+
+starsize = 1.0
+numsize = 0.45
+# numsize2 = 0.25
+planes = {}
+with open('Data/Southern Alaska Coast/Community Data.json') as json_file:
+    comm_dict = json.load(json_file)
+# plot communities
+for name, data in comm_dict.items():
+    fig.plot(
+        x=data['latlon'][1],
+        y=data['latlon'][0],
+        style='c0.08c',
+        color='black'
+    )
+    # fig.plot(
+    #     x=data['latlon'][1],
+    #     y=data['latlon'][0] + 0.1,
+    #     style=f'l0.25c+t"{name}"',
+    #     color='black'
+    # )
+    fig.text(
+        text=name,
+        x=data['latlon'][1],
+        y=data['latlon'][0] + 0.1,
+        font="10p,Helvetica-Bold,white=0.45p,black"
+    )
+
+
 # strike and dip from ALU7 in Southern Coast scenarios
-alu7_lat, alu7_lon, alu7_depth, alu7_dip, alu7_strike = 57.45, -151.85, 19.7990, 7.3048, 210.696
+# alu7_lat, alu7_lon, alu7_depth, alu7_dip, alu7_strike = 57.45, -151.85, 19.7990, 7.3048, 210.696
+# point 263722 in alu_slab2_dep
+alu7_lat, alu7_lon, alu7_depth, alu7_dip, alu7_strike = 57.9, -153.0, 30.15811, 7.3, 225
 gmpe_name = 'InterfaceMag'
 nshmp = 'subduction_interface_nshmp2014'
 mech = 'int'
@@ -28,6 +68,22 @@ mechanism = 'RS'
 for mag in MAGS:
     print(f'MAG: {mag}')
     p, LW = uf.createPlane(alu7_lon + 360, alu7_lat, mag, alu7_depth, alu7_strike, alu7_dip, mech)
+    color = 'black'
+    pt = 1
+    fig.plot(
+        x=[p[1][0], p[3][0], p[5][0], p[7][0], p[1][0]],
+        y=[p[1][1], p[3][1], p[5][1], p[7][1], p[1][1]],
+        transparency='50',
+        pen=f'{pt}p,{color}'
+    )
+
+    fig.text(
+        text=str(mag),
+        x=p[1][0],
+        y=p[1][1],
+        font=f"8p,Helvetica-Bold,red=0.45p,white"
+    )
+
     # print(p)
     # replace the decimal with an _ just incase weird file naming issues
     mag_string = str(mag).replace('.', '_')
@@ -77,73 +133,7 @@ for mag in MAGS:
     # add mechanism to the mechs.txt file (if not already) for rupture duration calculation in uf
     uf.update_mechstxt(name, mech)
 
-# region map maker
 
-# Create PyGMT map of scenarios
 
-title = r"Interface Magnitude Scenarios"
-coast_border = "a/0.25p,black"
-shorelines = "0.15p,black"
-fig = pygmt.Figure()
-fig.basemap(region=f'{alu7_lon + 360 - 2}/{alu7_lat - 1}/{alu7_lon + 360 + 2}/{alu7_lat + 1}+r', projection='M15c',
-            frame=["af", f'WSne+t"{title}"'])
-fig.coast(shorelines=shorelines, borders=coast_border, water='lightsteelblue1',
-          land='gainsboro')  # draw coast over datawater='skyblue'
-ll = 1
-
-starsize = 1.0
-numsize = 0.45
-# numsize2 = 0.25
-planes = {}
-for mag in MAGS:
-    p, LW = uf.createPlane(alu7_lon + 360, alu7_lat, mag, alu7_depth, alu7_strike, alu7_dip, mech)
-    color='black'
-    fig.plot(
-        x=[p[1][0], p[3][0], p[5][0], p[7][0], p[1][0]],
-        y=[p[1][1], p[3][1], p[5][1], p[7][1], p[1][1]],
-        transparency='50',
-        pen=f'{pt}p,{color}'
-    )
-    # fig.plot(
-    #     x=p[0][0],
-    #     y=p[0][1],
-    #     style=f'a{starsize}c',
-    #     color='white',
-    #     pen='0.25p,red'
-    # )
-    # fig.plot(
-    #     x=p[0][0],
-    #     y=p[0][1],
-    #     style=f'l{numsize}c+t"{index + 1}"',
-    #     color='black'
-    # )
-    fig.text(
-        text=str(mag),
-        x=p[1][0],
-        y=p[1][1],
-        font=f"8p,Helvetica-Bold,{color}=0.45p,white"
-    )
-with open('Data/Southern Alaska Coast/Community Data.json') as json_file:
-    comm_dict = json.load(json_file)
-# plot communities
-for name, data in comm_dict.items():
-    fig.plot(
-        x=data['latlon'][1],
-        y=data['latlon'][0],
-        style='c0.08c',
-        color='black'
-    )
-    # fig.plot(
-    #     x=data['latlon'][1],
-    #     y=data['latlon'][0] + 0.1,
-    #     style=f'l0.25c+t"{name}"',
-    #     color='black'
-    # )
-    fig.text(
-        text=name,
-        x=data['latlon'][1],
-        y=data['latlon'][0] + 0.1,
-        font="10p,Helvetica-Bold,black"
-    )
-fig.savefig('Figures/InterfaceMag/AncMagScenarios.pdf')
+fig.savefig('Figures/InterfaceMag/InterfaceMagScenarios.pdf')
 # endregion map maker
