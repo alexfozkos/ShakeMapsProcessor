@@ -19,11 +19,20 @@ def fixlons(df):
 MAGS = np.round(np.arange(5.0, 9.6, .1), decimals=1)
 ID = 'INTERFACEMAGSCENARIOS'
 
+# strike and dip from ALU7 in Southern Coast scenarios
+# alu7_lat, alu7_lon, alu7_depth, alu7_dip, alu7_strike = 57.45, -151.85, 19.7990, 7.3048, 210.696
+# point 263722 in alu_slab2_dep
+alu7_lat, alu7_lon, alu7_depth, alu7_dip, alu7_strike = 57.9, -153.0, 30.15811, 7.3, 225
+gmpe_name = 'InterfaceMag'
+nshmp = 'subduction_interface_nshmp2014'
+mech = 'int'
+mechanism = 'RS'
+
 title = r"Interface Magnitude Scenarios"
 coast_border = "a/0.25p,black"
 shorelines = "0.15p,black"
 fig = pygmt.Figure()
-fig.basemap(region=f'195/51.5/220/65+r', projection='M15c',
+fig.basemap(region=f'197/52.5/220/65+r', projection='A-153/57.9/15c',
             frame=["af", f'WSne+t"{title}"'])
 fig.coast(shorelines=shorelines, borders=coast_border, water='lightsteelblue1',
           land='gainsboro')  # draw coast over datawater='skyblue'
@@ -56,18 +65,9 @@ for name, data in comm_dict.items():
         font="10p,Helvetica-Bold,white=0.45p,black"
     )
 
-
-# strike and dip from ALU7 in Southern Coast scenarios
-# alu7_lat, alu7_lon, alu7_depth, alu7_dip, alu7_strike = 57.45, -151.85, 19.7990, 7.3048, 210.696
-# point 263722 in alu_slab2_dep
-alu7_lat, alu7_lon, alu7_depth, alu7_dip, alu7_strike = 57.9, -153.0, 30.15811, 7.3, 225
-gmpe_name = 'InterfaceMag'
-nshmp = 'subduction_interface_nshmp2014'
-mech = 'int'
-mechanism = 'RS'
 for mag in MAGS:
     print(f'MAG: {mag}')
-    p, LW = uf.createPlane(alu7_lon + 360, alu7_lat, mag, alu7_depth, alu7_strike, alu7_dip, mech)
+    p, LW = uf.createPlane2(alu7_lon + 360, alu7_lat, mag, alu7_depth, alu7_strike, alu7_dip, mech)
     color = 'black'
     pt = 1
     fig.plot(

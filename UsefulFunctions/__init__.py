@@ -6,6 +6,7 @@ import requests
 import os
 import pandas as pd
 
+
 PROJ_ROOT = os.path.dirname(os.path.dirname(__file__))
 DATA_PATH = os.path.join(PROJ_ROOT, 'Data')
 
@@ -57,7 +58,7 @@ def getNearestIndex(grid_lons, grid_lats, search_lon, search_lat):
     return nearest_index
 
 
-def createPlane(lon0, lat0, Mw, D, strike, dip, mech):
+def createPlane(lon0, lat0, Mw, D, strike, dip, mech, debugxy=False):
     #       dipping northwest (towards 8)
     #                    1
     #
@@ -74,46 +75,42 @@ def createPlane(lon0, lat0, Mw, D, strike, dip, mech):
     #                 5
 
     theta = np.deg2rad(dip)  # convert dip to radians
-    angle = np.deg2rad(360 - strike + 90)  # Convert strike to positive angle from x axis, and to radians
+    angle = np.deg2rad((360 - strike + 90) % 360)  # Convert strike to positive angle from x axis, and to radians
 
     if mech == 'int':  # Table 2 (Allen & Hayes 2017), interface rupture
         L = 10 ** (-2.90 + 0.63 * Mw)  # km, length of fault
         WL = 10 ** (0.39 + 0.74 * np.log10(L))  # km, width of fault
         W1 = 10 ** (-0.86 + 0.35 * Mw)
-        W = 10 ** (-1.91 + 0.48 * Mw)  # W2
-        Wproj = W * cos(theta)  # find the projected width of the fault
-        deld = 0.5 * W * sin(theta)  # find the change in depth from the center to the top/bottom of the fault
+        # rupture width saturation above 8.67
+        if Mw > 8.67:
+            W = 10 ** 2.29
+        else:
+            W = 10 ** (-1.91 + 0.48 * Mw)  # W2
 
     elif mech == 'r':  # Table 1 (Thingbaijam et al. 2017), reverse fault
         L = 10 ** (-2.693 + 0.614 * Mw)
         W = 10 ** (-1.669 + 0.435 * Mw)
-        Wproj = W * cos(theta)
-        deld = 0.5 * W * sin(theta)
 
     elif mech == 'ss':  # Table 5 (Allen & Hayes 2017), offshore strike slip rupture
         L = 10 ** (-2.81 + 0.63 * Mw)
         W_L = 10 ** (-0.22 + 0.74 * np.log10(L))
         W = 10 ** (-1.39 + 0.35 * Mw)
-        Wproj = W * cos(theta)
-        deld = 0.5 * W * sin(theta)
 
     elif mech == 'is':  # Table 5 (Allen & Hayes 2017), inslab rupture
         L = 10 ** (-3.03 + 0.63 * Mw)
         W = 10 ** (-1.01 + 0.35 * Mw)
-        Wproj = W * cos(theta)
-        deld = 0.5 * W * sin(theta)
 
     elif mech == 'or':  # Table 5 (Allen & Hayes 2017), outer-rise rupture
         L = 10 ** (-2.87 + 0.63 * Mw)
         W = 10 ** (-1.18 + 0.35 * Mw)
-        Wproj = W * cos(theta)
-        deld = 0.5 * W * sin(theta)
+
 
     else:
         L = 1
         W = 1
-        Wproj = W * cos(theta)
-        deld = 0.5 * W * sin(theta)
+
+    Wproj = W * cos(theta)
+    deld = 0.5 * W * sin(theta)
 
     print('''Fault Plane Parameters
     Strike: {}
@@ -189,10 +186,139 @@ def createPlane(lon0, lat0, Mw, D, strike, dip, mech):
     x = [x1, x2, x3, x4, x5, x6, x7, x8]
     y = [y1, y2, y3, y4, y5, y6, y7, y8]
     points = [p0, p1, p2, p3, p4, p5, p6, p7, p8]
+
+    if debugxy:
+        print('x: \n', x)
+        print('y: \n', y)
     # for point in points:
     #     print(point)
     # print(x)
     # print(y)
+    return points, [L, W]
+
+
+# https://stackoverflow.com/questions/7222382/get-lat-long-given-current-point-distance-and-bearing
+def get_point_at_distance(lat1, lon1, d, bearing, R=6371):
+    from math import asin, atan2, degrees, radians
+    """
+    lat: initial latitude, in degrees
+    lon: initial longitude, in degrees
+    d: target distance from initial
+    bearing: (true) heading in degrees
+    R: optional radius of sphere, defaults to mean radius of earth
+
+    Returns new lat/lon coordinate {d}km from initial, in degrees
+    """
+    lat1 = radians(lat1)
+    lon1 = radians(lon1)
+    a = radians(bearing)
+    lat2 = asin(sin(lat1) * cos(d/R) + cos(lat1) * sin(d/R) * cos(a))
+    lon2 = lon1 + atan2(
+        sin(a) * sin(d/R) * cos(lat1),
+        cos(d/R) - sin(lat1) * sin(lat2)
+    )
+    return degrees(lat2), degrees(lon2),
+
+
+def createPlane2(lon0, lat0, Mw, D, strike, dip, mech):
+    # trying to create rupture planes based on bearings and distances instead of simple trig on a flat plane
+    #       dipping northwest (towards 8)
+    #                    1
+    #
+    #                           2
+    #
+    #           8                       3
+    #
+    #                 '0'
+    #
+    #   7                      4
+    #
+    #          6
+    #
+    #                 5
+    strike_rad = np.deg2rad(strike)
+    theta = np.deg2rad(dip)  # convert dip to radians
+    angle = np.deg2rad((360 - strike + 90) % 360)  # Convert strike to positive angle from x axis, and to radians
+
+    if mech == 'int':  # Table 2 (Allen & Hayes 2017), interface rupture
+        L = 10 ** (-2.90 + 0.63 * Mw)  # km, length of fault
+        WL = 10 ** (0.39 + 0.74 * np.log10(L))  # km, width of fault
+        W1 = 10 ** (-0.86 + 0.35 * Mw)
+        # rupture width saturation above 8.67
+        if Mw > 8.67:
+            W = 10 ** 2.29
+        else:
+            W = 10 ** (-1.91 + 0.48 * Mw)  # W2
+
+    elif mech == 'r':  # Table 1 (Thingbaijam et al. 2017), reverse fault
+        L = 10 ** (-2.693 + 0.614 * Mw)
+        W = 10 ** (-1.669 + 0.435 * Mw)
+
+    elif mech == 'ss':  # Table 5 (Allen & Hayes 2017), offshore strike slip rupture
+        L = 10 ** (-2.81 + 0.63 * Mw)
+        W_L = 10 ** (-0.22 + 0.74 * np.log10(L))
+        W = 10 ** (-1.39 + 0.35 * Mw)
+
+    elif mech == 'is':  # Table 5 (Allen & Hayes 2017), inslab rupture
+        L = 10 ** (-3.03 + 0.63 * Mw)
+        W = 10 ** (-1.01 + 0.35 * Mw)
+
+    elif mech == 'or':  # Table 5 (Allen & Hayes 2017), outer-rise rupture
+        L = 10 ** (-2.87 + 0.63 * Mw)
+        W = 10 ** (-1.18 + 0.35 * Mw)
+
+
+    else:
+        L = 1
+        W = 1
+
+    Wproj = W * cos(theta)
+    deld = 0.5 * W * sin(theta)
+    D_lower = D + deld
+    D_upper = D - deld
+    offset_angle = np.rad2deg(np.arctan(Wproj/L))
+    corner_d = (Wproj**2 + L**2)**0.5 / 2
+    print('''Fault Plane Parameters
+    Strike: {}
+    Dip: {}
+    Length: {}
+    Width: {}
+    Projected Width: {}
+    Lower depth: {}
+    Upper depth: {}
+    offset_angle: {}
+    corner_d: {}
+    '''.format(strike, dip, L, W, Wproj, D + deld, D - deld, offset_angle, corner_d))
+
+    # calculate points of the plane, midpoints first
+    lat2, lon2 = get_point_at_distance(lat0, lon0, L / 2, strike - 180)
+    p2 = (lon2 - 360, lat2, D)
+
+    lat6, lon6 = get_point_at_distance(lat0, lon0, L / 2, strike)
+    p6 = (lon6 - 360, lat6, D)
+
+    lat8, lon8 = get_point_at_distance(lat0, lon0, Wproj / 2, strike + 90)
+    p8 = (lon8 - 360, lat8, D_lower)
+
+    lat4, lon4 = get_point_at_distance(lat0, lon0, Wproj / 2, strike - 90)
+    p4 = (lon4 - 360, lat4, D_upper)
+
+    lat1, lon1 = get_point_at_distance(lat0, lon0, corner_d, strike - 180 - offset_angle)
+    p1 = (lon1 - 360, lat1, D_lower)
+
+    lat3, lon3 = get_point_at_distance(lat0, lon0, corner_d, strike - 180 + offset_angle)
+    p3 = (lon3 - 360, lat3, D_upper)
+
+    lat5, lon5 = get_point_at_distance(lat0, lon0, corner_d, strike - offset_angle)
+    p5 = (lon5 - 360, lat5, D_upper)
+
+    lat7, lon7 = get_point_at_distance(lat0, lon0, corner_d, strike + offset_angle)
+    p7 = (lon7 - 360, lat7, D_lower)
+
+    p0 = (lon0, lat0, D)
+
+    points = [p0, p1, p2, p3, p4, p5, p6, p7, p8]
+
     return points, [L, W]
 
 
