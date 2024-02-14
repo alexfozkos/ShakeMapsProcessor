@@ -335,6 +335,7 @@ def getLength(Mw, mech):
     elif mech == 'or':  # Table 5 outer rise
         L = 10 ** (-2.87 + 0.63 * Mw)  # km, length of fault
     else:
+        print('Mechanism not in list; return Length=1')
         L = 1
 
     return L
@@ -344,12 +345,14 @@ def getMech(name):  # tries to get the mech given a scneario name
     if (mechs_df['name'] == name).sum() > 0:  # if the name is in the mechs list
         return mechs_df.loc[mechs_df['name'] == name]['mech'].iloc[0]  # return the mech
     else:
+        print('No mechanism found; return mech=None')
         return None  # otherwise return none
 
 
 def getDuration(name, Mw, rup_vel=6.7*.6*.7, rup_dir='bi'):  # tries to calculate rupture duration for a scenario
     mech = getMech(name)
     if mech == None:
+        print('No mechanism found; return duration=0')
         return 0
     length = getLength(Mw, mech)
     if rup_dir == 'bi':
@@ -357,6 +360,7 @@ def getDuration(name, Mw, rup_vel=6.7*.6*.7, rup_dir='bi'):  # tries to calculat
     elif rup_dir == 'uni':
         return length/rup_vel
     else:
+        print('Rupture direction not found; return duration=0')
         return 0
 
 

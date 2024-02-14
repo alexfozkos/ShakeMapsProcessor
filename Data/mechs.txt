@@ -132,3 +132,17 @@ InterfaceMag9_2,int
 InterfaceMag9_3,int
 InterfaceMag9_4,int
 InterfaceMag9_5,int
+anchorage05,is
+anchorage10,is
+anchorage20,is
+anchorage25,is
+anchorage30,is
+anchorage40,is
+anchorage50,is
+anchorage75,is
+anchorage100,is
+anchorage125,is
+anchorage150,is
+anchorage175,is
+anchorage200,is
+ak018fcnsk91,is
