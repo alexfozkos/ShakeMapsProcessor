@@ -10,7 +10,7 @@ from obspy.core.inventory.inventory import Inventory
 # ObsPY variables
 client_wm = Client("IRIS")
 of = 'Plots/test.png'
-station_names = ['K223']
+station_names = ['K223'];
 station_data = {}
 st = Stream()
 inv = Inventory()

@@ -292,28 +292,28 @@ def createPlane2(lon0, lat0, Mw, D, strike, dip, mech):
 
     # calculate points of the plane, midpoints first
     lat2, lon2 = get_point_at_distance(lat0, lon0, L / 2, strike - 180)
-    p2 = (lon2 - 360, lat2, D)
+    p2 = (lon2, lat2, D)
 
     lat6, lon6 = get_point_at_distance(lat0, lon0, L / 2, strike)
-    p6 = (lon6 - 360, lat6, D)
+    p6 = (lon6, lat6, D)
 
     lat8, lon8 = get_point_at_distance(lat0, lon0, Wproj / 2, strike + 90)
-    p8 = (lon8 - 360, lat8, D_lower)
+    p8 = (lon8, lat8, D_lower)
 
     lat4, lon4 = get_point_at_distance(lat0, lon0, Wproj / 2, strike - 90)
-    p4 = (lon4 - 360, lat4, D_upper)
+    p4 = (lon4, lat4, D_upper)
 
     lat1, lon1 = get_point_at_distance(lat0, lon0, corner_d, strike - 180 - offset_angle)
-    p1 = (lon1 - 360, lat1, D_lower)
+    p1 = (lon1, lat1, D_lower)
 
     lat3, lon3 = get_point_at_distance(lat0, lon0, corner_d, strike - 180 + offset_angle)
-    p3 = (lon3 - 360, lat3, D_upper)
+    p3 = (lon3, lat3, D_upper)
 
     lat5, lon5 = get_point_at_distance(lat0, lon0, corner_d, strike - offset_angle)
-    p5 = (lon5 - 360, lat5, D_upper)
+    p5 = (lon5, lat5, D_upper)
 
     lat7, lon7 = get_point_at_distance(lat0, lon0, corner_d, strike + offset_angle)
-    p7 = (lon7 - 360, lat7, D_lower)
+    p7 = (lon7, lat7, D_lower)
 
     p0 = (lon0, lat0, D)
 
