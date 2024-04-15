@@ -101,7 +101,7 @@ for mag in MAGS:
     with open(f'{path2}/rupture.json', 'w') as f:  # rupture file
         f.write(f'{{"metadata": {{"id": "{ID}", "netid": "ak", "network": "Alaska Earthquake Center", '
                 f'"lat": {alu7_lat}, "lon": {alu7_lon}, "depth": {alu7_depth}, "mag": {mag}, "time": "2022-03-28T21:29:29.000000Z", '
-                f'"locstring": "{name}", "reference": "Fozkos 2023", "mech": "ALL", "rake": 0.0, '
+                f'"locstring": "{name}", "reference": "Fozkos 2023", "mech": "{mechanism}", "rake": 0.0, '
                 f'"productcode": "{ID}"}}, "features": [{{"geometry": {{"coordinates": '
                 f'[[[[{p[5][0]}, {p[5][1]}, {p[5][2]}], [{p[3][0]}, {p[3][1]}, {p[3][2]}], [{p[1][0]}, {p[1][1]}, {p[1][2]}], '
                 f'[{p[7][0]}, {p[7][1]}, {p[7][2]}], [{p[5][0]}, {p[5][1]}, {p[5][2]}]]]], "type": "MultiPolygon"}}, '
