@@ -35,7 +35,7 @@ for file in os.listdir(directory):
     if filename.startswith("SouthernCoast"):
         # pull just the number out, this will make things easier to order later
         if len(filename) == 18:
-            n = (filename[13])
+            n = int((filename[13]))
         else:
             n = int(filename[13:15])
         eq_dict[n] = uf.Earthquake(directory_in_str + '/' + filename)
