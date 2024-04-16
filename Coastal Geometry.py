@@ -78,6 +78,8 @@ for index, row in alu_hypocenters.iterrows():
         # Coastal
         extent = -170.0, 51, -127.5, 66''')
     name_index += 1
+    # add mechanism to the mechs.txt file (if not already) for rupture duration calculation in uf
+    uf.update_mechstxt(name, 'int')
 
 #region Create Shakemap Folders
 # Chugach St. Elias Thrust
@@ -136,6 +138,8 @@ for index, row in cse_hypocenters.iterrows():
         # Coastal
         extent = -170.0, 51, -127.5, 66''')
     name_index += 1
+    # add mechanism to the mechs.txt file (if not already) for rupture duration calculation in uf
+    uf.update_mechstxt(name, 'r')
 
 # Queen Charlotte Fairweather Fault
 for index, row in qcf_hypocenters.iterrows():
@@ -193,6 +197,8 @@ for index, row in qcf_hypocenters.iterrows():
         # Coastal
         extent = -170.0, 51, -127.5, 66''')
     name_index += 1
+    # add mechanism to the mechs.txt file (if not already) for rupture duration calculation in uf
+    uf.update_mechstxt(name, 'ss')
 
 #endregion
 
