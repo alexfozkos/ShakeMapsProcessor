@@ -60,7 +60,9 @@ for community, data in community_dict.items():
             'wt_max': eq.warning_times_latepeak[community['index']],
             'pga': eq.pga[community['index']],
             'pgv': eq.pgv[community['index']],
-            'mmi': eq.mmi[community['index']]
+            'mmi': eq.mmi[community['index']],
+            'h_dist': eq.distances_hypo[community['index']],
+            'e_dist': eq.distances_epi[community['index']],
         }
 
 with open('Data/Southern Alaska Coast/Community Data.json', 'w') as outfile:
