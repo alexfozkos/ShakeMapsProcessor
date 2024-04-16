@@ -598,8 +598,8 @@ class Earthquake:
 
     # Tolerances for early and late peak moment rate
     # normalized centroid time interquartile limits
-    q25 = 0.38
-    q75 = 0.64
+    q25 = 0.35  # old was .38
+    q75 = 0.62  # old was .64
 
     # rupture velocity calculation
     vel_rup = vel_s * 0.7
