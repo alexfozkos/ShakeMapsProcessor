@@ -2,71 +2,66 @@
 # then dumps info into a json so I don't have to rerun 25 grids every time I want to try a new plotting format
 
 import numpy as np
+import pandas as pd
 import UsefulFunctions as uf
 import json
+import os
 
-community_dict = {'Sand Point': {'latlon': [55.3333, -160.5000]}, 'Old Harbor': {'latlon': [57.2000, -153.3000]},
-              'Kodiak': {'latlon': [57.9000, -152.4000]}, 'Homer': {'latlon': [59.6333, -151.5333]},
-              'Seward': {'latlon': [60.1000, -149.4333]}, 'Anchorage': {'latlon': [61.2000, -149.9000]},
-              'Whittier': {'latlon': [60.7667, -148.7000]}, 'Talkeetna': {'latlon': [62.3333, -150.1000]},
-              'Fairbanks': {'latlon': [64.8333, -147.7333]}, 'Valdez': {'latlon': [61.1333, -146.3333]},
-              'Yakutat': {'latlon': [59.5333, -139.7333]}, 'Haines': {'latlon': [59.2333, -135.4333]},
-              'Juneau': {'latlon': [58.3000, -134.4333]}, 'Sitka': {'latlon': [57.0667, -135.3333]},
-              'Ketchikan': {'latlon': [55.3333, -131.6333]}}
-# coord_dict[''] = {'latlon': []}
+# Dictionary of communities and their coords
+community_dict = {'Sand Point': {'latlon': [55.3405, -160.4968]},
+                  'Old Harbor': {'latlon': [57.2042, -153.3045]},
+                  'Kodiak': {'latlon': [57.7900, -152.4072]},
+                  'Homer': {'latlon': [59.6481, -151.5299]},
+                  'Seward': {'latlon': [60.1048, -149.4421]},
+                  'Anchorage': {'latlon': [61.2176, -149.8997]},
+                  'Whittier': {'latlon': [60.7746, -148.6858]},
+                  'Talkeetna': {'latlon': [62.3209, -150.1066]},
+                  'Fairbanks': {'latlon': [64.8401, -147.7200]},
+                  'Valdez': {'latlon': [61.1309, -146.3499]},
+                  'Yakutat': {'latlon': [59.5453, -139.7268]},
+                  'Haines': {'latlon': [59.2351, -135.4473]},
+                  'Juneau': {'latlon': [58.3005, -134.4201]},
+                  'Sitka': {'latlon': [57.0532, -135.3346]},
+                  'Ketchikan': {'latlon': [55.3422, -131.6461]}}
 
-eq_dict = {'alu1': uf.Earthquake('Data/Southern Alaska Coast/grids/ALU1.xml'),
-           'alu2': uf.Earthquake('Data/Southern Alaska Coast/grids/ALU2.xml'),
-           'alu3': uf.Earthquake('Data/Southern Alaska Coast/grids/ALU3.xml'),
-           'alu4': uf.Earthquake('Data/Southern Alaska Coast/grids/ALU4.xml'),
-           'alu5': uf.Earthquake('Data/Southern Alaska Coast/grids/ALU5.xml'),
-           'alu6': uf.Earthquake('Data/Southern Alaska Coast/grids/ALU6.xml'),
-           'alu7': uf.Earthquake('Data/Southern Alaska Coast/grids/ALU7.xml'),
-           'alu8': uf.Earthquake('Data/Southern Alaska Coast/grids/ALU8.xml'),
-           'alu9': uf.Earthquake('Data/Southern Alaska Coast/grids/ALU9.xml'),
-           'alu10': uf.Earthquake('Data/Southern Alaska Coast/grids/ALU10.xml'),
-           'alu11': uf.Earthquake('Data/Southern Alaska Coast/grids/ALU11.xml'),
-           'alu12': uf.Earthquake('Data/Southern Alaska Coast/grids/ALU12.xml'),
-           'alu13': uf.Earthquake('Data/Southern Alaska Coast/grids/ALU13.xml'),
-           'cse1': uf.Earthquake('Data/Southern Alaska Coast/grids/CSE1.xml'),
-           'cse2': uf.Earthquake('Data/Southern Alaska Coast/grids/CSE2.xml'),
-           'qcf1': uf.Earthquake('Data/Southern Alaska Coast/grids/QCF1.xml'),
-           'qcf2': uf.Earthquake('Data/Southern Alaska Coast/grids/QCF2.xml'),
-           'qcf3': uf.Earthquake('Data/Southern Alaska Coast/grids/QCF3.xml'),
-           'qcf4': uf.Earthquake('Data/Southern Alaska Coast/grids/QCF4.xml'),
-           'qcf5': uf.Earthquake('Data/Southern Alaska Coast/grids/QCF5.xml'),
-           'qcf6': uf.Earthquake('Data/Southern Alaska Coast/grids/QCF6.xml'),
-           'qcf7': uf.Earthquake('Data/Southern Alaska Coast/grids/QCF7.xml'),
-           'qcf8': uf.Earthquake('Data/Southern Alaska Coast/grids/QCF8.xml'),
-           'qcf9': uf.Earthquake('Data/Southern Alaska Coast/grids/QCF9.xml'),
-           'qcf10': uf.Earthquake('Data/Southern Alaska Coast/grids/QCF10.xml')}
+# load in all the grids as earthquakes, save to another dictionary
+eq_dict = {}
+directory_in_str = 'Data/Southern Alaska Coast/grids'
+directory = os.fsencode(directory_in_str)
 
-# eqlist = [alu0, alu2, alu4, alu6, alu8, alu10, alu12]
-# eqlabels = ['ALU0', 'ALU2', 'ALU4', 'ALU6', 'ALU8', 'ALU10', 'ALU12']
-latlonlist = np.hstack((eq_dict['alu1'].lats, eq_dict['alu1'].lons))
+for file in os.listdir(directory):
+    filename = os.fsdecode(file)
 
-for key in community_dict.keys():
-    community_dict[key]['index'] = int(np.all(latlonlist == community_dict[key]['latlon'], axis=1).nonzero()[0][0])
-    print(community_dict[key]['index'])
-# print(ancindex)
-for label, eq in eq_dict.items():
-    for city in community_dict.values():
-        if 'wtfast' not in city:
-            city['wtfast'] = []
-        city['wtfast'].append(float(np.around(eq.warning_times_s[city['index'], 0], decimals=1)))
-        if 'wtslow' not in city:
-            city['wtslow'] = []
-        city['wtslow'].append(float(np.around(eq.warning_times_slow[city['index'], 0], decimals=1)))
-        if 'pga' not in city:
-            city['pga'] = []
-        city['pga'].append(eq.pga[city['index'], 0])
-        if 'pgv' not in city:
-            city['pgv'] = []
-        city['pgv'].append(eq.pgv[city['index'], 0])
-        if 'mmi' not in city:
-            city['mmi'] = []
-        city['mmi'].append(eq.mmi[city['index'], 0])
+    if filename.startswith("SouthernCoast"):
+        eq_dict[filename] = uf.Earthquake(directory_in_str + '/' + filename)
 
+    else:
+        continue
+
+# grabs the coordniate list from the grid, should all be the same grid for each eq
+# grab one of the keys, not sure how to do this elegantly
+placeholder_name = list(eq_dict.keys())[0]
+grid_lats = eq_dict[placeholder_name].lats
+grid_lons = eq_dict[placeholder_name].lons
+
+# get the closest point in the shakemap grid to each community
+for name in community_dict.keys():
+    lat = community_dict[name]['latlon'][0]
+    lon = community_dict[name]['latlon'][1]
+    subtracted_list = np.hstack((grid_lats - lat, grid_lons - lon))
+    nearest_index = np.nanargmin(np.sum(subtracted_list ** 2, axis=1))
+    community_dict[name]['index'] = int(nearest_index)
+    print(community_dict[name]['index'])
+
+for community, data in community_dict.items():
+    for label, eq in eq_dict.items():
+        data[label] = {
+            'wt_min': eq.warning_times_earlypeak[community['index']],
+            'wt_max': eq.warning_times_latepeak[community['index']],
+            'pga': eq.pga[community['index']],
+            'pgv': eq.pgv[community['index']],
+            'mmi': eq.mmi[community['index']]
+        }
 
 with open('Data/Southern Alaska Coast/Community Data.json', 'w') as outfile:
     json.dump(community_dict, outfile)

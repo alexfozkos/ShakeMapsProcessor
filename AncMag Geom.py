@@ -124,7 +124,7 @@ for mag in MAGS:
             y=p[1][1],
             font=f"8p,Helvetica-Bold,{color}=0.45p,white"
         )
-with open('Data/Southern Alaska Coast/Community Data.json') as json_file:
+with open('Data/Southern Alaska Coast/Old Community Data.json') as json_file:
     comm_dict = json.load(json_file)
 # plot communities
 for name, data in comm_dict.items():

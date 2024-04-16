@@ -154,7 +154,7 @@ alu_hypocenters = fixlons(alu_hypocenters)
 qcf_hypocenters = pd.read_csv('Data/Southern Alaska Coast/QCF_hypocenters.txt', delimiter='\t', names=['lon', 'lat', 'depth', 'dip', 'strike'])
 cse_hypocenters = pd.read_csv('Data/Southern Alaska Coast/CSE_hypocenters.txt', delimiter='\t', names=['lon', 'lat', 'depth', 'dip', 'strike'])
 
-with open('Data/Southern Alaska Coast/Community Data.json') as json_file:
+with open('Data/Southern Alaska Coast/Old Community Data.json') as json_file:
     comm_dict = json.load(json_file)
 
 title = r"Alaska Southern Coast Scenarios"

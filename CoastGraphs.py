@@ -17,7 +17,7 @@ for i in range(1, 3):
 for i in range(1, 11):
     eq_labels.append(f'QCF{i}')
 
-with open('Data/Southern Alaska Coast/Community Data.json') as json_file:
+with open('Data/Southern Alaska Coast/Old Community Data.json') as json_file:
     comm_dict = json.load(json_file)
 # print(len(comm_dict.keys()))
 

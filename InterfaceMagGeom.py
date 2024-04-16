@@ -42,7 +42,7 @@ starsize = 1.0
 numsize = 0.45
 # numsize2 = 0.25
 planes = {}
-with open('Data/Southern Alaska Coast/Community Data.json') as json_file:
+with open('Data/Southern Alaska Coast/Old Community Data.json') as json_file:
     comm_dict = json.load(json_file)
 # plot communities
 for name, data in comm_dict.items():

@@ -74,7 +74,7 @@ for index, row in dd_hypocenters.iterrows():
         color='black'
     )
 
-with open('Data/Southern Alaska Coast/Community Data.json') as json_file:
+with open('Data/Southern Alaska Coast/Old Community Data.json') as json_file:
     comm_dict = json.load(json_file)
 # plot communities
 for name, data in comm_dict.items():
