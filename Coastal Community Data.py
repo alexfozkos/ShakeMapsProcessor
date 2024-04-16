@@ -33,7 +33,12 @@ for file in os.listdir(directory):
     filename = os.fsdecode(file)
 
     if filename.startswith("SouthernCoast"):
-        eq_dict[filename] = uf.Earthquake(directory_in_str + '/' + filename)
+        # pull just the number out, this will make things easier to order later
+        if len(filename) == 18:
+            n = (filename[13])
+        else:
+            n = int(filename[13:15])
+        eq_dict[n] = uf.Earthquake(directory_in_str + '/' + filename)
 
     else:
         continue
@@ -54,15 +59,16 @@ for name in community_dict.keys():
     print(community_dict[name]['index'])
 
 for community, data in community_dict.items():
+    data['scenarios'] = {}
     for label, eq in eq_dict.items():
-        data[label] = {
-            'wt_min': eq.warning_times_earlypeak[community['index']],
-            'wt_max': eq.warning_times_latepeak[community['index']],
-            'pga': eq.pga[community['index']],
-            'pgv': eq.pgv[community['index']],
-            'mmi': eq.mmi[community['index']],
-            'h_dist': eq.distances_hypo[community['index']],
-            'e_dist': eq.distances_epi[community['index']],
+        data['scenarios'][label] = {
+            'wt_min': eq.warning_times_earlypeak[data['index'], 0],
+            'wt_max': eq.warning_times_latepeak[data['index'], 0],
+            'pga': eq.pga[data['index'], 0],
+            'pgv': eq.pgv[data['index'], 0],
+            'mmi': eq.mmi[data['index'], 0],
+            'h_dist': eq.distances_hypo[data['index'], 0],
+            'e_dist': eq.distances_epi[data['index'], 0],
         }
 
 with open('Data/Southern Alaska Coast/Community Data.json', 'w') as outfile:
