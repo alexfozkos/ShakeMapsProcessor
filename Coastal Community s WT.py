@@ -19,48 +19,59 @@ print(scenarios['1'].keys())
 
 height = 0.5
 lw = 0.5
-figure_fname = 'Community vs WT.png'
-comm_n = np.ones(shape=(25,))
 ytick_labels = []
+mmi_min = 9
+mmi_max = 10
+figure_fname = f'Community vs WT Zoom MMI {mmi_min} to {mmi_max}.png'
 
-fig, ax = plt.subplots(1, 1, figsize=(10, 8))
-
+fig, ax = plt.subplots(1, 1, figsize=(10, 10))
+comm_n_add = 0
 for community in comm_dict.keys():
+    s_ns = []
     scenarios = comm_dict[community]['scenarios']
     wt_mins = np.array([])
     wt_maxs = np.array([])
     mmis = np.array([])
     e_dists = np.array([])
     for i in range(1, 26):
-        wt_mins = np.append(wt_mins, scenarios[f'{i}']['wt_min'])
-        wt_maxs = np.append(wt_maxs, scenarios[f'{i}']['wt_max'])
-        mmis = np.append(mmis, scenarios[f'{i}']['mmi'])
-        e_dists = np.append(e_dists, scenarios[f'{i}']['e_dist'])
-
-    print(e_dists.shape)
+        if mmi_min <= scenarios[f'{i}']['mmi'] < mmi_max:
+            wt_mins = np.append(wt_mins, scenarios[f'{i}']['wt_min'])
+            wt_maxs = np.append(wt_maxs, scenarios[f'{i}']['wt_max'])
+            mmis = np.append(mmis, scenarios[f'{i}']['mmi'])
+            e_dists = np.append(e_dists, scenarios[f'{i}']['e_dist'])
+            s_ns.append(i)
+        else:
+            continue
+    comm_n = np.ones(shape=(len(s_ns),)) + comm_n_add
 
     wt = ax.scatter(wt_mins, comm_n, s=0, marker='o', c=mmis, cmap=mmi_cmap,
                     vmin=0, vmax=10, zorder=0, linewidth=0, edgecolor='k', alpha=1)
+
     color = np.array([mmi_cmap(i / 10) for i in mmis])
 
     # https://matplotlib.org/stable/gallery/statistics/errorbars_and_boxes.html#sphx-glr-gallery-statistics-errorbars-and-boxes-py
     # code for plotting rectangle ranges of warning time
-    wtboxes = [Rectangle((x, y - height/2), width, height) for x, y, width in
+    wtboxes = [Rectangle((x, y - height / 2), width, height) for x, y, width in
                zip(wt_mins, comm_n, np.array(wt_maxs) - np.array(wt_mins))]
     pc = PatchCollection(wtboxes, color=color, cmap=mmi_cmap, linewidth=lw, edgecolor='k', alpha=0.8)
     ax.add_collection(pc)
+    # plot scenario nums
+    midpoints = wt_mins + (wt_maxs-wt_mins)/2
+    for i in range(len(s_ns)):
+        ax.text(midpoints[i], comm_n[i]+0.13, s_ns[i], c='gray', fontsize=6, ha='center', va='bottom', alpha=0.75)
+
     ytick_labels.append(community)
-    comm_n += 1
+    comm_n_add += 1
 
 ax.tick_params(axis='x', labelsize=10)
 ax.tick_params(axis='y', labelsize=12)
 
-ax.set_title('All communities', fontsize=14)
+ax.set_title(f'MMI {mmi_min} - {mmi_max}', fontsize=14)
 # ax.set_ylim(0 - 5, 120)
 # ax.set_xticks([1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25])
-ax.set_yticks(range(1, 16))
+ax.set_yticks(range(1, len(comm_dict.keys()) + 1))
 ax.set_yticklabels(ytick_labels)
-ax.set_xlim(0, 120)
+ax.set_xlim(xmin=-10, xmax=120)
 ax.axvline(0, lw=1, c='k', zorder=0, )
 
 ax.grid(alpha=0.4, zorder=0, axis='y')
