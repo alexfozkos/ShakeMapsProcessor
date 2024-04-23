@@ -20,10 +20,12 @@ print(scenarios['1'].keys())
 height = 0.5
 lw = 0.5
 ytick_labels = []
-mmi_min = 9
+mmi_min = 0
 mmi_max = 10
-figure_fname = f'Community vs WT Zoom MMI {mmi_min} to {mmi_max}.png'
-
+# figure_fname = f'Community vs WT Zoom MMI {mmi_min} to {mmi_max}.png'
+# title = f'MMI {mmi_min} - {mmi_max}'
+figure_fname = f'Community vs WT Zoom.png'
+title = 'Coastal - All Communities'
 fig, ax = plt.subplots(1, 1, figsize=(10, 10))
 comm_n_add = 0
 for community in comm_dict.keys():
@@ -58,7 +60,8 @@ for community in comm_dict.keys():
     # plot scenario nums
     midpoints = wt_mins + (wt_maxs-wt_mins)/2
     for i in range(len(s_ns)):
-        ax.text(midpoints[i], comm_n[i]+0.13, s_ns[i], c='gray', fontsize=6, ha='center', va='bottom', alpha=0.75)
+        if midpoints[i] < 120:
+            ax.text(midpoints[i],  comm_n[i]+0.13, s_ns[i], c='gray', fontsize=6, ha='center', va='bottom', alpha=0.75)
 
     ytick_labels.append(community)
     comm_n_add += 1
@@ -66,7 +69,7 @@ for community in comm_dict.keys():
 ax.tick_params(axis='x', labelsize=10)
 ax.tick_params(axis='y', labelsize=12)
 
-ax.set_title(f'MMI {mmi_min} - {mmi_max}', fontsize=14)
+ax.set_title(f'{title}', fontsize=14)
 # ax.set_ylim(0 - 5, 120)
 # ax.set_xticks([1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25])
 ax.set_yticks(range(1, len(comm_dict.keys()) + 1))
