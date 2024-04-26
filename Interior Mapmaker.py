@@ -236,7 +236,7 @@ for index, row in crst_hypocenters.iterrows():
         color='black'
     )
 
-with open('Data/Interior Crustal/Interior Community Data.json') as json_file:
+with open('Data/Interior Crustal/Old Interior Community Data.json') as json_file:
     comm_dict = json.load(json_file)
 # plot communities
 for name, data in comm_dict.items():

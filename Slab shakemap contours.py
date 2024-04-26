@@ -6,7 +6,7 @@ import json
 pygmt.config(MAP_FRAME_TYPE="graph")
 pygmt.config(FORMAT_GEO_MAP="ddd.x")
 
-with open('Data/Interior Crustal/Interior Community Data.json') as json_file:
+with open('Data/Interior Crustal/Old Interior Community Data.json') as json_file:
     comm_dict = json.load(json_file)
 
 eq_dict = {'1': uf.Earthquake('Data/Down Dip/grids/1_grid.xml'),

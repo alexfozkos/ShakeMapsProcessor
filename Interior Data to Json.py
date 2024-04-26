@@ -64,5 +64,5 @@ for label, eq in eq_dict.items():
             city['mmi'] = []
         city['mmi'].append(eq.mmi[city['index'], 0])
 
-with open('Data/Interior Crustal/Interior Community Data.json', 'w') as outfile:
+with open('Data/Interior Crustal/Old Interior Community Data.json', 'w') as outfile:
     json.dump(community_dict, outfile)

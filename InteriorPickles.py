@@ -22,7 +22,7 @@ for i in range(1, 6):
 for i in range(1, 3):
     eq_labels.append(f'CM_{i}')
 
-with open('Data/Interior Crustal/Interior Community Data.json') as json_file:
+with open('Data/Interior Crustal/Old Interior Community Data.json') as json_file:
     comm_dict = json.load(json_file)
 print(len(comm_dict.keys()))
 eq_dict = {'tin': uf.Earthquake('Data/Interior Crustal/grids/Tintina.xml'),

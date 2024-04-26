@@ -16,7 +16,7 @@ for i in range(7, 12):
 for i in range(12, 14):
     eq_labels.append(f'{i} CM')
 
-with open('Data/Interior Crustal/Interior Community Data.json') as json_file:
+with open('Data/Interior Crustal/Old Interior Community Data.json') as json_file:
     comm_dict = json.load(json_file)
 print(len(comm_dict.keys()))
 
