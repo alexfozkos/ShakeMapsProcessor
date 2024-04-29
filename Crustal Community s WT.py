@@ -20,9 +20,9 @@ mmi_min = 0
 mmi_max = 10
 # figure_fname = f'Community vs WT Zoom MMI {mmi_min} to {mmi_max}.png'
 # title = f'MMI {mmi_min} - {mmi_max}'
-figure_fname = f'Community vs WT Zoom.pdf'
+figure_fname = f'Community vs WT Zoom.png'
 title = 'Crustal - All Communities'
-fig, ax = plt.subplots(1, 1, figsize=(8, 6))
+fig, ax = plt.subplots(1, 1, figsize=(9, 6))
 comm_n_add = len(comm_dict.keys())
 for community in comm_dict.keys():
     s_ns = []
@@ -75,17 +75,19 @@ ax.axvline(0, lw=1, c='k', zorder=0, )
 
 ax.grid(alpha=0.4, zorder=0, axis='y')
 
-cbar_ax = fig.add_axes([0.93, 0.55, 0.015, 0.2])
-cbar_ax.tick_params(labelsize=8)
+cbar_ax = fig.add_axes([0.8, 0.55, 0.03, 0.4])
+
+cbar_ax.tick_params(labelsize=10)
 cb = fig.colorbar(wt, cax=cbar_ax, orientation='vertical', label='MMI')
-cb.set_label(label='MMI', fontsize=8)
+cb.set_label(label='MMI', fontsize=10)
 plt.rc('xtick', labelsize=14)
 
 # fig.text(0.51, 0.05, 'Epicentral Distance', ha='center', va='center', fontsize=18)
 # fig.text(0.04, 0.5, 'Warning Time (s)', ha='center', va='center', rotation='vertical', fontsize=18)
 ax.set_xlabel('Warning Time (s)')
 
-plt.tight_layout()
+# plt.tight_layout()
 plt.savefig(f'Figures/Interior Crustal/{figure_fname}')
+
 
 # print(wt_maxs-wt_mins)
