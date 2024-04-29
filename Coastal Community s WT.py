@@ -79,10 +79,10 @@ ax.axvline(0, lw=1, c='k', zorder=0, )
 
 ax.grid(alpha=0.4, zorder=0, axis='y')
 
-cbar_ax = fig.add_axes([0.92, 0.2, 0.03, 0.6])
-cbar_ax.tick_params(labelsize=12)
-cb = fig.colorbar(wt, cax=cbar_ax, orientation='vertical', label='MMI')
-cb.set_label(label='MMI', fontsize=14)
+# cbar_ax = fig.add_axes([0.92, 0.2, 0.03, 0.6])
+# cbar_ax.tick_params(labelsize=12)
+# cb = fig.colorbar(wt, cax=cbar_ax, orientation='vertical', label='MMI')
+# cb.set_label(label='MMI', fontsize=14)
 plt.rc('xtick', labelsize=14)
 
 # fig.text(0.51, 0.05, 'Epicentral Distance', ha='center', va='center', fontsize=18)
@@ -90,6 +90,6 @@ plt.rc('xtick', labelsize=14)
 ax.set_xlabel('Warning Time (s)')
 
 # plt.tight_layout()
-plt.savefig(f'Figures/CoastalScenarios/{figure_fname}')
+plt.savefig(f'Figures/CoastalScenarios/{figure_fname}', bbox_inches='tight')
 
 # print(wt_maxs-wt_mins)

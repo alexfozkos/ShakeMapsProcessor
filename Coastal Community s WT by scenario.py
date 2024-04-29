@@ -24,7 +24,7 @@ for s_n in range(1, 26):
     ytick_labels = []
     comm_n = 1
     figure_fname = f'Scenario {s_n}.png'
-    fig, ax = plt.subplots(1, 1, figsize=(10, 10))
+    fig, ax = plt.subplots(1, 1, figsize=(8, 8))
 
     for community in comm_dict.keys():
         scenarios = comm_dict[community]['scenarios']
@@ -66,10 +66,10 @@ for s_n in range(1, 26):
 
     ax.grid(alpha=0.4, zorder=0, axis='y')
 
-    cbar_ax = fig.add_axes([0.92, 0.2, 0.03, 0.6])
-    cbar_ax.tick_params(labelsize=12)
-    cb = fig.colorbar(wt, cax=cbar_ax, orientation='vertical', label='MMI')
-    cb.set_label(label='MMI', fontsize=14)
+    # cbar_ax = fig.add_axes([0.92, 0.2, 0.03, 0.6])
+    # cbar_ax.tick_params(labelsize=12)
+    # cb = fig.colorbar(wt, cax=cbar_ax, orientation='vertical', label='MMI')
+    # cb.set_label(label='MMI', fontsize=14)
     plt.rc('xtick', labelsize=14)
 
     # fig.text(0.51, 0.05, 'Epicentral Distance', ha='center', va='center', fontsize=18)
@@ -77,6 +77,6 @@ for s_n in range(1, 26):
     ax.set_xlabel('Warning Time (s)')
 
     # plt.tight_layout()
-    plt.savefig(f'Figures/CoastalScenarios/Comm v WT by Scenario/{figure_fname}')
+    plt.savefig(f'Figures/CoastalScenarios/Comm v WT by Scenario/{figure_fname}', bbox_inches='tight')
     plt.close(fig)
     # print(wt_maxs-wt_mins)
