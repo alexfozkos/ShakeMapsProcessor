@@ -22,7 +22,7 @@ mmi_max = 10
 # title = f'MMI {mmi_min} - {mmi_max}'
 figure_fname = f'Community vs WT Zoom.png'
 title = 'Crustal - All Communities'
-fig, ax = plt.subplots(1, 1, figsize=(9, 6))
+fig, ax = plt.subplots(1, 1, figsize=(10, 10))
 comm_n_add = len(comm_dict.keys())
 for community in comm_dict.keys():
     s_ns = []
@@ -62,8 +62,8 @@ for community in comm_dict.keys():
     ytick_labels.append(community)
     comm_n_add -= 1
 
-ax.tick_params(axis='x', labelsize=10)
-ax.tick_params(axis='y', labelsize=10)
+ax.tick_params(axis='x', labelsize=18)
+ax.tick_params(axis='y', labelsize=14)
 
 ax.set_title(f'{title}', fontsize=14)
 # ax.set_ylim(0 - 5, 120)
@@ -75,11 +75,11 @@ ax.axvline(0, lw=1, c='k', zorder=0, )
 
 ax.grid(alpha=0.4, zorder=0, axis='y')
 
-cbar_ax = fig.add_axes([0.8, 0.55, 0.03, 0.4])
-
-cbar_ax.tick_params(labelsize=10)
-cb = fig.colorbar(wt, cax=cbar_ax, orientation='vertical', label='MMI')
-cb.set_label(label='MMI', fontsize=10)
+# cbar_ax = fig.add_axes([0.8, 0.55, 0.03, 0.4])
+#
+# cbar_ax.tick_params(labelsize=10)
+# cb = fig.colorbar(wt, cax=cbar_ax, orientation='vertical', label='MMI')
+# cb.set_label(label='MMI', fontsize=10)
 plt.rc('xtick', labelsize=14)
 
 # fig.text(0.51, 0.05, 'Epicentral Distance', ha='center', va='center', fontsize=18)
@@ -87,7 +87,7 @@ plt.rc('xtick', labelsize=14)
 ax.set_xlabel('Warning Time (s)')
 
 # plt.tight_layout()
-plt.savefig(f'Figures/Interior Crustal/{figure_fname}')
+plt.savefig(f'Figures/Interior Crustal/{figure_fname}',  bbox_inches='tight')
 
 
 # print(wt_maxs-wt_mins)

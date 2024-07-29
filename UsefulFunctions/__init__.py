@@ -6,7 +6,6 @@ import requests
 import os
 import pandas as pd
 
-
 PROJ_ROOT = os.path.dirname(os.path.dirname(__file__))
 DATA_PATH = os.path.join(PROJ_ROOT, 'Data')
 
@@ -22,6 +21,7 @@ DATA_PATH = os.path.join(PROJ_ROOT, 'Data')
 # uses csv file stations_kept.csv
 ActiveBBs = pd.read_csv(f'{DATA_PATH}/stations_Kept.csv', quotechar='"')
 mechs_df = pd.read_csv(f'{DATA_PATH}/mechs.txt')
+
 
 # downloads grid.xml from shakemaps url because I can't figure out how to download it otherwise
 def download(url):
@@ -54,7 +54,7 @@ def km2lon(d, lat):
 # get closest 1d index to a given lat lon in the column of grid lats and lons
 def getNearestIndex(grid_lons, grid_lats, search_lon, search_lat):
     subtracted_list = np.hstack((grid_lons - search_lon, grid_lats - search_lat))
-    nearest_index = np.nanargmin(np.sum(subtracted_list**2, axis=1))
+    nearest_index = np.nanargmin(np.sum(subtracted_list ** 2, axis=1))
     return nearest_index
 
 
@@ -130,28 +130,28 @@ def createPlane(lon0, lat0, Mw, D, strike, dip, mech, debugxy=False):
     y2 = 0.5 * L * sin(angle - pi)
     lat2 = lat0 + km2lat(y2)
     d2 = D
-    p2 = (lon2-360, lat2, d2)
+    p2 = (lon2 - 360, lat2, d2)
 
     x6 = 0.5 * L * cos(angle)
     lon6 = lon0 + km2lon(x6, lat0)
     y6 = 0.5 * L * sin(angle)
     lat6 = lat0 + km2lat(y6)
     d6 = D
-    p6 = (lon6-360, lat6, d6)
+    p6 = (lon6 - 360, lat6, d6)
 
     x8 = 0.5 * Wproj * cos(angle - pi / 2)
     lon8 = lon0 + km2lon(x8, lat0)
     y8 = 0.5 * Wproj * sin(angle - pi / 2)
     lat8 = lat0 + km2lat(y8)
     d8 = D + deld
-    p8 = (lon8-360, lat8, d8)
+    p8 = (lon8 - 360, lat8, d8)
 
     x4 = 0.5 * Wproj * cos(angle + pi / 2)
     lon4 = lon0 + km2lon(x4, lat0)
     y4 = 0.5 * Wproj * sin(angle + pi / 2)
     lat4 = lat0 + km2lat(y4)
     d4 = D - deld
-    p4 = (lon4-360, lat4, d4)
+    p4 = (lon4 - 360, lat4, d4)
 
     # Corners, use midpoints as reference
     x1 = 0.5 * L * cos(angle - pi)
@@ -159,28 +159,28 @@ def createPlane(lon0, lat0, Mw, D, strike, dip, mech, debugxy=False):
     y1 = 0.5 * L * sin(angle - pi)
     lat1 = lat8 + km2lat(y1)
     d1 = D + deld
-    p1 = (lon1-360, lat1, d1)
+    p1 = (lon1 - 360, lat1, d1)
 
     x7 = 0.5 * L * cos(angle)
     lon7 = lon8 + km2lon(x7, lat0)
     y7 = 0.5 * L * sin(angle)
     lat7 = lat8 + km2lat(y7)
     d7 = D + deld
-    p7 = (lon7-360, lat7, d7)
+    p7 = (lon7 - 360, lat7, d7)
 
     x3 = 0.5 * L * cos(angle - pi)
     lon3 = lon4 + km2lon(x3, lat0)
     y3 = 0.5 * L * sin(angle - pi)
     lat3 = lat4 + km2lat(y3)
     d3 = D - deld
-    p3 = (lon3-360, lat3, d3)
+    p3 = (lon3 - 360, lat3, d3)
 
     x5 = 0.5 * L * cos(angle)
     lon5 = lon4 + km2lon(x5, lat0)
     y5 = 0.5 * L * sin(angle)
     lat5 = lat4 + km2lat(y5)
     d5 = D - deld
-    p5 = (lon5-360, lat5, d5)
+    p5 = (lon5 - 360, lat5, d5)
 
     p0 = (lon0, lat0, D)
     x = [x1, x2, x3, x4, x5, x6, x7, x8]
@@ -212,10 +212,10 @@ def get_point_at_distance(lat1, lon1, d, bearing, R=6371):
     lat1 = radians(lat1)
     lon1 = radians(lon1)
     a = radians(bearing)
-    lat2 = asin(sin(lat1) * cos(d/R) + cos(lat1) * sin(d/R) * cos(a))
+    lat2 = asin(sin(lat1) * cos(d / R) + cos(lat1) * sin(d / R) * cos(a))
     lon2 = lon1 + atan2(
-        sin(a) * sin(d/R) * cos(lat1),
-        cos(d/R) - sin(lat1) * sin(lat2)
+        sin(a) * sin(d / R) * cos(lat1),
+        cos(d / R) - sin(lat1) * sin(lat2)
     )
     return degrees(lat2), degrees(lon2),
 
@@ -276,8 +276,8 @@ def createPlane2(lon0, lat0, Mw, D, strike, dip, mech):
     deld = 0.5 * W * sin(theta)
     D_lower = D + deld
     D_upper = D - deld
-    offset_angle = np.rad2deg(np.arctan(Wproj/L))
-    corner_d = (Wproj**2 + L**2)**0.5 / 2
+    offset_angle = np.rad2deg(np.arctan(Wproj / L))
+    corner_d = (Wproj ** 2 + L ** 2) ** 0.5 / 2
     print('''Fault Plane Parameters
     Strike: {}
     Dip: {}
@@ -349,16 +349,16 @@ def getMech(name):  # tries to get the mech given a scneario name
         return None  # otherwise return none
 
 
-def getDuration(name, Mw, rup_vel=6.7*.6*.7, rup_dir='bi'):  # tries to calculate rupture duration for a scenario
+def getDuration(name, Mw, rup_vel=6.7 * .6 * .7, rup_dir='bi'):  # tries to calculate rupture duration for a scenario
     mech = getMech(name)
     if mech == None:
         print('No mechanism found; return duration=0')
         return 0
     length = getLength(Mw, mech)
     if rup_dir == 'bi':
-        return length/2/rup_vel
+        return length / 2 / rup_vel
     elif rup_dir == 'uni':
-        return length/rup_vel
+        return length / rup_vel
     else:
         print('Rupture direction not found; return duration=0')
         return 0
@@ -369,13 +369,14 @@ def getDuration(name, Mw, rup_vel=6.7*.6*.7, rup_dir='bi'):  # tries to calculat
 def meansAndMedians(x, y, step=0.1):
     y_means = []
     y_medians = []
-    x_vals = np.arange(x.min(), x.max()+step, step)
+    x_vals = np.arange(x.min(), x.max() + step, step)
     for k in x_vals:
         mask = np.isclose(x, k)
         y_means.append(np.mean(y[mask]))
         y_medians.append(np.median(y[mask]))
 
     return [y_means, y_medians]
+
 
 # creates a set of points to draw a polygon around a set of x y data, done by slicing the
 # x points into chunks and finding the min and max y values in that slice.
@@ -516,7 +517,7 @@ def calculateDetectionTime(lon, lat, depth, vp, stats=True):
         Maximum Epicentral Distance: {}'''.format(gap_criteria, angle_criteria, Earthquake.DR + n - 1, detection_time,
                                                   max_gap, max_angle, max_dist))
 
-    return detection_time
+    return detection_time, Earthquake.DR + n - 1
 
 
 # function for finding the bearing between two lat lon points
@@ -677,7 +678,7 @@ class Earthquake:
             self.rupture_type = 'bi'
 
         self.duration = getDuration(self.event['event_id'], self.event['magnitude'], self.vel_rup, self.rupture_type)
-        self.half_dur = self.duration/2
+        self.half_dur = self.duration / 2
 
         # Calculate epicentral and hypocentral distances for each point
         self.distances_epi = np.array(
@@ -691,8 +692,9 @@ class Earthquake:
         self.arrivals_p = self.distances_hypo / Earthquake.vel_p
         self.arrivals_s = self.distances_hypo / Earthquake.vel_s
         self.arrivals_slow = self.distances_hypo / Earthquake.vel_slow
-        self.detection_time = calculateDetectionTime(self.event['lon'], self.event['lat'], self.event['depth'],
-                                                     Earthquake.vel_p)
+        self.detection_time, self.n_stations = calculateDetectionTime(self.event['lon'], self.event['lat'],
+                                                                      self.event['depth'],
+                                                                      Earthquake.vel_p)
         self.station_distances = np.array(
             [getDistance(self.event['lat'], self.event['lon'], i, k)
              for (i, k) in zip(ActiveBBs['lat'], ActiveBBs['lon'])]
@@ -720,7 +722,6 @@ class Earthquake:
         self.late_peak_time = self.duration * Earthquake.q75
         self.warning_times_earlypeak = self.warning_times_s + self.early_peak_time
         self.warning_times_latepeak = self.warning_times_s + self.late_peak_time
-
 
         # This next line makes negative warning times 0 (rename appropriately), left in for posterity's sake
         # self.warning_times = np.where(self.warning_times < 0, 0, self.warning_times)
