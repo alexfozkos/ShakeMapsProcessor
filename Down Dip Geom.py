@@ -44,7 +44,7 @@ for index, row in dd_hypocenters.iterrows():
         gmpe_name = 'ak018fcnsk91'
         nshmp = 'subduction_interface_nshmp2014, subduction_slab_nshmp2014'
         weights = '0.318025227722, 0.681974772278'
-    elif index in [6, 7, 8, 9]:
+    elif index in [6, 7, 8, 9, 10]:
         gmpe_name = 'interface'
         nshmp = 'subduction_interface_nshmp2014'
         weights = '1.0'

@@ -53,8 +53,8 @@ for s_n in range(1, 26):
         ytick_labels.append(community)
         comm_n += 1
 
-    ax.tick_params(axis='x', labelsize=10)
-    ax.tick_params(axis='y', labelsize=12)
+    ax.tick_params(axis='x', labelsize=18)
+    ax.tick_params(axis='y', labelsize=14)
 
     ax.set_title('All communities', fontsize=14)
     # ax.set_ylim(0 - 5, 120)
