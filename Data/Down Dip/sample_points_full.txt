@@ -14,7 +14,7 @@
 7 -147.859 60.462 150 19 220 5 int SlabSection8
 8 -147.185 60.161 200 16 220 4 int SlabSection9
 9 -146.524 59.856 250 15 220 4 int SlabSection10
-10 -145.875 59.548 300 12 40 4 int SlabSection11
+10 -145.875 59.548 300 12 220 4 int SlabSection11
 # Outer Rise, Delete last one?
 # https://earthquake.usgs.gov/earthquakes/eventpage/ak0165nn2kdk/moment-tensor
 11 -145.238 59.236 350 10 40 30 or SlabSection12

@@ -220,7 +220,7 @@ def get_point_at_distance(lat1, lon1, d, bearing, R=6371):
     return degrees(lat2), degrees(lon2),
 
 
-def createPlane2(lon0, lat0, Mw, D, strike, dip, mech):
+def createPlane2(lon0, lat0, Mw, D, strike, dip, mech, verbose=True):
     # trying to create rupture planes based on bearings and distances instead of simple trig on a flat plane
     #       dipping northwest (towards 8)
     #                    1
@@ -278,17 +278,18 @@ def createPlane2(lon0, lat0, Mw, D, strike, dip, mech):
     D_upper = D - deld
     offset_angle = np.rad2deg(np.arctan(Wproj / L))
     corner_d = (Wproj ** 2 + L ** 2) ** 0.5 / 2
-    print('''Fault Plane Parameters
-    Strike: {}
-    Dip: {}
-    Length: {}
-    Width: {}
-    Projected Width: {}
-    Lower depth: {}
-    Upper depth: {}
-    offset_angle: {}
-    corner_d: {}
-    '''.format(strike, dip, L, W, Wproj, D + deld, D - deld, offset_angle, corner_d))
+    if verbose:
+        print('''Fault Plane Parameters
+        Strike: {}
+        Dip: {}
+        Length: {}
+        Width: {}
+        Projected Width: {}
+        Lower depth: {}
+        Upper depth: {}
+        offset_angle: {}
+        corner_d: {}
+        '''.format(strike, dip, L, W, Wproj, D + deld, D - deld, offset_angle, corner_d))
 
     # calculate points of the plane, midpoints first
     lat2, lon2 = get_point_at_distance(lat0, lon0, L / 2, strike - 180)
