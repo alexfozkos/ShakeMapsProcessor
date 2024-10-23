@@ -5,6 +5,7 @@ from numpy import sin, cos, pi
 import requests
 import os
 import pandas as pd
+from io import StringIO
 
 PROJ_ROOT = os.path.dirname(os.path.dirname(__file__))
 DATA_PATH = os.path.join(PROJ_ROOT, 'Data')
@@ -582,6 +583,81 @@ def getDistance(lat1, lon1, lat2, lon2):
     return d
 
 
+# this turns a shakemap grid.xml into a dictionary with usable data. This used to be a big chunk at the start of the
+# init for the Earthquake class, but I moved it here to a separrate function and made it go faster, nnyoooom
+def parseGrid(grid_filepath):
+    print('Start of Parsing for {}'.format(grid_filepath))
+
+    tree = ET.parse(grid_filepath)
+    root = tree.getroot()
+
+    headers = []
+    event = {}
+    grid_spec = {}
+    grid = ''
+    grid_df = {}
+    # Run through all the dictionaries/folders in the xml file and do things for each important one
+    for t in root:
+        # extract tag name from full tag info
+        tag = t.tag.rpartition('}')[-1]
+
+        # fill event dictionary with key value pairs for the event properties, make mag, depth, lat and lon floats
+        if tag == 'event':
+            for a in t.attrib:
+                if a in ['magnitude', 'depth', 'lat', 'lon']:
+                    event[a] = float(t.attrib[a])
+                else:
+                    event[a] = t.attrib[a]
+            pass
+
+        # fill grid_spec dictionary with key value pairs for the grid specs, make nlon & nlat ints, rest are floats
+        if tag == 'grid_specification':
+            for a in t.attrib:
+                if a in ['nlon', 'nlat']:
+                    grid_spec[a] = int(t.attrib[a])
+                else:
+                    grid_spec[a] = float(t.attrib[a])
+            pass
+
+        # get headers from the grid_fields
+        if tag == 'grid_field':
+            headers.append(t.attrib['name'])
+            pass
+
+        # create grid data array and variables from grid_data
+        if tag == 'grid_data':
+            grid = t.text
+            grid = grid.strip()
+            headers_string = ' '.join(headers)
+            grid_wheader = headers_string + '\n' + grid
+            # print(grid_wheader[0:200])
+            StringData = StringIO(grid_wheader)
+            grid_df = pd.read_csv(StringData, sep=' ')
+            # print(df.info)
+
+            # # read the file with numpy and use headers as names for columns
+            # self.grid_array = np.genfromtxt('tmp/grid_data.txt', names=self.headers)
+            # # remove grid_data.txt, it is only needed for array creation
+            # os.remove('tmp/grid_data.txt')
+            # # create variables for columns of grid data
+            # self.lons = np.array([self.grid_array['LON']]).T
+            # self.lats = np.array([self.grid_array['LAT']]).T
+            # self.mmi = np.array([self.grid_array['MMI']]).T
+            # self.pga = np.array([self.grid_array['PGA']]).T
+            # self.pgv = np.array([self.grid_array['PGV']]).T
+
+    parsed_grid = {
+        'event': event,
+        'grid_spec': grid_spec,
+        'grid_df': grid_df,
+        'headers': headers,
+    }
+
+    return parsed_grid
+
+
+
+
 class Earthquake:
     # Create an array containing info for active BB stations, used to calculate detection time
     # ActiveBBs = np.genfromtxt('Data/activeBBs.txt',
@@ -613,64 +689,23 @@ class Earthquake:
 
     # default init takes a string, assumes that the string is the name of a shakemap xml grid file,
     # defaults to 'grid.xml'
-    def __init__(self, xml=f'{DATA_PATH}/grid.xml'):
-        print('Start of Parsing for {}'.format(xml))
+    def __init__(self, xml=f'{DATA_PATH}/grid.xml', stats=True):
+        parsed_grid = parseGrid(xml)
+        self.headers = parsed_grid['headers']  # list of strings, column names of grid_array
+        self.event = parsed_grid['event']  # dictionary of event metadata
+        self.grid_spec = parsed_grid['grid_spec']  # dictionary of grid metadata
+        self.grid_df = parsed_grid['grid_df']  # dataframe of the grid data
+        # create variables for columns of grid data
+        self.lons = np.array([self.grid_df['LON'].values]).T
+        self.lats = np.array([self.grid_df['LAT'].values]).T
+        self.mmi = np.array([self.grid_df['MMI'].values]).T
+        self.pga = np.array([self.grid_df['PGA'].values]).T
+        self.pgv = np.array([self.grid_df['PGV'].values]).T
+        self.psa03 = np.array([self.grid_df['PSA03'].values]).T
+        self.psa10 = np.array([self.grid_df['PSA10'].values]).T
+        self.psa30 = np.array([self.grid_df['PSA30'].values]).T
 
-        # parse an xml file using a name of a grid.xml
-        self.tree = ET.parse(xml)
-        self.root = self.tree.getroot()
 
-        self.headers = []
-        self.event = {}
-        self.grid_spec = {}
-
-        # Run through all the dictionaries/folders in the xml file and do things for each important one
-        for t in self.root:
-            # extract tag name from full tag info
-            tag = t.tag.rpartition('}')[-1]
-
-            # fill event dictionary with key value pairs for the event properties, make mag, depth, lat and lon floats
-            if tag == 'event':
-                for a in t.attrib:
-                    if a in ['magnitude', 'depth', 'lat', 'lon']:
-                        self.event[a] = float(t.attrib[a])
-                    else:
-                        self.event[a] = t.attrib[a]
-                pass
-
-            # fill grid_spec dictionary with key value pairs for the grid specs, make nlon & nlat ints, rest are floats
-            if tag == 'grid_specification':
-                for a in t.attrib:
-                    if a in ['nlon', 'nlat']:
-                        self.grid_spec[a] = int(t.attrib[a])
-                    else:
-                        self.grid_spec[a] = float(t.attrib[a])
-                pass
-
-            # get headers from the grid_fields
-            if tag == 'grid_field':
-                self.headers.append(t.attrib['name'])
-                pass
-
-            # create grid data array and variables from grid_data
-            if tag == 'grid_data':
-                # make the temporary directory if it doesn't exists
-                if not os.path.exists('tmp'):
-                    os.makedirs('tmp')
-                # write grid_data.text to a file
-                text_file = open('tmp/grid_data.txt', 'w')
-                text_file.write(t.text.strip())
-                text_file.close()
-                # read the file with numpy and use headers as names for columns
-                self.grid_array = np.genfromtxt('tmp/grid_data.txt', names=self.headers)
-                # remove grid_data.txt, it is only needed for array creation
-                os.remove('tmp/grid_data.txt')
-                # create variables for columns of grid data
-                self.lons = np.array([self.grid_array['LON']]).T
-                self.lats = np.array([self.grid_array['LAT']]).T
-                self.mmi = np.array([self.grid_array['MMI']]).T
-                self.pga = np.array([self.grid_array['PGA']]).T
-                self.pgv = np.array([self.grid_array['PGV']]).T
 
         # get rupture duration estimate
         if self.event['event_id'][-2:] in ['NW', 'NE', 'SW', 'SE', 'NN', 'WW', 'EE', 'SS']:
@@ -695,7 +730,7 @@ class Earthquake:
         self.arrivals_slow = self.distances_hypo / Earthquake.vel_slow
         self.detection_time, self.n_stations = calculateDetectionTime(self.event['lon'], self.event['lat'],
                                                                       self.event['depth'],
-                                                                      Earthquake.vel_p)
+                                                                      Earthquake.vel_p, stats=stats)
         self.station_distances = np.array(
             [getDistance(self.event['lat'], self.event['lon'], i, k)
              for (i, k) in zip(ActiveBBs['lat'], ActiveBBs['lon'])]
