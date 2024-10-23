@@ -428,6 +428,8 @@ def calculateDetectionTime(lon, lat, depth, vp, stats=True):
     dist_criteria = 0  # min distance
     angle_criteria = 60  # minimum angle between station vectors (think cone projection, 3D gap)
     station_angle_criteria = 60  # vertical angle needed for 12
+    # define current_stations before the loop just in case
+    current_stations = 'something went terribly wrong'
     # get epicentral distances for each bb station from eq, we care for station criteria
     sta_dist_e = np.array(
         [getDistance(lat, lon, i, k)
@@ -519,7 +521,7 @@ def calculateDetectionTime(lon, lat, depth, vp, stats=True):
         Maximum Epicentral Distance: {}'''.format(gap_criteria, angle_criteria, Earthquake.DR + n - 1, detection_time,
                                                   max_gap, max_angle, max_dist))
 
-    return detection_time, Earthquake.DR + n - 1
+    return detection_time, Earthquake.DR + n - 1, current_stations
 
 
 # function for finding the bearing between two lat lon points
@@ -728,9 +730,10 @@ class Earthquake:
         self.arrivals_p = self.distances_hypo / Earthquake.vel_p
         self.arrivals_s = self.distances_hypo / Earthquake.vel_s
         self.arrivals_slow = self.distances_hypo / Earthquake.vel_slow
-        self.detection_time, self.n_stations = calculateDetectionTime(self.event['lon'], self.event['lat'],
-                                                                      self.event['depth'],
-                                                                      Earthquake.vel_p, stats=stats)
+        self.detection_time, self.n_stations, self.stations_used = calculateDetectionTime(self.event['lon'],
+                                                                                          self.event['lat'],
+                                                                                          self.event['depth'],
+                                                                                          Earthquake.vel_p, stats=stats)
         self.station_distances = np.array(
             [getDistance(self.event['lat'], self.event['lon'], i, k)
              for (i, k) in zip(ActiveBBs['lat'], ActiveBBs['lon'])]
