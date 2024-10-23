@@ -648,7 +648,7 @@ def parseGrid(grid_filepath):
 
     parsed_grid = {
         'event': event,
-        'gridspec': grid_spec,
+        'grid_spec': grid_spec,
         'grid_df': grid_df,
         'headers': headers,
     }
@@ -689,7 +689,7 @@ class Earthquake:
 
     # default init takes a string, assumes that the string is the name of a shakemap xml grid file,
     # defaults to 'grid.xml'
-    def __init__(self, xml=f'{DATA_PATH}/grid.xml'):
+    def __init__(self, xml=f'{DATA_PATH}/grid.xml', stats=True):
         parsed_grid = parseGrid(xml)
         self.headers = parsed_grid['headers']  # list of strings, column names of grid_array
         self.event = parsed_grid['event']  # dictionary of event metadata
@@ -701,6 +701,9 @@ class Earthquake:
         self.mmi = np.array([self.grid_df['MMI'].values]).T
         self.pga = np.array([self.grid_df['PGA'].values]).T
         self.pgv = np.array([self.grid_df['PGV'].values]).T
+        self.psa03 = np.array([self.grid_df['PSA03'].values]).T
+        self.psa10 = np.array([self.grid_df['PSA10'].values]).T
+        self.psa30 = np.array([self.grid_df['PSA30'].values]).T
 
 
 
@@ -727,7 +730,7 @@ class Earthquake:
         self.arrivals_slow = self.distances_hypo / Earthquake.vel_slow
         self.detection_time, self.n_stations = calculateDetectionTime(self.event['lon'], self.event['lat'],
                                                                       self.event['depth'],
-                                                                      Earthquake.vel_p)
+                                                                      Earthquake.vel_p, stats=stats)
         self.station_distances = np.array(
             [getDistance(self.event['lat'], self.event['lon'], i, k)
              for (i, k) in zip(ActiveBBs['lat'], ActiveBBs['lon'])]
