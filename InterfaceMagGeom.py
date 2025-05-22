@@ -67,7 +67,7 @@ for name, data in comm_dict.items():
 
 for mag in MAGS:
     print(f'MAG: {mag}')
-    p, LW = uf.createPlane2(alu7_lon + 360, alu7_lat, mag, alu7_depth, alu7_strike, alu7_dip, mech)
+    p, LW = uf.createPlane2(alu7_lon, alu7_lat, mag, alu7_depth, alu7_strike, alu7_dip, mech)
     color = 'black'
     pt = 1
     fig.plot(
@@ -128,7 +128,11 @@ for mag in MAGS:
     mechanism = {mechanism}
     ipe = VirtualIPE
     gmice = WGRW12
-    ccf = LB13''')
+    ccf = LB13
+[extent]
+    [[bounds]]
+        # Full Alaska
+        extent = -167, 51, -122, 70''')
 
     # add mechanism to the mechs.txt file (if not already) for rupture duration calculation in uf
     uf.update_mechstxt(name, mech)
