@@ -32,6 +32,7 @@ crst_hypocenters = pd.read_csv('Data/Interior Crustal/Crustal_Hypocenters.txt', 
 print(crst_hypocenters.info)
 p_list = []
 # create rupture geometries
+# -360 from lon because the lons in the txt file are positive eastern lons instead of negative western lons
 for index, row in crst_hypocenters.iterrows():
     p, LW = uf.createPlane2(row['lon']-360, row['lat'], MAG, row['depth'], row['strike'], row['dip'], 'ss')
     p_list.append(p)
@@ -40,7 +41,7 @@ for index, row in crst_hypocenters.iterrows():
     lat = row['lat']
     lon = row['lon'] - 360
     d = row['depth']
-    path1 = f'Data/Interior Crustal/Shakemap Folders/{name}'
+    path1 = f'Data/Interior Crustal/Shakemap4.4 Folders/{name}'
     path2 = f'{path1}/current'
     if not os.path.exists(path1):
         os.mkdir(path1)
@@ -53,20 +54,14 @@ for index, row in crst_hypocenters.iterrows():
     with open(f'{path2}/rupture.json', 'w') as f:  # rupture file
         f.write(f'{{"metadata": {{"id": "{ID}", "netid": "ak", "network": "Alaska Earthquake Center", '
                 f'"lat": {lat}, "lon": {lon}, "depth": {d}, "mag": {MAG}, "time": "2022-03-28T21:29:29.000000Z", '
-                f'"locstring": "{name}", "reference": "Fozkos 2022", "mech": "SS", "rake": 0.0, '
+                f'"locstring": "{name}", "reference": "Fozkos 2025", "mech": "SS", "rake": 0.0, '
                 f'"productcode": "{ID}"}}, "features": [{{"geometry": {{"coordinates": '
                 f'[[[[{p[5][0]}, {p[5][1]}, {p[5][2]}], [{p[3][0]}, {p[3][1]}, {p[3][2]}], [{p[1][0]}, {p[1][1]}, {p[1][2]}], '
                 f'[{p[7][0]}, {p[7][1]}, {p[7][2]}], [{p[5][0]}, {p[5][1]}, {p[5][2]}]]]], "type": "MultiPolygon"}}, '
                 f'"properties": {{"rupture type": "rupture extent"}}, "type": "Feature"}}], '
                 f'"type": "FeatureCollection"}}')
     with open(f'{path2}/model.conf', 'w') as f:
-        f.write('''# This file (model_select.conf) is generated automatically by the 'select'
-# coremod. It will be completely overwritten the next time select is run. To
-# preserve these settings, or to modify them, copy this file to a file called
-# 'model.conf' in the event's current directory. That event-specific
-# model.conf will be used and model_select.conf will be ignored. (To avoid
-# confusion, you should probably delete this comment section from your event-
-# specific model.conf.)
+        f.write('''
 [gmpe_sets]
     [[gmpe_Crustal_custom]]
         gmpes = active_crustal_nshmp2014,
@@ -83,8 +78,8 @@ for index, row in crst_hypocenters.iterrows():
     ccf = LB13
 [extent]
     [[bounds]]
-        # Crustal
-        extent = -153.5, 60.5, -142, 66.5''')
+        # Full Alaska
+        extent = -170, 51, -122, 70''')
 
     uf.update_mechstxt(name, 'ss')
 

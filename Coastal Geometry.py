@@ -25,14 +25,14 @@ name_index = 1
 # Aleutian Subduction Zone
 for index, row in alu_hypocenters.iterrows():
     gmpe_name = 'AleutianSubductionZone'
-    nshmp = 'subduction_interface_nshmp2014'
+    gmpe = 'subduction_interface_alaska'
     mechanism = 'RS'
     p, LW = uf.createPlane2(row['lon'], row['lat'], 8.3, row['depth'], row['strike'], row['dip'], 'int')
     name = f'SouthernCoast{name_index}'
     lat = row['lat']
     lon = row['lon']
     d = row['depth']
-    path1 = f'Data/Southern Alaska Coast/Shakemap Folders/{name}'
+    path1 = f'Data/Southern Alaska Coast/Shakemap4.4 Folders/{name}'
     path2 = f'{path1}/current'
     if not os.path.exists(path1):
         os.mkdir(path1)
@@ -45,23 +45,17 @@ for index, row in alu_hypocenters.iterrows():
     with open(f'{path2}/rupture.json', 'w') as f:  # rupture file
         f.write(f'{{"metadata": {{"id": "COASTALSCENARIOS", "netid": "ak", "network": "Alaska Earthquake Center", '
                 f'"lat": {lat}, "lon": {lon}, "depth": {d}, "mag": 8.3, "time": "2022-03-28T21:29:29.000000Z", '
-                f'"locstring": "Aleutian Subduction Zone", "reference": "Fozkos 2022", "mech": "{mechanism}", "rake": 0.0, '
+                f'"locstring": "Aleutian Subduction Zone", "reference": "Fozkos 2025", "mech": "{mechanism}", "rake": 0.0, '
                 f'"productcode": "COASTALSCENARIOS"}}, "features": [{{"geometry": {{"coordinates": '
                 f'[[[[{p[5][0]}, {p[5][1]}, {p[5][2]}], [{p[3][0]}, {p[3][1]}, {p[3][2]}], [{p[1][0]}, {p[1][1]}, {p[1][2]}], '
                 f'[{p[7][0]}, {p[7][1]}, {p[7][2]}], [{p[5][0]}, {p[5][1]}, {p[5][2]}]]]], "type": "MultiPolygon"}}, '
                 f'"properties": {{"rupture type": "rupture extent"}}, "type": "Feature"}}], '
                 f'"type": "FeatureCollection"}}')
     with open(f'{path2}/model.conf', 'w') as f:  # model.conf
-        f.write(f'''# This file (model_select.conf) is generated automatically by the 'select'
-# coremod. It will be completely overwritten the next time select is run. To
-# preserve these settings, or to modify them, copy this file to a file called
-# 'model.conf' in the event's current directory. That event-specific
-# model.conf will be used and model_select.conf will be ignored. (To avoid
-# confusion, you should probably delete this comment section from your event-
-# specific model.conf.)
+        f.write(f'''
 [gmpe_sets]
     [[gmpe_{gmpe_name}_custom]]
-        gmpes = {nshmp},
+        gmpes = {gmpe},
         weights = 1.0,
         weights_large_dist = None
         dist_cutoff = nan
@@ -75,8 +69,8 @@ for index, row in alu_hypocenters.iterrows():
     ccf = LB13
 [extent]
     [[bounds]]
-        # Coastal
-        extent = -170.0, 51, -127.5, 66''')
+        # Full Alaska
+        extent = -170.0, 51, -122, 70''')
     name_index += 1
     # add mechanism to the mechs.txt file (if not already) for rupture duration calculation in uf
     uf.update_mechstxt(name, 'int')
@@ -85,14 +79,14 @@ for index, row in alu_hypocenters.iterrows():
 # Chugach St. Elias Thrust
 for index, row in cse_hypocenters.iterrows():
     gmpe_name = 'ChugachStElias'
-    nshmp = 'active_crustal_nshmp2014'
+    gmpe = 'active_crustal_nshmp2014'
     mechanism = 'RS'
     p, LW = uf.createPlane2(row['lon'], row['lat'], 8.3, row['depth'], row['strike'], row['dip'], 'r')
     name = f'SouthernCoast{name_index}'
     lat = row['lat']
     lon = row['lon']
     d = row['depth']
-    path1 = f'Data/Southern Alaska Coast/Shakemap Folders/{name}'
+    path1 = f'Data/Southern Alaska Coast/Shakemap4.4 Folders/{name}'
     path2 = f'{path1}/current'
     if not os.path.exists(path1):
         os.mkdir(path1)
@@ -105,23 +99,17 @@ for index, row in cse_hypocenters.iterrows():
     with open(f'{path2}/rupture.json', 'w') as f:  # rupture file
         f.write(f'{{"metadata": {{"id": "COASTALSCENARIOS", "netid": "ak", "network": "Alaska Earthquake Center", '
                 f'"lat": {lat}, "lon": {lon}, "depth": {d}, "mag": 8.3, "time": "2022-03-28T21:29:29.000000Z", '
-                f'"locstring": "Chugach St. Elias Thrust", "reference": "Fozkos 2022", "mech": "{mechanism}", "rake": 0.0, '
+                f'"locstring": "Chugach St. Elias Thrust", "reference": "Fozkos 2025", "mech": "{mechanism}", "rake": 0.0, '
                 f'"productcode": "COASTALSCENARIOS"}}, "features": [{{"geometry": {{"coordinates": '
                 f'[[[[{p[5][0]}, {p[5][1]}, {p[5][2]}], [{p[3][0]}, {p[3][1]}, {p[3][2]}], [{p[1][0]}, {p[1][1]}, {p[1][2]}], '
                 f'[{p[7][0]}, {p[7][1]}, {p[7][2]}], [{p[5][0]}, {p[5][1]}, {p[5][2]}]]]], "type": "MultiPolygon"}}, '
                 f'"properties": {{"rupture type": "rupture extent"}}, "type": "Feature"}}], '
                 f'"type": "FeatureCollection"}}')
     with open(f'{path2}/model.conf', 'w') as f:  # model.conf
-        f.write(f'''# This file (model_select.conf) is generated automatically by the 'select'
-# coremod. It will be completely overwritten the next time select is run. To
-# preserve these settings, or to modify them, copy this file to a file called
-# 'model.conf' in the event's current directory. That event-specific
-# model.conf will be used and model_select.conf will be ignored. (To avoid
-# confusion, you should probably delete this comment section from your event-
-# specific model.conf.)
+        f.write(f'''
 [gmpe_sets]
     [[gmpe_{gmpe_name}_custom]]
-        gmpes = {nshmp},
+        gmpes = {gmpe},
         weights = 1.0,
         weights_large_dist = None
         dist_cutoff = nan
@@ -135,8 +123,8 @@ for index, row in cse_hypocenters.iterrows():
     ccf = LB13
 [extent]
     [[bounds]]
-        # Coastal
-        extent = -170.0, 51, -127.5, 66''')
+        # Full Alaska
+        extent = -170, 51, -122, 70''')
     name_index += 1
     # add mechanism to the mechs.txt file (if not already) for rupture duration calculation in uf
     uf.update_mechstxt(name, 'r')
@@ -144,14 +132,14 @@ for index, row in cse_hypocenters.iterrows():
 # Queen Charlotte Fairweather Fault
 for index, row in qcf_hypocenters.iterrows():
     gmpe_name = 'QueenCharlotteFairweather'
-    nshmp = 'active_crustal_nshmp2014'
+    gmpe = 'active_crustal_nshmp2014'
     mechanism = 'SS'
     p, LW = uf.createPlane2(row['lon'], row['lat'], 8.3, row['depth'], row['strike'], row['dip'], 'ss')
     name = f'SouthernCoast{name_index}'
     lat = row['lat']
     lon = row['lon']
     d = row['depth']
-    path1 = f'Data/Southern Alaska Coast/Shakemap Folders/{name}'
+    path1 = f'Data/Southern Alaska Coast/Shakemap4.4 Folders/{name}'
     path2 = f'{path1}/current'
     if not os.path.exists(path1):
         os.mkdir(path1)
@@ -164,23 +152,17 @@ for index, row in qcf_hypocenters.iterrows():
     with open(f'{path2}/rupture.json', 'w') as f:  # rupture file
         f.write(f'{{"metadata": {{"id": "COASTALSCENARIOS", "netid": "ak", "network": "Alaska Earthquake Center", '
                 f'"lat": {lat}, "lon": {lon}, "depth": {d}, "mag": 8.3, "time": "2022-03-28T21:29:29.000000Z", '
-                f'"locstring": "Queen Charlotte Fairweather Fault", "reference": "Fozkos 2022", "mech": "{mechanism}", "rake": 0.0, '
+                f'"locstring": "Queen Charlotte Fairweather Fault", "reference": "Fozkos 2025", "mech": "{mechanism}", "rake": 0.0, '
                 f'"productcode": "COASTALSCENARIOS"}}, "features": [{{"geometry": {{"coordinates": '
                 f'[[[[{p[5][0]}, {p[5][1]}, {p[5][2]}], [{p[3][0]}, {p[3][1]}, {p[3][2]}], [{p[1][0]}, {p[1][1]}, {p[1][2]}], '
                 f'[{p[7][0]}, {p[7][1]}, {p[7][2]}], [{p[5][0]}, {p[5][1]}, {p[5][2]}]]]], "type": "MultiPolygon"}}, '
                 f'"properties": {{"rupture type": "rupture extent"}}, "type": "Feature"}}], '
                 f'"type": "FeatureCollection"}}')
     with open(f'{path2}/model.conf', 'w') as f:  # model.conf
-        f.write(f'''# This file (model_select.conf) is generated automatically by the 'select'
-# coremod. It will be completely overwritten the next time select is run. To
-# preserve these settings, or to modify them, copy this file to a file called
-# 'model.conf' in the event's current directory. That event-specific
-# model.conf will be used and model_select.conf will be ignored. (To avoid
-# confusion, you should probably delete this comment section from your event-
-# specific model.conf.)
+        f.write(f'''
 [gmpe_sets]
     [[gmpe_{gmpe_name}_custom]]
-        gmpes = {nshmp},
+        gmpes = {gmpe},
         weights = 1.0,
         weights_large_dist = None
         dist_cutoff = nan
@@ -194,8 +176,8 @@ for index, row in qcf_hypocenters.iterrows():
     ccf = LB13
 [extent]
     [[bounds]]
-        # Coastal
-        extent = -170.0, 51, -127.5, 66''')
+        # Full Alaska
+        extent = -170, 51, -122, 70''')
     name_index += 1
     # add mechanism to the mechs.txt file (if not already) for rupture duration calculation in uf
     uf.update_mechstxt(name, 'ss')

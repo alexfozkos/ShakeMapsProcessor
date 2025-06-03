@@ -28,7 +28,7 @@ for index, row in dd_hypocenters.iterrows():
     lat = row['lat']
     lon = row['lon']
     d = row['depth']
-    path1 = f'Data/Down Dip/Shakemap Folders/{name}'
+    path1 = f'Data/Down Dip/Shakemap4.4 Folders/{name}'
     path2 = f'{path1}/current'
     # define mechanism
     if row['mech'] == 'int':
@@ -38,19 +38,19 @@ for index, row in dd_hypocenters.iterrows():
     # define gmpes for model conf
     if index in [0, 1, 2, 3]:
         gmpe_name = 'deepslab'
-        nshmp = 'subduction_slab_nshmp2014'
+        gmpe = 'subduction_slab_alaska'
         weights = '1.0'
     elif index in [4, 5]:
         gmpe_name = 'ak018fcnsk91'
-        nshmp = 'subduction_interface_nshmp2014, subduction_slab_nshmp2014'
+        gmpe = 'subduction_interface_alaska, subduction_slab_alaska'
         weights = '0.318025227722, 0.681974772278'
     elif index in [6, 7, 8, 9, 10]:
         gmpe_name = 'interface'
-        nshmp = 'subduction_interface_nshmp2014'
+        gmpe = 'subduction_interface_alaska'
         weights = '1.0'
     else:
         gmpe_name = 'outerrise'
-        nshmp = 'active_crustal_nshmp2014'
+        gmpe = 'active_crustal_nshmp2014'
         weights = '1.0'
 
     if not os.path.exists(path1):
@@ -66,7 +66,7 @@ for index, row in dd_hypocenters.iterrows():
     with open(f'{path2}/rupture.json', 'w') as f:  # rupture file
         f.write(f'{{"metadata": {{"id": "{ID}", "netid": "ak", "network": "Alaska Earthquake Center", '
                 f'"lat": {lat}, "lon": {lon}, "depth": {d}, "mag": {MAG}, "time": "2022-03-28T21:29:29.000000Z", '
-                f'"locstring": "{name}", "reference": "Fozkos 2022", "mech": "{mech}", "rake": 0.0, '
+                f'"locstring": "{name}", "reference": "Fozkos 2025", "mech": "{mech}", "rake": 0.0, '
                 f'"productcode": "{ID}"}}, "features": [{{"geometry": {{"coordinates": '
                 f'[[[[{p[5][0]}, {p[5][1]}, {p[5][2]}], [{p[3][0]}, {p[3][1]}, {p[3][2]}], [{p[1][0]}, {p[1][1]}, {p[1][2]}], '
                 f'[{p[7][0]}, {p[7][1]}, {p[7][2]}], [{p[5][0]}, {p[5][1]}, {p[5][2]}]]]], "type": "MultiPolygon"}}, '
@@ -74,16 +74,10 @@ for index, row in dd_hypocenters.iterrows():
                 f'"type": "FeatureCollection"}}')
 
     with open(f'{path2}/model.conf', 'w') as f:  # model.conf
-        f.write(f'''# This file (model_select.conf) is generated automatically by the 'select'
-# coremod. It will be completely overwritten the next time select is run. To
-# preserve these settings, or to modify them, copy this file to a file called
-# 'model.conf' in the event's current directory. That event-specific
-# model.conf will be used and model_select.conf will be ignored. (To avoid
-# confusion, you should probably delete this comment section from your event-
-# specific model.conf.)
+        f.write(f'''
 [gmpe_sets]
     [[gmpe_{gmpe_name}_custom]]
-        gmpes = {nshmp},
+        gmpes = {gmpe},
         weights = {weights},
         weights_large_dist = None
         dist_cutoff = nan
@@ -97,10 +91,8 @@ for index, row in dd_hypocenters.iterrows():
     ccf = LB13
 [extent]
     [[bounds]]
-        # Crustal
-        # extent = -154.5, 57.5, -142, 63.5
         # Full Alaska
-        extent = -167, 52, -122, 70''')
+        extent = -170, 51, -122, 70''')
 
     # add mechanism to the mechs.txt file (if not already) for rupture duration calculation in uf
     uf.update_mechstxt(name, row['mech'])

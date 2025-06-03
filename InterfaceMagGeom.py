@@ -24,7 +24,7 @@ ID = 'INTERFACEMAGSCENARIOS'
 # point 263722 in alu_slab2_dep
 alu7_lat, alu7_lon, alu7_depth, alu7_dip, alu7_strike = 57.9, -153.0, 30.15811, 7.3, 225
 gmpe_name = 'InterfaceMag'
-nshmp = 'subduction_interface_nshmp2014'
+gmpe = 'subduction_interface_alaska'
 mech = 'int'
 mechanism = 'RS'
 
@@ -88,7 +88,7 @@ for mag in MAGS:
     # replace the decimal with an _ just incase weird file naming issues
     mag_string = str(mag).replace('.', '_')
     name = f'InterfaceMag{mag_string}'
-    path1 = f'Data/InterfaceMag/Shakemap Folders/{name}'
+    path1 = f'Data/InterfaceMag/Shakemap4.4 Folders/{name}'
     path2 = f'{path1}/current'
     if not os.path.exists(path1):
         os.mkdir(path1)
@@ -101,23 +101,17 @@ for mag in MAGS:
     with open(f'{path2}/rupture.json', 'w') as f:  # rupture file
         f.write(f'{{"metadata": {{"id": "{ID}", "netid": "ak", "network": "Alaska Earthquake Center", '
                 f'"lat": {alu7_lat}, "lon": {alu7_lon}, "depth": {alu7_depth}, "mag": {mag}, "time": "2022-03-28T21:29:29.000000Z", '
-                f'"locstring": "{name}", "reference": "Fozkos 2023", "mech": "{mechanism}", "rake": 0.0, '
+                f'"locstring": "{name}", "reference": "Fozkos 2025", "mech": "{mechanism}", "rake": 0.0, '
                 f'"productcode": "{ID}"}}, "features": [{{"geometry": {{"coordinates": '
                 f'[[[[{p[5][0]}, {p[5][1]}, {p[5][2]}], [{p[3][0]}, {p[3][1]}, {p[3][2]}], [{p[1][0]}, {p[1][1]}, {p[1][2]}], '
                 f'[{p[7][0]}, {p[7][1]}, {p[7][2]}], [{p[5][0]}, {p[5][1]}, {p[5][2]}]]]], "type": "MultiPolygon"}}, '
                 f'"properties": {{"rupture type": "rupture extent"}}, "type": "Feature"}}], '
                 f'"type": "FeatureCollection"}}')
     with open(f'{path2}/model.conf', 'w') as f:  # model.conf
-        f.write(f'''# This file (model_select.conf) is generated automatically by the 'select'
-# coremod. It will be completely overwritten the next time select is run. To
-# preserve these settings, or to modify them, copy this file to a file called
-# 'model.conf' in the event's current directory. That event-specific
-# model.conf will be used and model_select.conf will be ignored. (To avoid
-# confusion, you should probably delete this comment section from your event-
-# specific model.conf.)
+        f.write(f'''
 [gmpe_sets]
     [[gmpe_{gmpe_name}_custom]]
-        gmpes = {nshmp},
+        gmpes = {gmpe},
         weights = 1.0,
         weights_large_dist = None
         dist_cutoff = nan
@@ -132,7 +126,7 @@ for mag in MAGS:
 [extent]
     [[bounds]]
         # Full Alaska
-        extent = -167, 51, -122, 70''')
+        extent = -170, 51, -122, 70''')
 
     # add mechanism to the mechs.txt file (if not already) for rupture duration calculation in uf
     uf.update_mechstxt(name, mech)
