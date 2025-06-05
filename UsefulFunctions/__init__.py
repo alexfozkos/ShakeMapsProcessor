@@ -675,6 +675,7 @@ class Earthquake:
     vel_p = 6.7
     vel_s = vel_p * 0.6
     vel_slow = 2.5  # based on looking at apparent velociies of recent significant Alaska earthquakes
+    vel_lg = 3.5  # Kennet 2020 "The Seismic Wavefield Vol. 2" Lg phase group velocity for Late surface wave calculation
 
     # Tolerances for early and late peak moment rate
     # normalized centroid time interquartile limits
@@ -707,8 +708,6 @@ class Earthquake:
         self.psa10 = np.array([self.grid_df['PSA10'].values]).T
         self.psa30 = np.array([self.grid_df['PSA30'].values]).T
 
-
-
         # get rupture duration estimate
         if self.event['event_id'][-2:] in ['NW', 'NE', 'SW', 'SE', 'NN', 'WW', 'EE', 'SS']:
             self.rupture_type = 'uni'
@@ -730,6 +729,7 @@ class Earthquake:
         self.arrivals_p = self.distances_hypo / Earthquake.vel_p
         self.arrivals_s = self.distances_hypo / Earthquake.vel_s
         self.arrivals_slow = self.distances_hypo / Earthquake.vel_slow
+        self.arrivals_lg = self.distances_hypo / Earthquake.vel_lg
         self.detection_time, self.n_stations, self.stations_used = calculateDetectionTime(self.event['lon'],
                                                                                           self.event['lat'],
                                                                                           self.event['depth'],
@@ -753,6 +753,8 @@ class Earthquake:
         self.alert_time = Earthquake.TTP + self.detection_time
         self.warning_times_s = self.arrivals_s - self.alert_time
         self.warning_times_slow = self.arrivals_slow - self.alert_time
+        self.warning_times_lg = self.arrivals_lg - self.alert_time
+
         # add half duration
         # self.warning_times_s_dur = self.warning_times_s + self.half_dur
         # self.warning_times_slow_dur = self.warning_times_slow + self.half_dur
@@ -761,6 +763,8 @@ class Earthquake:
         self.late_peak_time = self.duration * Earthquake.q75
         self.warning_times_earlypeak = self.warning_times_s + self.early_peak_time
         self.warning_times_latepeak = self.warning_times_s + self.late_peak_time
+        self.warning_times_latepeak_lg = self.warning_times_lg + self.late_peak_time
+
 
         # This next line makes negative warning times 0 (rename appropriately), left in for posterity's sake
         # self.warning_times = np.where(self.warning_times < 0, 0, self.warning_times)
